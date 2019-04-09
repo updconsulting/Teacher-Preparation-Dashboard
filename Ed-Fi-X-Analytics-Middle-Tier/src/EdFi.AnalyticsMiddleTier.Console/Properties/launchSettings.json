@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "EdFi.AnalyticsMiddleTier.Console": {
+      "commandName": "Project",
+      "commandLineArgs": "--connectionString \"server=localhost;initial catalog=EdFi_Glendale;integrated security=sspi\"  --includeIndexes --includeViews"
+    }
+  }
+}
