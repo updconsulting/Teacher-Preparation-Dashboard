@@ -6,7 +6,7 @@
     "dataSources": [
       {
         "name": "Ed-Fi-Ods",
-        "connectionString": "Provider=SQLNCLI11;Data Source=edfidev.updconsulting.com;Persist Security Info=false;User ID=edfiAdmin;Initial Catalog=EdFi_Ods_TPDM",
+        "connectionString": "Provider=SQLNCLI11;Data Source=BRUK-PC\\MSSQLSERVER01;Persist Security Info=false;User ID=edfiAdmin;Integrated Security=SSPI;Initial Catalog=EdFi_Ods_TPDM_Base",
         "impersonationMode": "impersonateServiceAccount",
         "annotations": [
           {
@@ -4746,6 +4746,68 @@
             }
           }
         ]
+      },
+      {
+        "name": "Security",
+        "columns": [
+          {
+            "name": "StaffUSI",
+            "dataType": "int64",
+            "sourceColumn": "StaffUSI",
+            "sourceProviderType": "Integer"
+          },
+          {
+            "name": "TeacherCandidateIdentifier",
+            "dataType": "string",
+            "sourceColumn": "TeacherCandidateIdentifier",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "StaffClassificationDescriptor",
+            "dataType": "string",
+            "sourceColumn": "StaffClassificationDescriptor",
+            "sourceProviderType": "WChar"
+          },
+          {
+            "name": "LoginId",
+            "dataType": "string",
+            "sourceColumn": "LoginId"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Security",
+            "dataView": "full",
+            "source": {
+              "query": "SELECT [analytics_config].[Security].* FROM [analytics_config].[Security]",
+              "dataSource": "Ed-Fi-Ods"
+            },
+            "annotations": [
+              {
+                "name": "QueryEditorSerialization",
+                "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>SELECT [analytics_config].[Security].* FROM [analytics_config].[Security]</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+              }
+            ]
+          }
+        ],
+        "annotations": [
+          {
+            "name": "_TM_ExtProp_QueryDefinition",
+            "value": "SELECT [analytics_config].[Security].* FROM [analytics_config].[Security]"
+          },
+          {
+            "name": "_TM_ExtProp_DbTableName",
+            "value": "Security"
+          },
+          {
+            "name": "_TM_ExtProp_DbSchemaName",
+            "value": "analytics_config"
+          },
+          {
+            "name": "QueryEditorSerialization",
+            "value": "<?xml version=\"1.0\" encoding=\"UTF-16\"?><Gemini xmlns=\"QueryEditorSerialization\"><AnnotationContent><![CDATA[<RSQueryCommandText>SELECT [analytics_config].[Security].* FROM [analytics_config].[Security]</RSQueryCommandText><RSQueryCommandType>Text</RSQueryCommandType><RSQueryDesignState></RSQueryDesignState>]]></AnnotationContent></Gemini>"
+          }
+        ]
       }
     ],
     "relationships": [
@@ -4760,14 +4822,6 @@
       {
         "name": "8009ef0c-13d0-4b7e-aa80-07a3a762302f",
         "fromTable": "TeacherCandidateProgramFact",
-        "fromColumn": "TeacherCandidateKey",
-        "toTable": "TeacherCandidateDimension",
-        "toColumn": "TeacherCandidateKey",
-        "crossFilteringBehavior": "bothDirections"
-      },
-      {
-        "name": "4da6b844-0c50-4301-89f1-2d44bab3d119",
-        "fromTable": "TeacherCandidateFieldworkExperienceFact",
         "fromColumn": "TeacherCandidateKey",
         "toTable": "TeacherCandidateDimension",
         "toColumn": "TeacherCandidateKey",
@@ -4929,14 +4983,6 @@
         "crossFilteringBehavior": "bothDirections"
       },
       {
-        "name": "dc1a7e02-8260-4231-a907-fe1c18a63c35",
-        "fromTable": "TeacherCandidateStaffDimension",
-        "fromColumn": "SchoolKey",
-        "toTable": "SchoolDimension",
-        "toColumn": "SchoolKey",
-        "crossFilteringBehavior": "bothDirections"
-      },
-      {
         "name": "5a125120-48a6-401b-bef0-5a3fb88b201b",
         "fromTable": "StaffCredential",
         "fromColumn": "StaffKey",
@@ -5087,23 +5133,107 @@
         "toTable": "TeacherCandidateDimension",
         "toColumn": "TeacherCandidateKey",
         "crossFilteringBehavior": "bothDirections"
+      },
+      {
+        "name": "5b11a50b-8c4e-46dc-8aa8-16825b646197",
+        "fromTable": "TeacherCandidateStaffDimension",
+        "fromColumn": "SchoolKey",
+        "toTable": "SchoolDimension",
+        "toColumn": "SchoolKey",
+        "crossFilteringBehavior": "bothDirections",
+        "securityFilteringBehavior": "bothDirections"
+      },
+      {
+        "name": "387be0c3-1af5-42d5-855b-30eceec1fae6",
+        "fromTable": "TeacherCandidateFieldworkExperienceFact",
+        "fromColumn": "TeacherCandidateKey",
+        "toTable": "TeacherCandidateDimension",
+        "toColumn": "TeacherCandidateKey",
+        "crossFilteringBehavior": "bothDirections"
+      },
+      {
+        "name": "cc693d73-77aa-4e19-b1a0-621a9f419242",
+        "fromTable": "Security",
+        "fromColumn": "TeacherCandidateIdentifier",
+        "toTable": "TeacherCandidateDimension",
+        "toColumn": "TeacherCandidateKey",
+        "crossFilteringBehavior": "bothDirections",
+        "securityFilteringBehavior": "bothDirections"
       }
     ],
     "roles": [
       {
-        "name": "Administrator"
+        "name": "Administrator",
+        "modelPermission": "administrator"
       },
       {
-        "name": "Dean"
+        "name": "Supervisor",
+        "modelPermission": "read",
+        "tablePermissions": [
+          {
+            "name": "Security",
+            "filterExpression": [
+              "IF (",
+              "        CALCULATE (",
+              "            COUNTROWS ( Security ),",
+              "            FILTER (",
+              "                Security,",
+              "                Security[LoginId] = [UserName]",
+              "                    && Security[StaffClassificationDescriptor] = \"Site Coordinator\"",
+              "            )",
+              "        ) > 0,",
+              "        TRUE (),",
+              "        FALSE ()",
+              "    )"
+            ]
+          }
+        ]
       },
       {
-        "name": "Faculty"
+        "name": "Teacher Candidate",
+        "modelPermission": "read",
+        "tablePermissions": [
+          {
+            "name": "Security",
+            "filterExpression": [
+              "IF (",
+              "        CALCULATE (",
+              "            COUNTROWS ( Security ),",
+              "            FILTER (",
+              "                Security,",
+              "                Security[LoginId] = [UserName]",
+              "                    && Security[StaffClassificationDescriptor] = \"Teacher Candidate\"",
+              "            )",
+              "        ) > 0,",
+              "        TRUE (),",
+              "        FALSE ()",
+              "    )"
+            ]
+          }
+        ]
       },
       {
-        "name": "Advisor"
-      },
-      {
-        "name": "Program Lead"
+        "name": "Teachers",
+        "modelPermission": "read",
+        "tablePermissions": [
+          {
+            "name": "Security",
+            "filterExpression": [
+              "IF (",
+              "        CALCULATE (",
+              "            COUNTROWS ( Security ),",
+              "            FILTER (",
+              "                Security,",
+              "                Security[LoginId] = [UserName]",
+              "                    && Security[StaffClassificationDescriptor] = \"Full Professor\"",
+              "            )",
+              "        ) > 0,",
+              "        TRUE (),",
+              "        FALSE ()",
+              "    )"
+            ]
+          }
+        ]
       }
     ],
     "annotations": [
