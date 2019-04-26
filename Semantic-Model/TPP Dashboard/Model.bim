@@ -6,7 +6,7 @@
     "dataSources": [
       {
         "name": "Ed-Fi-Ods",
-        "connectionString": "Provider=SQLNCLI11;Data Source=BRUK-PC\\MSSQLSERVER01;Persist Security Info=false;User ID=edfiAdmin;Integrated Security=SSPI;Initial Catalog=EdFi_Ods_TPDM_Base",
+        "connectionString": "Provider=SQLNCLI11;Data Source=BRUK-PC\\MSSQLSERVER01;Persist Security Info=false;User ID=edfiAdmin;Initial Catalog=EdFi_Ods_TPDM_Base;Integrated Security=SSPI",
         "impersonationMode": "impersonateServiceAccount",
         "annotations": [
           {
@@ -3025,12 +3025,6 @@
             }
           }
         ],
-        "measures": [
-          {
-            "name": "A",
-            "expression": " CALCULATE(DISTINCTCOUNT(TeacherCandidateDimension[TeacherCandidateKey] ), FILTER(TeacherCandidateProgramFact, TeacherCandidateProgramFact[ReasonExitedDescriptor]=\"Graduated\"))"
-          }
-        ],
         "annotations": [
           {
             "name": "_TM_ExtProp_QueryDefinition",
@@ -5152,7 +5146,7 @@
         "crossFilteringBehavior": "bothDirections"
       },
       {
-        "name": "cc693d73-77aa-4e19-b1a0-621a9f419242",
+        "name": "5549d7c0-3fab-41f1-b859-7132528b63a4",
         "fromTable": "Security",
         "fromColumn": "TeacherCandidateIdentifier",
         "toTable": "TeacherCandidateDimension",
