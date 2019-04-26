@@ -19,36 +19,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Scripts\0000-Schema-Analytics-Create.sql" />
-    <EmbeddedResource Include="Scripts\0000-Table-IndexJournal-Create.sql" />
-    <EmbeddedResource Include="Scripts\0001-View-DateDimension-Create.sql" />
-    <EmbeddedResource Include="Scripts\0002-View-SchoolDimension-Create.sql" />
-    <EmbeddedResource Include="Scripts\0003-View-ContactPersonDimension-Create.sql" />
-    <EmbeddedResource Include="Scripts\0004-View-StudentDataAuthorization-Create.sql" />
-    <EmbeddedResource Include="Scripts\0005-View-UserDimension-Create.sql" />
-    <EmbeddedResource Include="Scripts\0006-Table-AuthorizationScope-Create.sql" />
-    <EmbeddedResource Include="Scripts\0007-Table-AuthorizationScope-Populate.sql" />
-    <EmbeddedResource Include="Scripts\0008-View-StudentEarlyWarningFact-Create.sql" />
-    <EmbeddedResource Include="Scripts\0009-Table-StaffClassificationDescriptorScope-Create.sql" />
-    <EmbeddedResource Include="Scripts\0010-View-UserAuthorization-Create.sql" />
-    <EmbeddedResource Include="Scripts\0011-View-UserStudentDataAuthorization-Create.sql" />
-    <EmbeddedResource Include="Scripts\0012-Table-StaffClassificationDescriptorScope-Populate.sql" />
     <EmbeddedResource Include="Scripts\0025-Role-analytics_middle_tier-Create.sql" />
-    <EmbeddedResource Include="Scripts\0024-Index-StudentSectionAssociation-Create.sql" />
-    <EmbeddedResource Include="Scripts\0023-Index-AcademicSubjectType-Create.sql" />
-    <EmbeddedResource Include="Scripts\0013-Index-Grade-Create.sql" />
-    <EmbeddedResource Include="Scripts\0014-View-StudentSectionGradeFact-Create.sql" />
-    <EmbeddedResource Include="Scripts\0015-View-StudentSectionDimension-Create.sql" />
-    <EmbeddedResource Include="Scripts\0016-View-ProgramTypeDimension-Create.sql" />
-    <EmbeddedResource Include="Scripts\0017-View-StudentProgramEvent-Create.sql" />
-    <EmbeddedResource Include="Scripts\0018-View-SchoolNetworkAssociationDimension-Create.sql" />
-    <EmbeddedResource Include="Scripts\0019-View-StudentDimension-Create.sql" />
-    <EmbeddedResource Include="Scripts\0020-View-StudentProgramFact-Create.sql" />
-    <EmbeddedResource Include="Scripts\0022-View-MostRecentGradingPeriod-Create.sql" />
-    <EmbeddedResource Include="Scripts\0021-View-GradingPeriodDimension-Create.sql" />
-    <EmbeddedResource Include="Scripts\0026-Proc-ViewStaffClassificationDescriptorScope-Create.sql" />
-    <EmbeddedResource Include="Scripts\0027-Proc-InsertStaffClassificationDescriptorScope-Create.sql" />
-    <EmbeddedResource Include="Scripts\0029-View-LocalEducationAgencyDimension-Create.sql" />
-    <EmbeddedResource Include="Scripts\0028-Proc-RemoveStaffClassificationDescriptorScope-Create.sql" />
   </ItemGroup>
 
   <ItemGroup>
