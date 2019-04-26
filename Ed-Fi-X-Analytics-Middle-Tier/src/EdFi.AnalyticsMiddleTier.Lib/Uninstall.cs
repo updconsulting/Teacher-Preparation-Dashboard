@@ -88,6 +88,10 @@ END
 CLOSE sprocs
 DEALLOCATE sprocs
 ";
+        private const string DropConfigSecurityTable = @"IF (SELECT OBJECT_ID('[analytics_config].[Security]')) IS NOT NULL
+BEGIN
+    DROP VIEW[analytics_config].[Security]
+        END";
 
         public static (bool Successful, string ErrorMessage) Run(string connectionString)
 		{
@@ -101,6 +105,7 @@ DEALLOCATE sprocs
                 ExecuteSqlStatement(DropIndexJournalTable);
                 ExecuteSqlStatement(DropDbUpJournalTable);
                 ExecuteSqlStatement(DropStoredProcedures);
+                ExecuteSqlStatement(DropConfigSecurityTable);
 
                 return (true, string.Empty);
             }
