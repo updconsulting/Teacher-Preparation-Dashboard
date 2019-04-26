@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "EdFi.AnalyticsMiddleTier.Lib": {
+      "commandName": "Project",
+      "commandLineArgs": " /c \"Server=MSSQLSERVER01;Database=EdFi_Ods_TPDM;User Id=edfiAdmin;Password=edfiAdmin;\" /u"
+    }
+  }
+}
