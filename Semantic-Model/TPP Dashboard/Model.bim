@@ -6,7 +6,7 @@
     "dataSources": [
       {
         "name": "Ed-Fi-Ods",
-        "connectionString": "Provider=SQLNCLI11;Data Source=BRUK-PC\\MSSQLSERVER01;Persist Security Info=false;User ID=edfiAdmin;Initial Catalog=EdFi_Ods_TPDM_Base;Integrated Security=SSPI",
+        "connectionString": "Provider=SQLNCLI11;Data Source=BRUK-PC\\MSSQLSERVER01;Persist Security Info=false;User ID=edfiAdmin;Integrated Security=SSPI;Initial Catalog=EdFi_Ods_TPDM_Base",
         "impersonationMode": "impersonateServiceAccount",
         "annotations": [
           {
@@ -440,7 +440,7 @@
         "columns": [
           {
             "name": "TeacherCandidateKey",
-            "dataType": "int64",
+            "dataType": "string",
             "sourceColumn": "TeacherCandidateKey",
             "sourceProviderType": "WChar",
             "summarizeBy": "distinctCount"
@@ -1727,29 +1727,77 @@
         "measures": [
           {
             "name": "WorksInPlacementDistrictUSP",
-            "expression": "CALCULATE(sum(TeacherCandidateStaffDimension[WorksAtPlacementSchool]), USERELATIONSHIP(TeacherCandidateDimension[TeacherCandidateKey],TeacherCandidateStaffDimension[TeacherCandidateKey]))"
+            "expression": [
+              "CALCULATE (",
+              "   sum(TeacherCandidateStaffDimension[WorksAtPlacementDistrict]),",
+              "    FILTER (",
+              "        ALL ( TeacherCandidateStaffDimension[TeacherCandidateKey] ),",
+              "        CONTAINS  (",
+              "            VALUES ( TeacherCandidateDimension[TeacherCandidateKey] ), ",
+              "            TeacherCandidateDimension[TeacherCandidateKey],",
+              "            TeacherCandidateStaffDimension[TeacherCandidateKey] ",
+              "        )",
+              "    )",
+              ")"
+            ]
           },
           {
             "name": "WorksInPlacementSchoolUSP",
-            "expression": "CALCULATE(sum(TeacherCandidateStaffDimension[WorksAtPlacementSchool]), USERELATIONSHIP(TeacherCandidateDimension[TeacherCandidateKey],TeacherCandidateStaffDimension[TeacherCandidateKey]))"
+            "expression": [
+              "CALCULATE (",
+              "   sum(TeacherCandidateStaffDimension[WorksAtPlacementSchool]),",
+              "    FILTER (",
+              "        ALL ( TeacherCandidateStaffDimension[TeacherCandidateKey] ),",
+              "        CONTAINS  (",
+              "            VALUES ( TeacherCandidateDimension[TeacherCandidateKey] ), ",
+              "            TeacherCandidateDimension[TeacherCandidateKey],",
+              "            TeacherCandidateStaffDimension[TeacherCandidateKey] ",
+              "        )",
+              "    )",
+              ")"
+            ]
           },
           {
             "name": "StaffCountSchoolUSP",
-            "expression": "CALCULATE(DISTINCTCOUNT(TeacherCandidateStaffDimension[StaffKey]), USERELATIONSHIP(TeacherCandidateDimension[TeacherCandidateKey],TeacherCandidateStaffDimension[TeacherCandidateKey]))"
+            "expression": [
+              "CALCULATE (",
+              "    DISTINCTCOUNT(TeacherCandidateStaffDimension[StaffKey]),",
+              "    FILTER (",
+              "        ALL ( TeacherCandidateStaffDimension[TeacherCandidateKey] ),",
+              "        CONTAINS  (",
+              "            VALUES ( TeacherCandidateDimension[TeacherCandidateKey] ), ",
+              "            TeacherCandidateDimension[TeacherCandidateKey],",
+              "            TeacherCandidateStaffDimension[TeacherCandidateKey] ",
+              "        )",
+              "    )",
+              ")"
+            ]
           },
           {
             "name": "StudentAssessment",
-            "expression": "CALCULATE(CALCULATE(DISTINCTCOUNT(StudentAssessment[StudentKey])) , USERELATIONSHIP(TeacherCandidateDimension[TeacherCandidateKey],TeacherCandidateStaffDimension[TeacherCandidateKey]), ALLSELECTED(TeacherCandidateDimension))"
+            "expression": [
+              "CALCULATE(CALCULATE(DISTINCTCOUNT(StudentAssessment[StudentKey])) ,  FILTER (",
+              "        ALL ( TeacherCandidateStaffDimension[TeacherCandidateKey] ),",
+              "        CONTAINS  (",
+              "            VALUES ( TeacherCandidateDimension[TeacherCandidateKey] ), ",
+              "            TeacherCandidateDimension[TeacherCandidateKey],",
+              "            TeacherCandidateStaffDimension[TeacherCandidateKey] ",
+              "        )",
+              "    ), ALLSELECTED(TeacherCandidateDimension))"
+            ]
           },
           {
             "name": "AllCompletersCountlUSP",
             "expression": [
               "CALCULATE (",
-              "    AVERAGE ( StaffStudentGrowthMeasure[StudentGrowthActualScore] ),",
-              "    USERELATIONSHIP ( TeacherCandidateDimension[TeacherCandidateKey], TeacherCandidateStaffDimension[TeacherCandidateKey] ),",
+              "   AVERAGE ( StaffStudentGrowthMeasure[StudentGrowthActualScore] ),",
               "    FILTER (",
-              "        TeacherCandidateDimension,",
-              "        TeacherCandidateDimension[ProgramComplete] = TRUE ()",
+              "        ALL ( TeacherCandidateStaffDimension[TeacherCandidateKey] ),",
+              "        CONTAINS  (",
+              "            VALUES ( TeacherCandidateDimension[TeacherCandidateKey] ), ",
+              "            TeacherCandidateDimension[TeacherCandidateKey],",
+              "            TeacherCandidateStaffDimension[TeacherCandidateKey] ",
+              "        )",
               "    )",
               ")"
             ]
@@ -1758,12 +1806,15 @@
             "name": "AllFirstYearUSP",
             "expression": [
               "CALCULATE (",
-              "    AVERAGE ( StaffStudentGrowthMeasure[StudentGrowthActualScore] ),",
-              "    USERELATIONSHIP ( TeacherCandidateDimension[TeacherCandidateKey], TeacherCandidateStaffDimension[TeacherCandidateKey] ),",
+              "   AVERAGE ( StaffStudentGrowthMeasure[StudentGrowthActualScore] ),",
               "    FILTER (",
-              "        TeacherCandidateDimension,",
-              "        TeacherCandidateDimension[ProgramComplete] = TRUE ())",
-              "    , FILTER(TeacherCandidateStaffDimension, TeacherCandidateStaffDimension[RetentionBand]=\"1 Year\")",
+              "        ALL ( TeacherCandidateStaffDimension[TeacherCandidateKey] ),",
+              "        CONTAINS  (",
+              "            VALUES ( TeacherCandidateDimension[TeacherCandidateKey] ), ",
+              "            TeacherCandidateDimension[TeacherCandidateKey],",
+              "            TeacherCandidateStaffDimension[TeacherCandidateKey] ",
+              "        )",
+              "    ),FILTER(TeacherCandidateStaffDimension, TeacherCandidateStaffDimension[RetentionBand]=\"1 Year\")",
               ")"
             ]
           },
@@ -1771,8 +1822,8 @@
             "name": "AllTeachersUSP",
             "expression": [
               "CALCULATE (",
-              "    AVERAGE ( StaffStudentGrowthMeasure[StudentGrowthActualScore] ),",
-              "    USERELATIONSHIP ( TeacherCandidateDimension[TeacherCandidateKey], TeacherCandidateStaffDimension[TeacherCandidateKey] )",
+              "    AVERAGE ( StaffStudentGrowthMeasure[StudentGrowthActualScore] )",
+              "",
               "  )"
             ]
           }
@@ -4751,12 +4802,6 @@
             "sourceProviderType": "Integer"
           },
           {
-            "name": "TeacherCandidateIdentifier",
-            "dataType": "string",
-            "sourceColumn": "TeacherCandidateIdentifier",
-            "sourceProviderType": "WChar"
-          },
-          {
             "name": "StaffClassificationDescriptor",
             "dataType": "string",
             "sourceColumn": "StaffClassificationDescriptor",
@@ -4766,6 +4811,11 @@
             "name": "LoginId",
             "dataType": "string",
             "sourceColumn": "LoginId"
+          },
+          {
+            "name": "TeacherCandidateKey",
+            "dataType": "string",
+            "sourceColumn": "TeacherCandidateKey"
           }
         ],
         "partitions": [
@@ -5144,40 +5194,187 @@
         "toTable": "TeacherCandidateDimension",
         "toColumn": "TeacherCandidateKey",
         "crossFilteringBehavior": "bothDirections"
-      },
-      {
-        "name": "5549d7c0-3fab-41f1-b859-7132528b63a4",
-        "fromTable": "Security",
-        "fromColumn": "TeacherCandidateIdentifier",
-        "toTable": "TeacherCandidateDimension",
-        "toColumn": "TeacherCandidateKey",
-        "crossFilteringBehavior": "bothDirections",
-        "securityFilteringBehavior": "bothDirections"
       }
     ],
     "roles": [
       {
         "name": "Administrator",
-        "modelPermission": "administrator"
+        "modelPermission": "administrator",
+        "members": [
+          {
+            "memberName": "S-1-5-21-2100725866-3154374084-172954678-2111",
+            "memberId": "S-1-5-21-2100725866-3154374084-172954678-2111"
+          },
+          {
+            "memberName": "S-1-5-21-2100725866-3154374084-172954678-1446",
+            "memberId": "S-1-5-21-2100725866-3154374084-172954678-1446"
+          },
+          {
+            "memberName": "S-1-5-21-2100725866-3154374084-172954678-2107",
+            "memberId": "S-1-5-21-2100725866-3154374084-172954678-2107"
+          },
+          {
+            "memberName": "S-1-5-21-2100725866-3154374084-172954678-1480",
+            "memberId": "S-1-5-21-2100725866-3154374084-172954678-1480"
+          }
+        ]
       },
       {
         "name": "Supervisor",
         "modelPermission": "read",
+        "members": [
+          {
+            "memberName": "S-1-5-21-2100725866-3154374084-172954678-2105",
+            "memberId": "S-1-5-21-2100725866-3154374084-172954678-2105"
+          },
+          {
+            "memberName": "S-1-5-21-2100725866-3154374084-172954678-2112",
+            "memberId": "S-1-5-21-2100725866-3154374084-172954678-2112"
+          }
+        ],
         "tablePermissions": [
           {
-            "name": "Security",
+            "name": "TeacherCandidateDimension",
             "filterExpression": [
-              "IF (",
-              "        CALCULATE (",
-              "            COUNTROWS ( Security ),",
-              "            FILTER (",
-              "                Security,",
-              "                Security[LoginId] = [UserName]",
-              "                    && Security[StaffClassificationDescriptor] = \"Site Coordinator\"",
-              "            )",
-              "        ) > 0,",
-              "        TRUE (),",
-              "        FALSE ()",
+              "TeacherCandidateDimension[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateDimension[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateCourseTranscriptFact",
+            "filterExpression": [
+              "TeacherCandidateCourseTranscriptFact[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateCourseTranscriptFact[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateAcademicRecordFact",
+            "filterExpression": [
+              "TeacherCandidateAcademicRecordFact[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateAcademicRecordFact[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateAssessment",
+            "filterExpression": [
+              "TeacherCandidateAssessment[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateAssessment[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateEnrolledSectionAssociation",
+            "filterExpression": [
+              "TeacherCandidateEnrolledSectionAssociation[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateEnrolledSectionAssociation[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateFieldworkExperienceFact",
+            "filterExpression": [
+              "TeacherCandidateFieldworkExperienceFact[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateFieldworkExperienceFact[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateProgramFact",
+            "filterExpression": [
+              "TeacherCandidateProgramFact[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateProgramFact[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidatePerformanceMeasureFact",
+            "filterExpression": [
+              "TeacherCandidatePerformanceMeasureFact[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidatePerformanceMeasureFact[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateStaffAssociation",
+            "filterExpression": [
+              "TeacherCandidateStaffAssociation[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateStaffAssociation[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateGatewayCorurseCompleted",
+            "filterExpression": [
+              "TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey]",
+              "    )",
+              ""
+            ]
+          },
+          {
+            "name": "TeacherCandidateGatewayDetailSummary",
+            "filterExpression": [
+              "TeacherCandidateGatewayDetailSummary[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateGatewayDetailSummary[TeacherCandidateKey]",
+              "    )",
+              ""
+            ]
+          },
+          {
+            "name": "TeacherCandidateSurveyResponseFact",
+            "filterExpression": [
+              "TeacherCandidateSurveyResponseFact[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateSurveyResponseFact[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidatePreProgramGPA",
+            "filterExpression": [
+              "TeacherCandidatePreProgramGPA[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidatePreProgramGPA[TeacherCandidateKey]",
               "    )"
             ]
           }
@@ -5186,21 +5383,170 @@
       {
         "name": "Teacher Candidate",
         "modelPermission": "read",
+        "members": [
+          {
+            "memberName": "S-1-5-21-2100725866-3154374084-172954678-2114",
+            "memberId": "S-1-5-21-2100725866-3154374084-172954678-2114"
+          },
+          {
+            "memberName": "S-1-5-21-2100725866-3154374084-172954678-2106",
+            "memberId": "S-1-5-21-2100725866-3154374084-172954678-2106"
+          }
+        ],
         "tablePermissions": [
           {
-            "name": "Security",
+            "name": "TeacherCandidateDimension",
             "filterExpression": [
-              "IF (",
-              "        CALCULATE (",
-              "            COUNTROWS ( Security ),",
-              "            FILTER (",
-              "                Security,",
-              "                Security[LoginId] = [UserName]",
-              "                    && Security[StaffClassificationDescriptor] = \"Teacher Candidate\"",
-              "            )",
-              "        ) > 0,",
-              "        TRUE (),",
-              "        FALSE ()",
+              "TeacherCandidateDimension[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateDimension[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateCourseTranscriptFact",
+            "filterExpression": [
+              "TeacherCandidateCourseTranscriptFact[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateCourseTranscriptFact[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateAcademicRecordFact",
+            "filterExpression": [
+              "TeacherCandidateAcademicRecordFact[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateAcademicRecordFact[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateAssessment",
+            "filterExpression": [
+              "TeacherCandidateAssessment[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateAssessment[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateEnrolledSectionAssociation",
+            "filterExpression": [
+              "TeacherCandidateEnrolledSectionAssociation[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateEnrolledSectionAssociation[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateFieldworkExperienceFact",
+            "filterExpression": [
+              "TeacherCandidateFieldworkExperienceFact[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateFieldworkExperienceFact[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateProgramFact",
+            "filterExpression": [
+              "TeacherCandidateProgramFact[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateProgramFact[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidatePerformanceMeasureFact",
+            "filterExpression": [
+              "TeacherCandidatePerformanceMeasureFact[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidatePerformanceMeasureFact[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateStaffAssociation",
+            "filterExpression": [
+              "TeacherCandidateStaffAssociation[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateStaffAssociation[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateGatewayCorurseCompleted",
+            "filterExpression": [
+              "TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey]",
+              "    )",
+              ""
+            ]
+          },
+          {
+            "name": "TeacherCandidateGatewayDetailSummary",
+            "filterExpression": [
+              "TeacherCandidateGatewayDetailSummary[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateGatewayDetailSummary[TeacherCandidateKey]",
+              "    )",
+              ""
+            ]
+          },
+          {
+            "name": "TeacherCandidateSurveyResponseFact",
+            "filterExpression": [
+              "TeacherCandidateSurveyResponseFact[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateSurveyResponseFact[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateFieldWorkPlacement",
+            "filterExpression": [
+              "TeacherCandidateFieldWorkPlacement[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateFieldWorkPlacement[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidatePreProgramGPA",
+            "filterExpression": [
+              "TeacherCandidatePreProgramGPA[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidatePreProgramGPA[TeacherCandidateKey]",
               "    )"
             ]
           }
@@ -5209,21 +5555,166 @@
       {
         "name": "Teachers",
         "modelPermission": "read",
+        "members": [
+          {
+            "memberName": "S-1-5-21-2100725866-3154374084-172954678-2113",
+            "memberId": "S-1-5-21-2100725866-3154374084-172954678-2113"
+          }
+        ],
         "tablePermissions": [
           {
-            "name": "Security",
+            "name": "TeacherCandidateDimension",
             "filterExpression": [
-              "IF (",
-              "        CALCULATE (",
-              "            COUNTROWS ( Security ),",
-              "            FILTER (",
-              "                Security,",
-              "                Security[LoginId] = [UserName]",
-              "                    && Security[StaffClassificationDescriptor] = \"Full Professor\"",
-              "            )",
-              "        ) > 0,",
-              "        TRUE (),",
-              "        FALSE ()",
+              "TeacherCandidateDimension[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateDimension[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateCourseTranscriptFact",
+            "filterExpression": [
+              "TeacherCandidateCourseTranscriptFact[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateCourseTranscriptFact[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateAcademicRecordFact",
+            "filterExpression": [
+              "TeacherCandidateAcademicRecordFact[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateAcademicRecordFact[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateAssessment",
+            "filterExpression": [
+              "TeacherCandidateAssessment[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateAssessment[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateEnrolledSectionAssociation",
+            "filterExpression": [
+              "TeacherCandidateEnrolledSectionAssociation[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateEnrolledSectionAssociation[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateFieldworkExperienceFact",
+            "filterExpression": [
+              "TeacherCandidateFieldworkExperienceFact[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateFieldworkExperienceFact[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateProgramFact",
+            "filterExpression": [
+              "TeacherCandidateProgramFact[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateProgramFact[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidatePerformanceMeasureFact",
+            "filterExpression": [
+              "TeacherCandidatePerformanceMeasureFact[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidatePerformanceMeasureFact[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateStaffAssociation",
+            "filterExpression": [
+              "TeacherCandidateStaffAssociation[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateStaffAssociation[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateGatewayCorurseCompleted",
+            "filterExpression": [
+              "TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey]",
+              "    )",
+              ""
+            ]
+          },
+          {
+            "name": "TeacherCandidateGatewayDetailSummary",
+            "filterExpression": [
+              "TeacherCandidateGatewayDetailSummary[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateGatewayDetailSummary[TeacherCandidateKey]",
+              "    )",
+              ""
+            ]
+          },
+          {
+            "name": "TeacherCandidateSurveyResponseFact",
+            "filterExpression": [
+              "TeacherCandidateSurveyResponseFact[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateSurveyResponseFact[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateFieldWorkPlacement",
+            "filterExpression": [
+              "TeacherCandidateFieldWorkPlacement[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateFieldWorkPlacement[TeacherCandidateKey]",
+              "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidatePreProgramGPA",
+            "filterExpression": [
+              "TeacherCandidatePreProgramGPA[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidatePreProgramGPA[TeacherCandidateKey]",
               "    )"
             ]
           }
