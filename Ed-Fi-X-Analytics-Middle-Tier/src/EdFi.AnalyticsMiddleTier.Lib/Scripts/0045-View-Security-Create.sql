@@ -5,14 +5,14 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-CREATE   VIEW [analytics_config].[Security]
+CREATE     VIEW [analytics_config].[Security]
 AS
 WITH TeacherCandidateStaffSectionAssociation
 AS (SELECT DISTINCT
   seoaa.StaffUSI,
-  tc.TeacherCandidateIdentifier AS TeacherCandidateKey,
+  tc.TeacherCandidateIdentifier as TeacherCandidateKey,
   d.CodeValue AS StaffClassificationDescriptor,
-  tc.LoginId
+  s2.LoginId
 FROM tpdm.TeacherCandidate tc
 INNER JOIN edfi.Student s
   ON tc.StudentUSI = s.StudentUSI
@@ -32,6 +32,7 @@ INNER JOIN edfi.StaffSectionAssociation ssa1
   AND s1.SessionName = ssa1.SessionName
 INNER JOIN edfi.StaffEducationOrganizationAssignmentAssociation seoaa
   ON seoaa.StaffUSI = ssa1.StaffUSI
+INNER JOIN edfi.Staff s2 ON s2.StaffUSI = seoaa.StaffUSI
 INNER JOIN edfi.StaffClassificationDescriptor scd
   ON seoaa.StaffClassificationDescriptorId = scd.StaffClassificationDescriptorId
 INNER JOIN edfi.Descriptor d
@@ -40,7 +41,7 @@ INNER JOIN edfi.Descriptor d
 TeacherCandidateStaffAssociation
 AS (SELECT DISTINCT
   seoaa.StaffUSI,
-  tcs.TeacherCandidateIdentifier AS TeacherCandidateKey,
+  tcs.TeacherCandidateIdentifier as TeacherCandidatekey,
   d.CodeValue AS StaffClassificationDescriptor,
   s.LoginId
 FROM tpdm.TeacherCandidateStaffAssociation tcs
@@ -74,5 +75,4 @@ SELECT
   *
 FROM TeacherCandidates
 GO
-
 
