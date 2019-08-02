@@ -10,7 +10,6 @@ GO
 
 CREATE VIEW [analytics].[TeacherCandidateContactDimension]
 AS
-
 WITH [TeacherCandidateAddress]
 AS (
    SELECT [TeacherCandidateAddress].TeacherCandidateIdentifier,
@@ -41,78 +40,103 @@ AS (SELECT [TeacherCandidateElectronicMail].[TeacherCandidateIdentifier],
            [TeacherCandidateElectronicMail].[CreateDate]
     FROM [tpdm].[TeacherCandidateElectronicMail]
         LEFT OUTER JOIN [edfi].[Descriptor] AS [HomeEmailType]
-            ON [TeacherCandidateElectronicMail].[ElectronicMailTypeDescriptorId] = [HomeEmailType].[DescriptorId])
-SELECT [TeacherCandidate].[TeacherCandidateIdentifier] AS [TeacherCandidateKey],
-       [TeacherCandidate].[StudentUSI] AS [StudentKey],
-       [TeacherCandidate].[FirstName] AS [FirstName],
-       [TeacherCandidate].[LastSurname] AS [LastName],
-   
-       ISNULL([HomeAddress].[Address], '') AS [HomeAddress],
-       ISNULL([PhysicalAddress].[Address], '') AS [PhysicalAddress],
-       ISNULL([MailingAddress].[Address], '') AS [MailingAddress],
-       ISNULL([WorkAddress].[Address], '') AS [WorkAddress],
-       ISNULL([TemporaryAddress].[Address], '') AS [TemporaryAddress],
-       ISNULL([HomeTelephone].[TelephoneNumber], '') AS [HomePhoneNumber],
-       ISNULL([MobileTelephone].[TelephoneNumber], '') AS [MobilePhoneNumber],
-       ISNULL([WorkTelephone].[TelephoneNumber], '') AS [WorkPhoneNumber],
-       CASE
-           WHEN [HomeEmail].[PrimaryEmailAddressIndicator] = 1 THEN
-               N'Personal'
-           WHEN [WorkEmail].[PrimaryEmailAddressIndicator] = 1 THEN
-               N'Work'
-           ELSE
-               N'Not specified'
-       END AS [PrimaryEmailAddress],
-       ISNULL([HomeEmail].[ElectronicMailAddress], '') AS [PersonalEmailAddress],
-       ISNULL([WorkEmail].[ElectronicMailAddress], '') AS [WorkEmailAddress],
- 
-       (
-           SELECT MAX([LastModifiedDate])
-           FROM
+            ON [TeacherCandidateElectronicMail].[ElectronicMailTypeDescriptorId] = [HomeEmailType].[DescriptorId]),
+     TeacherCandidateContact
+AS (SELECT [TeacherCandidate].[TeacherCandidateIdentifier] AS [TeacherCandidateKey],
+           SchoolYear =
            (
-               VALUES
-          
-                   ([TeacherCandidate].[LastModifiedDate]),
-                   ([HomeAddress].[LastModifiedDate]),
-                   ([PhysicalAddress].[LastModifiedDate]),
-                   ([MailingAddress].[LastModifiedDate]),
-                   ([WorkAddress].[LastModifiedDate]),
-                   ([TemporaryAddress].[LastModifiedDate]),
-                   ([HomeTelephone].[CreateDate]),
-                   ([MobileTelephone].[CreateDate]),
-                   ([WorkTelephone].[CreateDate]),
-                   ([HomeEmail].[CreateDate]),
-                   ([WorkEmail].[CreateDate])
-           ) AS value ([LastModifiedDate])
-       ) AS [LastModifiedDate]
-FROM [tpdm].[TeacherCandidate] [TeacherCandidate] 
-    LEFT OUTER JOIN [TeacherCandidateAddress] HomeAddress ON [TeacherCandidate].[TeacherCandidateIdentifier] = [HomeAddress].[TeacherCandidateIdentifier] 
-           AND [HomeAddress].[AddressType] = 'Home'
-    LEFT OUTER JOIN [TeacherCandidateAddress] AS [PhysicalAddress]
-        ON [TeacherCandidate].[TeacherCandidateIdentifier] = [PhysicalAddress].[TeacherCandidateIdentifier]
-           AND [HomeAddress].[AddressType] = 'Physical'
-    LEFT OUTER JOIN [TeacherCandidateAddress] AS [MailingAddress]
-        ON [TeacherCandidate].[TeacherCandidateIdentifier] = [MailingAddress].[TeacherCandidateIdentifier]
-           AND [HomeAddress].[AddressType] = 'Mailing'
-    LEFT OUTER JOIN [TeacherCandidateAddress] AS [WorkAddress]
-        ON [TeacherCandidate].[TeacherCandidateIdentifier] = [WorkAddress].[TeacherCandidateIdentifier]
-           AND [HomeAddress].[AddressType] = 'Work'
-    LEFT OUTER JOIN [TeacherCandidateAddress] AS [TemporaryAddress]
-        ON [TeacherCandidate].[TeacherCandidateIdentifier] = [TemporaryAddress].[TeacherCandidateIdentifier]
-           AND [HomeAddress].[AddressType] = 'Temporary'
-    LEFT OUTER JOIN [TeacherCandidateTelephone] AS [HomeTelephone]
-        ON [TeacherCandidate].[TeacherCandidateIdentifier] = [HomeTelephone].[TeacherCandidateIdentifier]
-           AND [HomeTelephone].[TelephoneNumberType] = 'Home'
-    LEFT OUTER JOIN [TeacherCandidateTelephone] AS [MobileTelephone]
-        ON [TeacherCandidate].[TeacherCandidateIdentifier] = [MobileTelephone].[TeacherCandidateIdentifier]
-           AND [MobileTelephone].[TelephoneNumberType] = 'Mobile'
-    LEFT OUTER JOIN [TeacherCandidateTelephone] AS [WorkTelephone]
-        ON [TeacherCandidate].[TeacherCandidateIdentifier] = [WorkTelephone].[TeacherCandidateIdentifier]
-           AND [WorkTelephone].[TelephoneNumberType] = 'Work'
-    LEFT OUTER JOIN [TeacherCandidateEmail] AS [HomeEmail]
-        ON [TeacherCandidate].[TeacherCandidateIdentifier] = [HomeEmail].[TeacherCandidateIdentifier]
-           AND [HomeEmail].[EmailType] = 'Home/Personal'
-    LEFT OUTER JOIN [TeacherCandidateEmail] AS [WorkEmail]
-        ON [TeacherCandidate].[TeacherCandidateIdentifier] = [WorkEmail].[TeacherCandidateIdentifier]
-           AND [WorkEmail].[EmailType] = 'Work';
+               SELECT SchoolYear FROM edfi.SchoolYearType WHERE CurrentSchoolYear = 1
+           ),
+           [TeacherCandidate].[StudentUSI] AS [StudentKey],
+           [TeacherCandidate].[FirstName] AS [FirstName],
+           [TeacherCandidate].[LastSurname] AS [LastName],
+           ISNULL([HomeAddress].[Address], '') AS [HomeAddress],
+           ISNULL([PhysicalAddress].[Address], '') AS [PhysicalAddress],
+           ISNULL([MailingAddress].[Address], '') AS [MailingAddress],
+           ISNULL([WorkAddress].[Address], '') AS [WorkAddress],
+           ISNULL([TemporaryAddress].[Address], '') AS [TemporaryAddress],
+           ISNULL([HomeTelephone].[TelephoneNumber], '') AS [HomePhoneNumber],
+           ISNULL([MobileTelephone].[TelephoneNumber], '') AS [MobilePhoneNumber],
+           ISNULL([WorkTelephone].[TelephoneNumber], '') AS [WorkPhoneNumber],
+           CASE
+               WHEN [HomeEmail].[PrimaryEmailAddressIndicator] = 1 THEN
+                   N'Personal'
+               WHEN [WorkEmail].[PrimaryEmailAddressIndicator] = 1 THEN
+                   N'Work'
+               ELSE
+                   N'Not specified'
+           END AS [PrimaryEmailAddress],
+           ISNULL([HomeEmail].[ElectronicMailAddress], '') AS [PersonalEmailAddress],
+           ISNULL([WorkEmail].[ElectronicMailAddress], '') AS [WorkEmailAddress],
+           (
+               SELECT MAX([LastModifiedDate])
+               FROM
+               (
+                   VALUES
+                       ([TeacherCandidate].[LastModifiedDate]),
+                       ([HomeAddress].[LastModifiedDate]),
+                       ([PhysicalAddress].[LastModifiedDate]),
+                       ([MailingAddress].[LastModifiedDate]),
+                       ([WorkAddress].[LastModifiedDate]),
+                       ([TemporaryAddress].[LastModifiedDate]),
+                       ([HomeTelephone].[CreateDate]),
+                       ([MobileTelephone].[CreateDate]),
+                       ([WorkTelephone].[CreateDate]),
+                       ([HomeEmail].[CreateDate]),
+                       ([WorkEmail].[CreateDate])
+               ) AS value ([LastModifiedDate])
+           ) AS [LastModifiedDate]
+    FROM [tpdm].[TeacherCandidate] [TeacherCandidate]
+        LEFT OUTER JOIN [TeacherCandidateAddress] HomeAddress
+            ON [TeacherCandidate].[TeacherCandidateIdentifier] = [HomeAddress].[TeacherCandidateIdentifier]
+               AND [HomeAddress].[AddressType] = 'Home'
+        LEFT OUTER JOIN [TeacherCandidateAddress] AS [PhysicalAddress]
+            ON [TeacherCandidate].[TeacherCandidateIdentifier] = [PhysicalAddress].[TeacherCandidateIdentifier]
+               AND [HomeAddress].[AddressType] = 'Physical'
+        LEFT OUTER JOIN [TeacherCandidateAddress] AS [MailingAddress]
+            ON [TeacherCandidate].[TeacherCandidateIdentifier] = [MailingAddress].[TeacherCandidateIdentifier]
+               AND [HomeAddress].[AddressType] = 'Mailing'
+        LEFT OUTER JOIN [TeacherCandidateAddress] AS [WorkAddress]
+            ON [TeacherCandidate].[TeacherCandidateIdentifier] = [WorkAddress].[TeacherCandidateIdentifier]
+               AND [HomeAddress].[AddressType] = 'Work'
+        LEFT OUTER JOIN [TeacherCandidateAddress] AS [TemporaryAddress]
+            ON [TeacherCandidate].[TeacherCandidateIdentifier] = [TemporaryAddress].[TeacherCandidateIdentifier]
+               AND [HomeAddress].[AddressType] = 'Temporary'
+        LEFT OUTER JOIN [TeacherCandidateTelephone] AS [HomeTelephone]
+            ON [TeacherCandidate].[TeacherCandidateIdentifier] = [HomeTelephone].[TeacherCandidateIdentifier]
+               AND [HomeTelephone].[TelephoneNumberType] = 'Home'
+        LEFT OUTER JOIN [TeacherCandidateTelephone] AS [MobileTelephone]
+            ON [TeacherCandidate].[TeacherCandidateIdentifier] = [MobileTelephone].[TeacherCandidateIdentifier]
+               AND [MobileTelephone].[TelephoneNumberType] = 'Mobile'
+        LEFT OUTER JOIN [TeacherCandidateTelephone] AS [WorkTelephone]
+            ON [TeacherCandidate].[TeacherCandidateIdentifier] = [WorkTelephone].[TeacherCandidateIdentifier]
+               AND [WorkTelephone].[TelephoneNumberType] = 'Work'
+        LEFT OUTER JOIN [TeacherCandidateEmail] AS [HomeEmail]
+            ON [TeacherCandidate].[TeacherCandidateIdentifier] = [HomeEmail].[TeacherCandidateIdentifier]
+               AND [HomeEmail].[EmailType] = 'Home/Personal'
+        LEFT OUTER JOIN [TeacherCandidateEmail] AS [WorkEmail]
+            ON [TeacherCandidate].[TeacherCandidateIdentifier] = [WorkEmail].[TeacherCandidateIdentifier]
+               AND [WorkEmail].[EmailType] = 'Work')
+SELECT [analytics].[EntitySchoolYearInstanceSetKey](
+                                                       TeacherCandidateContact.TeacherCandidateKey,
+                                                       TeacherCandidateContact.SchoolYear
+                                                   ) TeacherCandidateSchoolYearInstanceKey,
+       TeacherCandidateContact.TeacherCandidateKey,
+       TeacherCandidateContact.SchoolYear,
+       TeacherCandidateContact.StudentKey,
+       TeacherCandidateContact.FirstName,
+       TeacherCandidateContact.LastName,
+       TeacherCandidateContact.HomeAddress,
+       TeacherCandidateContact.PhysicalAddress,
+       TeacherCandidateContact.MailingAddress,
+       TeacherCandidateContact.WorkAddress,
+       TeacherCandidateContact.TemporaryAddress,
+       TeacherCandidateContact.HomePhoneNumber,
+       TeacherCandidateContact.MobilePhoneNumber,
+       TeacherCandidateContact.WorkPhoneNumber,
+       TeacherCandidateContact.PrimaryEmailAddress,
+       TeacherCandidateContact.PersonalEmailAddress,
+       TeacherCandidateContact.WorkEmailAddress
+FROM TeacherCandidateContact;
+
 GO

@@ -4,9 +4,11 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE VIEW [analytics].[StaffCredential]
+CREATE   VIEW [analytics].[StaffCredential]
 AS
-SELECT
+SELECT analytics.EntitySchoolYearInstanceSetKey(s.StaffUSI,CurrentSchoolYear.SchoolYear) StaffSchoolYearInstanceKey, 
+  analytics.EntitySchoolYearInstanceSetKey(c.CredentialIdentifier,CurrentSchoolYear.SchoolYear) CredentialSchoolYearInstanceKey, 
+  CurrentSchoolYear.SchoolYear AS SchoolYear,
   s.StaffUSI AS StaffKey,
   c.CredentialIdentifier CredentialKey,
   d1.CodeValue AS StateOfIssue,
@@ -25,4 +27,13 @@ INNER JOIN edfi.StateAbbreviationDescriptor sad
   ON c.StateOfIssueStateAbbreviationDescriptorId = sad.StateAbbreviationDescriptorId
 INNER JOIN edfi.Descriptor d1
   ON d1.DescriptorId = c.StateOfIssueStateAbbreviationDescriptorId
+CROSS APPLY
+  (  
+       SELECT syt.SchoolYear FROM edfi.SchoolYearType syt WHERE syt.CurrentSchoolYear = 1
+  ) CurrentSchoolYear
+
+
 GO
+
+
+

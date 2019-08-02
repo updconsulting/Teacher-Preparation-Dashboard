@@ -3,11 +3,14 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE VIEW [analytics].[StaffStudentGrowthMeasure] as
-SELECT
+
+
+CREATE   VIEW [analytics].[StaffStudentGrowthMeasure] as
+SELECT analytics.EntitySchoolYearInstanceSetKey(StaffUSI, MaxSchoolYear.SchoolYear) StaffSchoolYearInstanceKey,  
   [StaffUSI] AS StaffKey,
+  MaxSchoolYear.SchoolYear,
   [FactAsOfDate],
-  [SchoolYear],
+  --[SchoolYear],
   [StudentGrowthMeasureDate],
   d.CodeValue [ResultDatatypeType],
   d1.CodeValue AS [StudentGrowthType],
@@ -24,4 +27,10 @@ INNER JOIN tpdm.StudentGrowthTypeDescriptor sgtd
   ON tpdm.StaffStudentGrowthMeasure.StudentGrowthTypeDescriptorId = sgtd.StudentGrowthTypeDescriptorId
 INNER JOIN edfi.Descriptor d1
   ON d1.DescriptorId = sgtd.StudentGrowthTypeDescriptorId
+CROSS APPLY
+(   
+SELECT syt.SchoolYear FROM edfi.SchoolYearType syt WHERE syt.CurrentSchoolYear = 1 
+
+) MaxSchoolYear
 GO
+

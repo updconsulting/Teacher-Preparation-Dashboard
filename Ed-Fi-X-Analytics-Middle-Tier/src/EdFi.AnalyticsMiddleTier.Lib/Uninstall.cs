@@ -66,6 +66,18 @@ BEGIN
     DROP TABLE [dbo].[AnalyticsMiddleTierSchemaVersion]
 END
 ";
+        private const string SchoolYearHistoricalSnapShotDates = @"
+IF (SELECT OBJECT_ID('[analytics_config].[SchoolYearHistoricalSnapShotDates]')) IS NOT NULL
+BEGIN
+DROP TABLE [analytics_config].[SchoolYearHistoricalSnapShotDates]
+END
+";
+        private const string EntitySchoolYearInstanceSetKey = @"
+IF (SELECT OBJECT_ID('[analytics].[EntitySchoolYearInstanceSetKey]')) IS NOT NULL
+BEGIN
+DROP FUNCTION [analytics].[EntitySchoolYearInstanceSetKey]
+END
+";
 
         private const string DropStoredProcedures = @"DECLARE @procName NVARCHAR(128), @statement NVARCHAR(1000)
 
@@ -88,10 +100,7 @@ END
 CLOSE sprocs
 DEALLOCATE sprocs
 ";
-        private const string DropConfigSecurityTable = @"IF (SELECT OBJECT_ID('[analytics_config].[Security]')) IS NOT NULL
-BEGIN
-    DROP VIEW[analytics_config].[Security]
-        END";
+       
 
         public static (bool Successful, string ErrorMessage) Run(string connectionString)
 		{
@@ -105,7 +114,9 @@ BEGIN
                 ExecuteSqlStatement(DropIndexJournalTable);
                 ExecuteSqlStatement(DropDbUpJournalTable);
                 ExecuteSqlStatement(DropStoredProcedures);
-                ExecuteSqlStatement(DropConfigSecurityTable);
+                ExecuteSqlStatement(SchoolYearHistoricalSnapShotDates);
+                ExecuteSqlStatement(EntitySchoolYearInstanceSetKey);
+           
 
                 return (true, string.Empty);
             }

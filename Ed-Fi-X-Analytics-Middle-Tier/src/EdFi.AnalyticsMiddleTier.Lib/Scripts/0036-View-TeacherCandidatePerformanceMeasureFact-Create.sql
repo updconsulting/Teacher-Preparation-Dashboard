@@ -6,33 +6,17 @@ GO
 
 
 
-
-
-
-
-
-
-CREATE VIEW [analytics].[TeacherCandidatePerformanceMeasureFact]
+CREATE   VIEW [analytics].[TeacherCandidatePerformanceMeasureFact]
 AS
-WITH MaxPerformanceDate
-AS (SELECT
-  rlr.RubricTitle,
-  rlr.RubricLevelCode,
-  pmpbr.TeacherCandidateIdentifier,
-  MAX(pm.ActualDateOfPerformanceMeasure) ActualDateOfPerformanceMeasure
-FROM tpdm.PerformanceMeasure pm
-INNER JOIN tpdm.RubricLevelResponse rlr
-  ON pm.PerformanceMeasureIdentifier = rlr.PerformanceMeasureIdentifier
-INNER JOIN tpdm.PerformanceMeasurePersonBeingReviewed pmpbr
-  ON pm.PerformanceMeasureIdentifier = pmpbr.PerformanceMeasureIdentifier
-GROUP BY rlr.RubricTitle,
-         rlr.RubricLevelCode,
-         pmpbr.TeacherCandidateIdentifier)
 
-SELECT DISTINCT
+SELECT DISTINCT [analytics].[EntitySchoolYearInstanceSetKey](pmpbr.TeacherCandidateIdentifier, s.SchoolYear) AS TeacherCandidateSchoolYearInstanceKey,
+  [analytics].[EntitySchoolYearInstanceSetKey](pmr.StaffUSI, s.SchoolYear) AS StaffSchoolYearInstanceKey,
   pmpbr.TeacherCandidateIdentifier TeacherCandidateKey,
+  pmr.StaffUSI AS StaffKey,
   pm.PerformanceMeasureIdentifier PerformanceMeasureKey,
   d.CodeValue AS PerformanceMeasureType,
+  pm.ActualDateOfPerformanceMeasure, 
+  s.SchoolYear,
   rli.RubricLevelCode,
   rlr.NumericResponse,
   d1.CodeValue AS Term,
@@ -40,7 +24,6 @@ SELECT DISTINCT
   rli.LevelTitle,
   rlr.AreaOfRefinement,
   rlr.AreaOfReinforcement,
-  pmr.StaffUSI AS StaffKey,
   CASE
     WHEN AreaOfRefinement = 1 THEN 'Refinement'
     WHEN AreaOfReinforcement = 1 THEN 'Reinforcement'
@@ -86,6 +69,8 @@ INNER JOIN tpdm.RubricLevelInformation rli1
   AND rl.RubricLevelCode = rli1.RubricLevelCode
   AND rl.RubricTitle = rli1.RubricTitle
   AND rl.RubricTypeDescriptorId = rli1.RubricTypeDescriptorId
+INNER JOIN edfi.Session s ON s.TermDescriptorId = pm.TermDescriptorId AND s.SchoolId = rl.EducationOrganizationId 
+INNER JOIN edfi.SchoolYearType syt ON syt.SchoolYear = s.SchoolYear
 --INNER JOIN MaxPerformanceDate
 --ON  rl.RubricLevelCode = MaxPerformanceDate.RubricLevelCode
 --  AND pmpbr.TeacherCandidateIdentifier = MaxPerformanceDate.TeacherCandidateIdentifier
@@ -97,4 +82,7 @@ INNER JOIN edfi.TermDescriptor td
   ON pm.TermDescriptorId = td.TermDescriptorId
 INNER JOIN edfi.Descriptor d1
   ON d1.DescriptorId = td.TermDescriptorId
+WHERE pm.ActualDateOfPerformanceMeasure BETWEEN s.BeginDate  AND s.EndDate AND syt.CurrentSchoolYear = 1 
 GO
+
+

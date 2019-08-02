@@ -5,7 +5,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-CREATE     VIEW [analytics_config].[Security]
+CREATE  VIEW [analytics].[Security]
 AS
 WITH TeacherCandidateStaffSectionAssociation
 AS (SELECT DISTINCT

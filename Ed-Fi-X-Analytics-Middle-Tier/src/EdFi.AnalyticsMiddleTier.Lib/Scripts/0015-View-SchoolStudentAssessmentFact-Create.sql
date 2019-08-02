@@ -4,7 +4,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE VIEW [analytics].[SchoolStudentAssessmentFact]
+CREATE   VIEW [analytics].[SchoolStudentAssessmentFact]
 AS
 /* This query has flaw that it doesn't look at the max date for the fact , the reason is the issue with the data model */
 WITH SchoolStudentAssessmentFact
@@ -19,7 +19,7 @@ AS (SELECT
     WHEN d.CodeValue IN ('Sixth grade', 'Seventh grade', 'Eighth grade') THEN 'Grades 6-8'
     WHEN d.CodeValue IN ('Ninth grade', 'Tenth grade', 'Eleventh grade', 'Twelfth grade') THEN 'Grades 9-12'
   END AS GradeLevels,
-  eosafapl.PerformanceLevelMetPercentage
+  eosafapl.PerformanceLevelMetPercentage, eosaf.TakenSchoolYear
 FROM tpdm.EducationOrganizationStudentAssessmentFacts eosaf
 INNER JOIN tpdm.EducationOrganizationStudentAssessmentFactsAggregatedPerformanceLevel eosafapl
   ON eosaf.EducationOrganizationId = eosafapl.EducationOrganizationId
@@ -36,8 +36,9 @@ INNER JOIN edfi.Descriptor d1
 INNER JOIN edfi.School s
   ON s.SchoolId = eosaf.EducationOrganizationId)
 
-SELECT
+SELECT analytics.EntitySchoolYearInstanceSetKey(EducationOrganizationId, TakenSchoolYear) SchoolSchoolYearInstanceKey,
   EducationOrganizationId AS SchoolKey,
+  TakenSchoolYear AS SchoolYear,
   GradeLevels, AcademicSubjectDescriptor,
   
   
@@ -48,5 +49,7 @@ SELECT
 FROM SchoolStudentAssessmentFact
 WHERE GradeLevels IS NOT NULL 
 GROUP BY EducationOrganizationId,
-         GradeLevels, GradeLevels, AcademicSubjectDescriptor
+         GradeLevels, GradeLevels, AcademicSubjectDescriptor, TakenSchoolYear
 GO
+
+

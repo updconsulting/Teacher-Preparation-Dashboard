@@ -4,9 +4,10 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE VIEW [analytics].[StaffSectionAssociation]
+CREATE   VIEW [analytics].[StaffSectionAssociation]
 AS
-SELECT DISTINCT
+SELECT DISTINCT analytics.EntitySchoolYearInstanceSetKey(Staff.StaffUSI, ssa.SchoolYear) AS StaffSchoolYearInstanceKey,
+                analytics.EntitySchoolYearInstanceSetKey(ssa.SectionIdentifier, ssa.SchoolYear) AS SectionSchoolYearInstanceKey,
   ssa.SectionIdentifier AS SectionKey,
   ssa.StaffUSI AS StaffKey,
   ssa.LocalCourseCode,

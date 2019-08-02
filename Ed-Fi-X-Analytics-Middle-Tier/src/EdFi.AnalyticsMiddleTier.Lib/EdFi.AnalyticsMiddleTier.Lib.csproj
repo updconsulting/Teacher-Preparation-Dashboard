@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <None Remove="Scripts\0000-Table-IndexJournal-Create.sql" />
+    <None Remove="Scripts\0000-Table-SchoolYearHistoricalSnapShotDates-Create.sql" />
+    <None Remove="Scripts\0001-Func-EntitySchoolYearInstanceKey-Create.sql" />
     <None Remove="Scripts\0001-View-ContactPersonDimension-Create.sql" />
     <None Remove="Scripts\0002-View-StudentDimension-Create.sql" />
     <None Remove="Scripts\0003-View-TeacherCandidateContactDimension-Create.sql" />
@@ -21,7 +23,6 @@
     <None Remove="Scripts\0011-View-ProgramTypeDimension-Create.sql" />
     <None Remove="Scripts\0012-View-SchoolDimension-Create.sql" />
     <None Remove="Scripts\0013-View-SchoolFacts-Create.sql" />
-    <None Remove="Scripts\0014-View-SchoolNetworkAssociationDimension-Create.sql" />
     <None Remove="Scripts\0015-View-SchoolStudentAssessmentFact-Create.sql" />
     <None Remove="Scripts\0016-View-Section-Create.sql" />
     <None Remove="Scripts\0017-View-StaffCredential-Create.sql" />
@@ -39,9 +40,8 @@
     <None Remove="Scripts\0027-Proc-InsertStaffClassificationDescriptorScope-Create.sql" />
     <None Remove="Scripts\0027-View-StudentSectionDimension-Create.sql" />
     <None Remove="Scripts\0028-Proc-RemoveStaffClassificationDescriptorScope-Create.sql" />
-    <None Remove="Scripts\0028-View-StudentSectionGradeFact-Create.sql" />
     <None Remove="Scripts\0029-View-LocalEducationAgencyDimension-Create.sql" />
-    <None Remove="Scripts\0029-View-SurveyQuestionResponseFact-Create.sql" />
+    <None Remove="Scripts\0029-View-StudentSurveryResponseFact-Create.sql" />
     <None Remove="Scripts\0030-View-TeacherCandidateAcademicRecordFact-Create.sql" />
     <None Remove="Scripts\0031-View-TeacherCandidateAssessment-Create.sql" />
     <None Remove="Scripts\0032-View-TeacherCandidateCourseTranscriptFact-Create.sql" />
@@ -60,11 +60,15 @@
     <None Remove="Scripts\0045-View-Security-Create.sql" />
     <None Remove="Scripts\0046-Index-Grade-Create.sql" />
     <None Remove="Scripts\0047-Index-AcademicSubjectType-Create.sql" />
+    <None Remove="Scripts\0048-Proc-MultipleYearSnapShots-Create.sql" />
+    <None Remove="Scripts\0049-Proc-EmptyDatabase-Create.sql" />
+    <None Remove="Scripts\0049-Proc-MultipleYearSnapShots-Create.sql" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="Scripts\0000-Schema-Analytics-Create.sql" />
     <EmbeddedResource Include="Scripts\0000-Table-IndexJournal-Create.sql" />
+    <EmbeddedResource Include="Scripts\0000-Table-SchoolYearHistoricalSnapShotDates-Create.sql" />
     <EmbeddedResource Include="Scripts\0001-View-ContactPersonDimension-Create.sql" />
     <EmbeddedResource Include="Scripts\0002-View-StudentDimension-Create.sql" />
     <EmbeddedResource Include="Scripts\0003-View-TeacherCandidateContactDimension-Create.sql" />
@@ -78,7 +82,6 @@
     <EmbeddedResource Include="Scripts\0011-View-ProgramTypeDimension-Create.sql" />
     <EmbeddedResource Include="Scripts\0012-View-SchoolDimension-Create.sql" />
     <EmbeddedResource Include="Scripts\0013-View-SchoolFacts-Create.sql" />
-    <EmbeddedResource Include="Scripts\0014-View-SchoolNetworkAssociationDimension-Create.sql" />
     <EmbeddedResource Include="Scripts\0015-View-SchoolStudentAssessmentFact-Create.sql" />
     <EmbeddedResource Include="Scripts\0016-View-Section-Create.sql" />
     <EmbeddedResource Include="Scripts\0017-View-StaffCredential-Create.sql" />
@@ -90,8 +93,7 @@
     <EmbeddedResource Include="Scripts\0023-View-StudentAssessment-Create.sql" />
     <EmbeddedResource Include="Scripts\0025-Role-analytics_middle_tier-Create.sql" />
     <EmbeddedResource Include="Scripts\0027-View-StudentSectionDimension-Create.sql" />
-    <EmbeddedResource Include="Scripts\0028-View-StudentSectionGradeFact-Create.sql" />
-    <EmbeddedResource Include="Scripts\0029-View-SurveyQuestionResponseFact-Create.sql" />
+    <EmbeddedResource Include="Scripts\0029-View-StudentSurveryResponseFact-Create.sql" />
     <EmbeddedResource Include="Scripts\0030-View-TeacherCandidateAcademicRecordFact-Create.sql" />
     <EmbeddedResource Include="Scripts\0031-View-TeacherCandidateAssessment-Create.sql" />
     <EmbeddedResource Include="Scripts\0032-View-TeacherCandidateCourseTranscriptFact-Create.sql" />
@@ -110,6 +112,11 @@
     <EmbeddedResource Include="Scripts\0045-View-Security-Create.sql" />
     <EmbeddedResource Include="Scripts\0046-Index-Grade-Create.sql" />
     <EmbeddedResource Include="Scripts\0047-Index-AcademicSubjectType-Create.sql" />
+    <EmbeddedResource Include="Scripts\0048-Proc-MultipleYearSnapShots-Create.sql" />
+    <EmbeddedResource Include="Scripts\0001-Func-EntitySchoolYearInstanceKey-Create.sql" />
+    <EmbeddedResource Include="Scripts\0049-Proc-EmptyDatabase-Create.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

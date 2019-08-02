@@ -1,13 +1,14 @@
-﻿/****** Object:  View [analytics].[StaffSurveyResponseFact]    Script Date: 4/23/2019 2:46:47 AM ******/
-SET ANSI_NULLS ON
+﻿SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 
 
-CREATE VIEW [analytics].[StaffSurveyResponseFact]
+CREATE     VIEW analytics.StaffSurveyResponseFact
 AS
-SELECT
+SELECT analytics.EntitySchoolYearInstanceSetKey(sr.SurveyResponseIdentifier, CurrentSchoolYear.SchoolYear) SurveyResponseSchoolYearInstanceKey,
+  analytics.EntitySchoolYearInstanceSetKey(sr.StaffUSI, CurrentSchoolYear.SchoolYear) StaffSchoolYearInstanceKey,
+   CurrentSchoolYear.SchoolYear,
   sqr.SurveyResponseIdentifier AS SurveyResponseKey,
   sr.StaffUSI AS Staffkey,
   s.SurveyIdentifier,
@@ -15,6 +16,7 @@ SELECT
   ss.SurveySectionTitle,
   sq.QuestionText,
   sqr.TextResponse,
+  sqr.NumericResponse,
   sqr.NoResponse
 FROM tpdm.Survey s
 INNER JOIN tpdm.SurveySection ss
@@ -31,7 +33,14 @@ INNER JOIN tpdm.QuestionFormDescriptor qfd
   ON sq.QuestionFormDescriptorId = qfd.QuestionFormDescriptorId
 INNER JOIN edfi.Descriptor d
   ON qfd.QuestionFormDescriptorId = d.DescriptorId
+CROSS APPLY
+  (
+    SELECT syt.SchoolYear FROM edfi.SchoolYearType syt WHERE syt.CurrentSchoolYear =1
+
+  ) CurrentSchoolYear
 WHERE s.SurveyTitle LIKE 'Mentor Teacher Self Reflection Survey'
 OR s.SurveyTitle LIKE 'Principal Feeback Survey'
 OR s.SurveyTitle LIKE 'TPP Support Survey'
 GO
+
+

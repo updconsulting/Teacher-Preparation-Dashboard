@@ -4,28 +4,6 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
---USE EdFi_Ods_TPDM_Base
---GO
---
---DROP VIEW analytics.TeacherCandidateAcademicFact
---GO
---
---SET QUOTED_IDENTIFIER, ANSI_NULLS ON
---GO
---
-
-
-
---USE EdFi_Ods_TPDM_Base
---GO
---
---DROP VIEW analytics.TeacherCandidateGradePointAverageFact
---GO
---
---SET QUOTED_IDENTIFIER, ANSI_NULLS ON
---GO
---EdFi_Ods_TPDM_Base.edfi.Assessment
---
 CREATE VIEW [analytics].[TeacherCandidateAssessment]
 AS
 WITH TeacherCandidateAssessmentMaxAdministrationDate
@@ -44,6 +22,8 @@ GROUP BY sa.AssessmentTitle,
 TeacherCandidateAssessment
 AS (SELECT
   TeacherCandidateIdentifier,
+  sa.SchoolYear, 
+
   sa.StudentUSI,
   sa.AssessmentTitle,
   sasr.Result,
@@ -71,14 +51,17 @@ INNER JOIN TeacherCandidateAssessmentMaxAdministrationDate tcamad
   ON sa.AssessmentTitle = tcamad.AssessmentTitle
   AND sa.StudentUSI = tcamad.StudentUSI
   AND sa.AdministrationDate = tcamad.MaxAdminstrationDate)
-SELECT
-  TeacherCandidateIdentifier TeacherCandidateKey,
+SELECT [analytics].[EntitySchoolYearInstanceSetKey](TeacherCandidateAssessment.TeacherCandidateIdentifier, TeacherCandidateAssessment.SchoolYear) AS TeacherCandidateSchoolYearInstanceKey,
+  TeacherCandidateIdentifier TeacherCandidateKey, 
   StudentUSI StudentKey,
+  TeacherCandidateAssessment.SchoolYear,
+
   AssessmentTitle,
   Result,
   PerformanceLevelMet,
   Latest, 
   PerformanceLevel
 FROM TeacherCandidateAssessment
-
 GO
+
+

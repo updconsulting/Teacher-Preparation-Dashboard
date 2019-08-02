@@ -1,0 +1,7 @@
+F:\TPP-DASHBOARD\TPP-Dashboard\Semantic-Model\TPP-Dashboard\bin\UPD\Model.asdatabase
+F:\TPP-DASHBOARD\TPP-Dashboard\Semantic-Model\TPP-Dashboard\bin\UPD\Model.deploymenttargets
+F:\TPP-DASHBOARD\TPP-Dashboard\Semantic-Model\TPP-Dashboard\bin\UPD\Model.deploymentoptions
+F:\TPP-DASHBOARD\TPP-Dashboard\Semantic-Model\TPP-Dashboard\obj\UPD\TPP-Dashboard.smproj.CoreCompileInputs.cache
+F:\TPP-DASHBOARD\TPP-Dashboard\Semantic-Model\TPP-Dashboard\obj\UPD\Model.asdatabase
+F:\TPP-DASHBOARD\TPP-Dashboard\Semantic-Model\TPP-Dashboard\obj\UPD\Model.deploymentoptions
+F:\TPP-DASHBOARD\TPP-Dashboard\Semantic-Model\TPP-Dashboard\obj\UPD\Model.deploymenttargets

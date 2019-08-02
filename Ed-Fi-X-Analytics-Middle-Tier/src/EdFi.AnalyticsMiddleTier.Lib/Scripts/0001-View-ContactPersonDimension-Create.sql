@@ -120,3 +120,4 @@ FROM [edfi].[StudentParentAssociation]
         ON [Parent].[ParentUSI] = [WorkEmail].[ParentUSI]
            AND [WorkEmail].[EmailType] = 'Work';
 GO
+

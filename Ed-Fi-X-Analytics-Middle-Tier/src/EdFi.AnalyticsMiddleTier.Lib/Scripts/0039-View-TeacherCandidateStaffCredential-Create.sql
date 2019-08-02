@@ -5,11 +5,12 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
-CREATE VIEW [analytics].[TeacherCandidateStaffCredential]
+CREATE     VIEW [analytics].[TeacherCandidateStaffCredential]
 AS
-SELECT
+SELECT analytics.EntitySchoolYearInstanceSetKey(a.StaffKey, SchoolYear)  AS StaffSchoolYearInstanceKey,
   StaffKey,
   CredentialKey,
+  SchoolYear,
   StateOfIssue,
   CredentialField,
   CertificationStatus,
@@ -26,6 +27,7 @@ SELECT
   END AttemptStatus
 FROM (SELECT
   s.StaffUSI AS StaffKey,
+  ssa.SchoolYear,
   c.CredentialIdentifier CredentialKey,
   d1.CodeValue AS StateOfIssue,
   d.CodeValue AS CredentialField,
@@ -41,8 +43,9 @@ FROM (SELECT
   ROW_NUMBER() OVER (PARTITION BY tc.TeacherCandidateIdentifier,
   n.CertificationExamTitle ORDER BY n.CertificationExamDate ASC) Attempt
 FROM tpdm.TeacherCandidate tc
-INNER JOIN edfi.Staff s
-  ON s.StaffUniqueId = tc.TeacherCandidateIdentifier
+INNER JOIN tpdm.StaffTeacherCandidateAssociation stca ON tc.TeacherCandidateIdentifier = stca.TeacherCandidateIdentifier
+INNER JOIN edfi.Staff s ON stca.StaffUSI = s.StaffUSI
+INNER JOIN edfi.StaffSchoolAssociation ssa ON s.StaffUSI = ssa.StaffUSI
 INNER JOIN edfi.StaffCredential sc
   ON s.StaffUSI = sc.StaffUSI
 INNER JOIN edfi.Credential c
@@ -63,3 +66,5 @@ LEFT JOIN edfi.Descriptor m
 LEFT JOIN tpdm.CredentialCertificationExam n
   ON sc.CredentialIdentifier = n.CredentialIdentifier) a
 GO
+
+

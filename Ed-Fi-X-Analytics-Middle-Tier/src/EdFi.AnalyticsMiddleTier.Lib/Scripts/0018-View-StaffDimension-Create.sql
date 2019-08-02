@@ -4,14 +4,16 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE VIEW [analytics].[StaffDimension]
+CREATE   VIEW [analytics].[StaffDimension]
 AS
-SELECT
-  a.StaffUSI AS StaffKey,
+SELECT analytics.EntitySchoolYearInstanceSetKey(a.StaffUSI, ssa.SchoolYear) AS StaffSchoolYearInstanceKey,
+  a.StaffUSI AS StaffKey, ssa.SchoolYear,
+  
   a.FirstName + ' ' + a.LastSurname AS StaffFullName,
   d.CodeValue AS RaceDescriptor,
   d1.CodeValue AS Sex
 FROM edfi.Staff a
+INNER JOIN edfi.StaffSchoolAssociation ssa ON a.StaffUSI = ssa.StaffUSI
 LEFT JOIN edfi.StaffRace sr
   ON a.StaffUSI = sr.StaffUSI
 LEFT JOIN edfi.RaceDescriptor rd
@@ -32,3 +34,6 @@ INNER JOIN edfi.Descriptor d2
 WHERE d2.CodeValue LIKE 'Mentor Teacher'
 OR d2.CodeValue LIKE 'Site Coordinator')
 GO
+
+
+

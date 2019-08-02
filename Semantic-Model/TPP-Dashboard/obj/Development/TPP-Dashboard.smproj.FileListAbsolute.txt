@@ -1,0 +1,14 @@
+F:\TPP-DASHBOARD\First\TPP-Dashboard\TPP-Dashboard\bin\Model.asdatabase
+F:\TPP-DASHBOARD\First\TPP-Dashboard\TPP-Dashboard\bin\Model.deploymenttargets
+F:\TPP-DASHBOARD\First\TPP-Dashboard\TPP-Dashboard\bin\Model.deploymentoptions
+F:\TPP-DASHBOARD\First\TPP-Dashboard\TPP-Dashboard\obj\Development\TPP-Dashboard.smproj.CoreCompileInputs.cache
+F:\TPP-DASHBOARD\First\TPP-Dashboard\TPP-Dashboard\obj\Development\Model.asdatabase
+F:\TPP-DASHBOARD\First\TPP-Dashboard\TPP-Dashboard\obj\Development\Model.deploymentoptions
+F:\TPP-DASHBOARD\First\TPP-Dashboard\TPP-Dashboard\obj\Development\Model.deploymenttargets
+C:\Users\Administrator\Downloads\TPP-Dashboard\Semantic-Model\TPP-Dashboard\bin\Model.asdatabase
+C:\Users\Administrator\Downloads\TPP-Dashboard\Semantic-Model\TPP-Dashboard\bin\Model.deploymenttargets
+C:\Users\Administrator\Downloads\TPP-Dashboard\Semantic-Model\TPP-Dashboard\bin\Model.deploymentoptions
+C:\Users\Administrator\Downloads\TPP-Dashboard\Semantic-Model\TPP-Dashboard\obj\Development\TPP-Dashboard.smproj.CoreCompileInputs.cache
+C:\Users\Administrator\Downloads\TPP-Dashboard\Semantic-Model\TPP-Dashboard\obj\Development\Model.asdatabase
+C:\Users\Administrator\Downloads\TPP-Dashboard\Semantic-Model\TPP-Dashboard\obj\Development\Model.deploymentoptions
+C:\Users\Administrator\Downloads\TPP-Dashboard\Semantic-Model\TPP-Dashboard\obj\Development\Model.deploymenttargets

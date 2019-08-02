@@ -6,36 +6,7 @@ GO
 
 
 
---USE EdFi_Ods_TPDM_Base
---GO
---
---SET QUOTED_IDENTIFIER, ANSI_NULLS ON
---GO
---
---
-----USE EdFi_Ods_TPDM_Base
-----GO
-----
-----DROP VIEW analytics.TeacherCandidateAcademicFact
-----GO
-----
-----SET QUOTED_IDENTIFIER, ANSI_NULLS ON
-----GO
-----
---
---
---
-----USE EdFi_Ods_TPDM_Base
-----GO
-----
-----DROP VIEW analytics.TeacherCandidateGradePointAverageFact
-----GO
-----
-----SET QUOTED_IDENTIFIER, ANSI_NULLS ON
-----GO
-----EdFi_Ods_TPDM_Base.edfi.Assessment
-----
-CREATE VIEW [analytics].[StudentAssessment]
+CREATE   VIEW [analytics].[StudentAssessment]
 AS
 WITH StudentAssessmentMaxAdministrationDate
 AS (SELECT
@@ -78,8 +49,9 @@ INNER JOIN StudentAssessmentMaxAdministrationDate tcamad
   ON sa.AssessmentTitle = tcamad.AssessmentTitle
   AND sa.StudentUSI = tcamad.StudentUSI
   AND sa.AdministrationDate = tcamad.MaxAdminstrationDate)
-SELECT
+SELECT  analytics.EntitySchoolYearInstanceSetKey(sa.StudentUSI,CurrentSchoolYear.SchoolYear) AS StudentSchoolYearInstanceKey,
   sa.StudentUSI StudentKey,
+  CurrentSchoolYear.SchoolYear,
   AssessmentTitle,
   Result,
   PerformanceLevelMet,
@@ -107,5 +79,14 @@ LEFT JOIN edfi.GradeLevelDescriptor gld
   ON gld.GradeLevelDescriptorId = ssa.EntryGradeLevelDescriptorId
 LEFT JOIN edfi.Descriptor d1
   ON d1.DescriptorId = gld.GradeLevelDescriptorId
+CROSS APPLY
+  (
+    SELECT syt.SchoolYear FROM edfi.SchoolYearType syt WHERE syt.CurrentSchoolYear = 1 
+
+
+  ) CurrentSchoolYear
 WHERE sa.AssessmentTitle LIKE '%State%'
 GO
+
+
+

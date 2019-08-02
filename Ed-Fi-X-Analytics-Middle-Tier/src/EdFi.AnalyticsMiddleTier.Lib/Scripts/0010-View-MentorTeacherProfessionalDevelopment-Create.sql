@@ -6,12 +6,12 @@ GO
 
 
 
-CREATE VIEW [analytics].[MentorTeacherProfessionalDevelopment]
+CREATE   VIEW [analytics].[MentorTeacherProfessionalDevelopment]
 AS
 WITH StaffProfessionalDevelopmentEvent AS 
   (
 SELECT
-  spdea.StaffUSI AS StaffKey,
+  spdea.StaffUSI AS StaffKey, 
   spdea.AttendanceDate,
   spdea.ProfessionalDevelopmentTitle,
   d.CodeValue AS StaffCassificationDescriptor,
@@ -28,11 +28,17 @@ LEFT JOIN edfi.Descriptor d
   ON scd.StaffClassificationDescriptorId = d.DescriptorId
 WHERE d.CodeValue LIKE 'Mentor Teacher'
 )
-SELECT  StaffKey,
+SELECT  analytics.EntitySchoolYearInstanceSetKey(StaffKey,CurrentSchoolYear.SchoolYear) AS StaffSchoolYearInstancekey,
+        StaffKey, CurrentSchoolYear.SchoolYear AS SchoolYear,
         AttendanceDate,
         ProfessionalDevelopmentTitle,
         StaffCassificationDescriptor, CASE WHEN ProfessionalDevelopmentTitle LIKE 'Classroom Management' THEN 'Completed' ELSE 'Not Completed' END AS Status
   FROM StaffProfessionalDevelopmentEvent
+  CROSS APPLY
+  (  
+       SELECT syt.SchoolYear FROM edfi.SchoolYearType syt WHERE syt.CurrentSchoolYear = 1
+  ) CurrentSchoolYear
   WHERE Recent = 1
- 
 GO
+
+

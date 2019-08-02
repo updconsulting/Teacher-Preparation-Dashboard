@@ -4,9 +4,11 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 
-CREATE VIEW [analytics].[StudentSectionDimension]
+CREATE   VIEW [analytics].[StudentSectionDimension]
 AS
-SELECT
+SELECT analytics.EntitySchoolYearInstanceSetKey(StudentUSI,CourseOffering.SchoolYear) AS StudentSchoolYearInstanceKey,
+  analytics.EntitySchoolYearInstanceSetKey(SectionIdentifier,CourseOffering.SchoolYear) AS SectionSchoolYearInstanceKey,
+   analytics.EntitySchoolYearInstanceSetKey(Course.CourseCode,CourseOffering.SchoolYear) AS CourseSchoolYearInstanceKey,
   SectionIdentifier AS SectionKey,
   StudentUSI as StudentKey, 
   Course.CourseCode as CourseKey,
@@ -27,3 +29,5 @@ LEFT OUTER JOIN [edfi].[AcademicSubjectDescriptor]
 LEFT OUTER JOIN [edfi].[Descriptor] asd
   ON asd.[DescriptorId] = [AcademicSubjectDescriptor].[AcademicSubjectDescriptorId];
 GO
+
+

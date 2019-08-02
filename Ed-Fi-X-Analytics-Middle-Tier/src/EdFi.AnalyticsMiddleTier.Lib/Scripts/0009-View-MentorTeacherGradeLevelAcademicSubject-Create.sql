@@ -5,10 +5,11 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 
+
 CREATE VIEW [analytics].[MentorTeacherGradeLevelAcademicSubject]
 AS
-SELECT DISTINCT
-  ssa.StaffUSI AS StaffKey,
+SELECT DISTINCT [analytics].[EntitySchoolYearInstanceSetKey](ssa.StaffUSI, co.SchoolYear) AS StaffSchoolYearInstanceKey,
+  ssa.StaffUSI AS StaffKey, co.SchoolYear,
   CASE
     WHEN d.CodeValue IN ('Kindergarten', 'First grade', 'Second grade', 'Third grade', 'Fourth grade', 'Fifth grade') THEN 'Grades k-5'
     WHEN d.CodeValue IN ('Sixth grade', 'Seventh grade', 'Eighth grade') THEN 'Grades 6-8'
@@ -48,6 +49,9 @@ INNER JOIN edfi.CourseOffering co
   AND s.SchoolId = co.SchoolId
   AND s.SchoolYear = co.SchoolYear
   AND s.SessionName = co.SessionName
+    INNER JOIN edfi.SchoolYearType syt
+        ON syt.SchoolYear = s.SchoolYear
+        
 INNER JOIN edfi.Course c
   ON co.CourseCode = c.CourseCode
   AND co.EducationOrganizationId = c.EducationOrganizationId
@@ -58,5 +62,7 @@ INNER JOIN edfi.Descriptor d1
 LEFT JOIN edfi.Session s2 ON co.SchoolId = s2.SchoolId AND co.SchoolYear = s2.SchoolYear AND co.SessionName = s2.SessionName
 
 
-WHERE d1.CodeValue IN ('Mathematics', 'English Language Arts', 'Science', 'Social Studies')
+WHERE d1.CodeValue IN ('Mathematics', 'English Language Arts', 'Science', 'Social Studies') AND syt.CurrentSchoolYear = 1 
 GO
+
+
