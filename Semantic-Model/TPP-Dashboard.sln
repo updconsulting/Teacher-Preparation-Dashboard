@@ -10,6 +10,7 @@ Global
 		Development|x86 = Development|x86
 		Other|x86 = Other|x86
 		Test|x86 = Test|x86
+		UpdDevServer|x86 = UpdDevServer|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.Development|x86.ActiveCfg = Development|x86
@@ -21,6 +22,9 @@ Global
 		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.Test|x86.ActiveCfg = Test|x86
 		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.Test|x86.Build.0 = Test|x86
 		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.Test|x86.Deploy.0 = Test|x86
+		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.UpdDevServer|x86.ActiveCfg = UpdDevServer|x86
+		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.UpdDevServer|x86.Build.0 = UpdDevServer|x86
+		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.UpdDevServer|x86.Deploy.0 = UpdDevServer|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
