@@ -2,7 +2,7 @@
   "profiles": {
     "EdFi.AnalyticsMiddleTier.Console": {
       "commandName": "Project",
-      "commandLineArgs": "--connectionString \"server=localhost;initial catalog=EdFi_Ods_TPDM_2017;integrated security=sspi\"  --includeIndexes --includeViews"
+      "commandLineArgs": "--connectionString \"server=localhost;initial catalog=EdFi_Ods_TPDM_2017_Rename;integrated security=sspi\"  --includeIndexes --includeViews"
     }
   }
 }

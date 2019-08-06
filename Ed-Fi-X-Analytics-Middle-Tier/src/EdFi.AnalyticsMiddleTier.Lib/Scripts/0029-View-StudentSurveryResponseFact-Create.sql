@@ -34,7 +34,7 @@ INNER JOIN tpdm.SurveyQuestionResponse sqr
 INNER JOIN tpdm.SurveyResponse sr
   ON sqr.SurveyIdentifier = sr.SurveyIdentifier
   AND sqr.SurveyResponseIdentifier = sr.SurveyResponseIdentifier
-INNER JOIN tpdm.SurveyResponseTeacherCandidateAssociation srtca
+INNER JOIN tpdm.SurveyResponseTeacherCandidateTargetAssociation srtca
   ON sqr.SurveyResponseIdentifier = srtca.SurveyResponseIdentifier
   AND s.SurveyIdentifier = srtca.SurveyIdentifier
 INNER JOIN tpdm.QuestionFormDescriptor qfd

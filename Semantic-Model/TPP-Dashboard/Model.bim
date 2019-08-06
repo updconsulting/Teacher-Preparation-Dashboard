@@ -11,7 +11,7 @@
           "protocol": "tds",
           "address": {
             "server": "localhost",
-            "database": "EdFi_Ods_TPDM_2017"
+            "database": "EdFi_Ods_TPDM_2017_Rename"
           },
           "authentication": null,
           "query": null
