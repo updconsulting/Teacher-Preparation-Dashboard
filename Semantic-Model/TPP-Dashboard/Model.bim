@@ -16,7 +16,6 @@
           "authentication": null,
           "query": null
         },
-        "options": {},
         "credential": {
           "AuthenticationKind": "ServiceAccount",
           "EncryptConnection": false
@@ -94,11 +93,6 @@
             "sourceColumn": "ApplicantKey"
           },
           {
-            "name": "TeacherCandidatePreparationProviderKey",
-            "dataType": "int64",
-            "sourceColumn": "TeacherCandidatePreparationProviderKey"
-          },
-          {
             "name": "SchoolYear",
             "dataType": "int64",
             "sourceColumn": "SchoolYear"
@@ -132,6 +126,11 @@
             "name": "ApplicantGPA",
             "dataType": "double",
             "sourceColumn": "ApplicantGPA"
+          },
+          {
+            "name": "TeacherPreparationProviderKey",
+            "dataType": "int64",
+            "sourceColumn": "TeacherPreparationProviderKey"
           }
         ],
         "partitions": [
@@ -1987,11 +1986,6 @@
             "sourceColumn": "TeacherCandidateSchoolYearInstanceKey"
           },
           {
-            "name": "TeacherCandidatePreparationProviderKey",
-            "dataType": "int64",
-            "sourceColumn": "TeacherCandidatePreparationProviderKey"
-          },
-          {
             "name": "TeacherCandidateKey",
             "dataType": "string",
             "sourceColumn": "TeacherCandidateKey"
@@ -2021,6 +2015,11 @@
             "name": "Term",
             "dataType": "string",
             "sourceColumn": "Term"
+          },
+          {
+            "name": "TeacherPreparationProviderKey",
+            "dataType": "int64",
+            "sourceColumn": "TeacherPreparationProviderKey"
           }
         ],
         "partitions": [
@@ -2757,19 +2756,9 @@
             "sourceColumn": "ProgramSchoolyearInstaceKey"
           },
           {
-            "name": "TeacherCandidatePreparationProviderSchoolYearInstanceKey",
-            "dataType": "string",
-            "sourceColumn": "TeacherCandidatePreparationProviderSchoolYearInstanceKey"
-          },
-          {
             "name": "TeacherCandidateKey",
             "dataType": "string",
             "sourceColumn": "TeacherCandidateKey"
-          },
-          {
-            "name": "TeacherCandidatePreparationProviderKey",
-            "dataType": "int64",
-            "sourceColumn": "TeacherCandidatePreparationProviderKey"
           },
           {
             "name": "ProgramKey",
@@ -2795,6 +2784,16 @@
             "name": "ProgramStatus",
             "dataType": "string",
             "sourceColumn": "ProgramStatus"
+          },
+          {
+            "name": "TeacherPreparationProviderSchoolYearInstanceKey",
+            "dataType": "string",
+            "sourceColumn": "TeacherPreparationProviderSchoolYearInstanceKey"
+          },
+          {
+            "name": "TeacherPreparationProviderKey",
+            "dataType": "int64",
+            "sourceColumn": "TeacherPreparationProviderKey"
           }
         ],
         "partitions": [
@@ -3426,11 +3425,6 @@
             "sourceColumn": "ProgramKey"
           },
           {
-            "name": "TeacherCandidatePreparationProviderKey",
-            "dataType": "int64",
-            "sourceColumn": "TeacherCandidatePreparationProviderKey"
-          },
-          {
             "name": "SchoolYear",
             "dataType": "int64",
             "sourceColumn": "SchoolYear"
@@ -3444,6 +3438,11 @@
             "name": "ProgramType",
             "dataType": "string",
             "sourceColumn": "ProgramType"
+          },
+          {
+            "name": "TeacherPreparationProviderKey",
+            "dataType": "int64",
+            "sourceColumn": "TeacherPreparationProviderKey"
           }
         ],
         "partitions": [
@@ -4653,14 +4652,6 @@
           },
           {
             "type": "calculatedTableColumn",
-            "name": "TeacherCandidatePreparationProviderKey",
-            "dataType": "int64",
-            "isNameInferred": true,
-            "isDataTypeInferred": true,
-            "sourceColumn": "TeacherPreparationProviderProgramDimension[TeacherCandidatePreparationProviderKey]"
-          },
-          {
-            "type": "calculatedTableColumn",
             "name": "ProgramSchoolYearInstanceKey",
             "dataType": "string",
             "isNameInferred": true,
@@ -4674,6 +4665,14 @@
             "isNameInferred": true,
             "isDataTypeInferred": true,
             "sourceColumn": "[SortOrder]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "TeacherPreparationProviderKey",
+            "dataType": "int64",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "TeacherPreparationProviderProgramDimension[TeacherPreparationProviderKey]"
           }
         ],
         "partitions": [
@@ -4687,7 +4686,7 @@
                 "    SUMMARIZE (",
                 "        TeacherPreparationProviderProgramDimension,",
                 "        TeacherPreparationProviderProgramDimension[ProgramName],",
-                "        TeacherPreparationProviderProgramDimension[TeacherCandidatePreparationProviderKey],",
+                "        TeacherPreparationProviderProgramDimension[TeacherPreparationProviderKey],",
                 "        TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey],",
                 "        \"TacherPrepProvider\", FIRSTNONBLANK (",
                 "            TeacherPreparationProviderDimension[TeacherPreparationProviderName],",
@@ -4698,7 +4697,7 @@
                 "            FILTER (",
                 "                ApplicantProgramFact,",
                 "                ApplicantProgramFact[ProgramName] = TeacherPreparationProviderProgramDimension[ProgramName]",
-                "                    && ApplicantProgramFact[TeacherCandidatePreparationProviderKey] = TeacherPreparationProviderProgramDimension[TeacherCandidatePreparationProviderKey] ",
+                "                    && ApplicantProgramFact[TeacherPreparationProviderKey] = TeacherPreparationProviderProgramDimension[TeacherPreparationProviderKey] ",
                 "            )",
                 "        ),",
                 "        \"Status\", \"Applied\", ",
@@ -4708,7 +4707,7 @@
                 "    SUMMARIZE (",
                 "        TeacherPreparationProviderProgramDimension,",
                 "        TeacherPreparationProviderProgramDimension[ProgramName],",
-                "        TeacherPreparationProviderProgramDimension[TeacherCandidatePreparationProviderKey],",
+                "        TeacherPreparationProviderProgramDimension[TeacherPreparationProviderKey],",
                 "        TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey],",
                 "        \"TacherPrepProvider\", FIRSTNONBLANK (",
                 "            TeacherPreparationProviderDimension[TeacherPreparationProviderName],",
@@ -4719,7 +4718,7 @@
                 "                       FILTER (",
                 "                ApplicantProgramFact,",
                 "                ApplicantProgramFact[ProgramName] = TeacherPreparationProviderProgramDimension[ProgramName]",
-                "                    && ApplicantProgramFact[TeacherCandidatePreparationProviderKey] = TeacherPreparationProviderProgramDimension[TeacherCandidatePreparationProviderKey] && ApplicantProgramFact[Status] = \"Accepted\"",
+                "                    && ApplicantProgramFact[TeacherPreparationProviderKey] = TeacherPreparationProviderProgramDimension[TeacherPreparationProviderKey] && ApplicantProgramFact[Status] = \"Accepted\"",
                 "            )",
                 "        ),",
                 "        \"Status\", \"Accepted\", ",
@@ -4728,7 +4727,7 @@
                 "    SUMMARIZE (",
                 "        TeacherPreparationProviderProgramDimension,",
                 "        TeacherPreparationProviderProgramDimension[ProgramName],",
-                "        TeacherPreparationProviderProgramDimension[TeacherCandidatePreparationProviderKey],",
+                "        TeacherPreparationProviderProgramDimension[TeacherPreparationProviderKey],",
                 "        TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey],",
                 "        \"TacherPrepProvider\", FIRSTNONBLANK (",
                 "            TeacherPreparationProviderDimension[TeacherPreparationProviderName],",
@@ -4747,7 +4746,7 @@
                 "    SUMMARIZE (",
                 "        TeacherPreparationProviderProgramDimension,",
                 "        TeacherPreparationProviderProgramDimension[ProgramName],",
-                "        TeacherPreparationProviderProgramDimension[TeacherCandidatePreparationProviderKey],",
+                "        TeacherPreparationProviderProgramDimension[TeacherPreparationProviderKey],",
                 "        TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey],",
                 "        \"TacherPrepProvider\", FIRSTNONBLANK (",
                 "            TeacherPreparationProviderDimension[TeacherPreparationProviderName],",
@@ -4762,7 +4761,7 @@
                 "            FILTER (",
                 "                TeacherCandidateProgramFact,",
                 "                TeacherCandidateProgramFact[ProgramName] = TeacherPreparationProviderProgramDimension[ProgramName]",
-                "                    && TeacherCandidateProgramFact[TeacherCandidatePreparationProviderKey] = TeacherPreparationProviderProgramDimension[TeacherCandidatePreparationProviderKey]",
+                "                    && TeacherCandidateProgramFact[TeacherPreparationProviderKey] = TeacherPreparationProviderProgramDimension[TeacherPreparationProviderKey]",
                 "            )",
                 "        ),",
                 "        \"Status\", \"Completed\", ",
@@ -4771,7 +4770,7 @@
                 "    SUMMARIZE (",
                 "        TeacherPreparationProviderProgramDimension,",
                 "        TeacherPreparationProviderProgramDimension[ProgramName],",
-                "        TeacherPreparationProviderProgramDimension[TeacherCandidatePreparationProviderKey],",
+                "        TeacherPreparationProviderProgramDimension[TeacherPreparationProviderKey],",
                 "        TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey],",
                 "        \"TacherPrepProvider\", FIRSTNONBLANK (",
                 "            TeacherPreparationProviderDimension[TeacherPreparationProviderName],",
@@ -4786,7 +4785,7 @@
                 "            FILTER (",
                 "                TeacherCandidateProgramFact,",
                 "                TeacherCandidateProgramFact[ProgramName] = TeacherPreparationProviderProgramDimension[ProgramName]",
-                "                    && TeacherCandidateProgramFact[TeacherCandidatePreparationProviderKey] = TeacherPreparationProviderProgramDimension[TeacherCandidatePreparationProviderKey]",
+                "                    && TeacherCandidateProgramFact[TeacherPreparationProviderKey] = TeacherPreparationProviderProgramDimension[TeacherPreparationProviderKey]",
                 "            )",
                 "        ),",
                 "        \"Status\", \"Employed\", ",
@@ -4984,14 +4983,6 @@
         "crossFilteringBehavior": "bothDirections"
       },
       {
-        "name": "3a0ee6ad-c0ae-40eb-8100-1659dd781cbc",
-        "fromTable": "TeacherCandidateGatewayCorurseCompleted",
-        "fromColumn": "TeacherCandidateSchoolYearInstnceKey",
-        "toTable": "TeacherCandidateDimension",
-        "toColumn": "TeacherCandidateSchoolYearInstanceKey",
-        "crossFilteringBehavior": "bothDirections"
-      },
-      {
         "name": "3f1a2568-046e-410b-8597-0151f07d4cf7",
         "fromTable": "TeacherCandidateGatewayDetailSummary",
         "fromColumn": "TeacherCandidateSchoolYearInstnceKey",
@@ -5034,7 +5025,7 @@
       {
         "name": "7f19d750-38e6-4868-aa66-630716e79b10",
         "fromTable": "TeacherCandidateProgramFact",
-        "fromColumn": "TeacherCandidatePreparationProviderSchoolYearInstanceKey",
+        "fromColumn": "TeacherPreparationProviderSchoolYearInstanceKey",
         "toTable": "TeacherPreparationProviderDimension",
         "toColumn": "TeacherPreparationProviderSchoolYearInstanceKey",
         "crossFilteringBehavior": "bothDirections"
@@ -5133,6 +5124,14 @@
         "fromColumn": "TeacherCandidateSchoolYearInstanceKey",
         "toTable": "TeacherCandidateDimension",
         "toColumn": "TeacherCandidateSchoolYearInstanceKey"
+      },
+      {
+        "name": "3a0ee6ad-c0ae-40eb-8100-1659dd781cbc",
+        "fromTable": "TeacherCandidateGatewayCorurseCompleted",
+        "fromColumn": "TeacherCandidateSchoolYearInstnceKey",
+        "toTable": "TeacherCandidateDimension",
+        "toColumn": "TeacherCandidateSchoolYearInstanceKey",
+        "crossFilteringBehavior": "bothDirections"
       }
     ],
     "roles": [
