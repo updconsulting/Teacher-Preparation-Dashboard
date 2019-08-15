@@ -614,7 +614,7 @@
               "        )",
               "    )"
             ],
-            "formatString": "0.00 %;-0.00 %;0.00 %"
+            "formatString": "0.00%;-0.00%;0.00%"
           },
           {
             "name": "HighNeedsSchoolsUSP",
@@ -643,7 +643,7 @@
               "        )",
               "    )"
             ],
-            "formatString": "0.00 %;-0.00 %;0.00 %"
+            "formatString": "0.00%;-0.00%;0.00%"
           },
           {
             "name": "StaffCountSchool",
@@ -660,7 +660,7 @@
               "    SUM ( TeacherCandidateStaffDimension[WorksAtPlacementDistrict] )/DISTINCTCOUNT(TeacherCandidateStaffDimension[TeacherCandidateKey])",
               "    )"
             ],
-            "formatString": "0.00 %;-0.00 %;0.00 %"
+            "formatString": "0.00%;-0.00%;0.00%"
           },
           {
             "name": "WorksAtPlacementSchoolSchool",
@@ -669,7 +669,7 @@
               "    SUM ( TeacherCandidateStaffDimension[WorksAtPlacementSchool] )/DISTINCTCOUNT(TeacherCandidateStaffDimension[TeacherCandidateKey])",
               "   )"
             ],
-            "formatString": "0.00 %;-0.00 %;0.00 %"
+            "formatString": "0.00%;-0.00%;0.00%"
           }
         ]
       },
@@ -871,7 +871,7 @@
               "    )",
               ")"
             ],
-            "formatString": "0.00 %;-0.00 %;0.00 %"
+            "formatString": "0.00%;-0.00%;0.00%"
           },
           {
             "name": "PlacedInHighNeedsSchool",
@@ -1889,7 +1889,7 @@
               "           )",
               ")"
             ],
-            "formatString": "0.00 %;-0.00 %;0.00 %"
+            "formatString": "0.00%;-0.00%;0.00%"
           }
         ]
       },
@@ -2496,6 +2496,86 @@
               "RETURN",
               "gpa"
             ]
+          },
+          {
+            "type": "calculated",
+            "name": "GatewayOne",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": [
+              "IF (",
+              "    VAR gateway = TeacherCandidateGatewayCorurseCompleted[GatewayOneCourseComplete]",
+              "    VAR gpa = TeacherCandidateGatewayCorurseCompleted[GatewayGPA]",
+              "    RETURN",
+              "        gpa >= 2.5",
+              "            && gateway,",
+              "    \"Meets Criteria\",",
+              "    \"Does Not Meet Criteria\"",
+              ")"
+            ]
+          },
+          {
+            "type": "calculated",
+            "name": "GatewayTwo",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": [
+              "IF (",
+              "    ",
+              "        VAR gateway =",
+              "           ",
+              "                TeacherCandidateGatewayCorurseCompleted[GatewayOneCourseComplete]",
+              "        VAR gpa =",
+              "           TeacherCandidateGatewayCorurseCompleted[GatewayGPA]",
+              "        RETURN",
+              "             gpa >= 2.8 && gateway",
+              "    ,",
+              "    \"Meets Criteria\",",
+              "    \"Does Not Meet Criteria\"",
+              ")"
+            ]
+          },
+          {
+            "type": "calculated",
+            "name": "GatewayThree",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": [
+              "IF (",
+              "        VAR gateway =",
+              "            ",
+              "                TeacherCandidateGatewayCorurseCompleted[GatewayOneCourseComplete]",
+              "        VAR gpa =",
+              "             TeacherCandidateGatewayCorurseCompleted[GatewayGPA]",
+              "        VAR FieldWorkHours =",
+              "            ",
+              "                TeacherCandidateGatewayCorurseCompleted[GatewayFieldWorkHours]",
+              "        RETURN",
+              "             gpa >= 3.0 && gateway && FieldWorkHours >= 10",
+              "   ,",
+              "    \"Meets Criteria\",",
+              "    \"Does Not Meet Criteria\"",
+              ")"
+            ]
+          },
+          {
+            "type": "calculated",
+            "name": "GatewayFour",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": [
+              "IF (",
+              "    VAR gateway = TeacherCandidateGatewayCorurseCompleted[GatewayOneCourseComplete]",
+              "    VAR gpa = TeacherCandidateGatewayCorurseCompleted[GatewayGPA]",
+              "    VAR FieldWorkHours = TeacherCandidateGatewayCorurseCompleted[GatewayFieldWorkHours]",
+              "    RETURN",
+              "        gpa >= 3.0",
+              "            && FieldWorkHours >= 30",
+              "            && gateway,",
+              "    \"Meets Criteria\",",
+              "    \"Does Not Meet Criteria\"",
+              ")"
+            ]
           }
         ],
         "partitions": [
@@ -2512,100 +2592,6 @@
                 "    analytics_TeacherCandidateGatewayCorurseCompleted"
               ]
             }
-          }
-        ],
-        "measures": [
-          {
-            "name": "GatewayFour",
-            "expression": [
-              "IF (",
-              "    CALCULATE (",
-              "        VAR gateway =",
-              "            FIRSTNONBLANK (",
-              "                TeacherCandidateGatewayCorurseCompleted[GatewayOneCourseComplete],",
-              "                TRUE ()",
-              "            )",
-              "        VAR gpa =",
-              "            FIRSTNONBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayGPA], TRUE () )",
-              "        VAR FieldWorkHours =",
-              "            FIRSTNONBLANK (",
-              "                TeacherCandidateGatewayCorurseCompleted[GatewayFieldWorkHours],",
-              "                TRUE ()",
-              "            )",
-              "        RETURN",
-              "             gpa >= 3.0 ",
-              "                 && FieldWorkHours >= 30 ",
-              "                && gateway",
-              "    ),",
-              "    \"Meets Criteria\",",
-              "    \"Does Not Meet Criteria\"",
-              ")"
-            ]
-          },
-          {
-            "name": "GatewayOne",
-            "expression": [
-              "IF (",
-              "    CALCULATE (",
-              "        VAR gateway =",
-              "            FIRSTNONBLANK (",
-              "                TeacherCandidateGatewayCorurseCompleted[GatewayOneCourseComplete],",
-              "                TRUE ()",
-              "            )",
-              "        VAR gpa =",
-              "            FIRSTNONBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayGPA], TRUE () )",
-              "        RETURN",
-              "             gpa >= 2.5 && gateway",
-              "    ),",
-              "    \"Meets Criteria\",",
-              "    \"Does Not Meet Criteria\"",
-              ")"
-            ]
-          },
-          {
-            "name": "GatewayThree",
-            "expression": [
-              "IF (",
-              "    CALCULATE (",
-              "        VAR gateway =",
-              "            FIRSTNONBLANK (",
-              "                TeacherCandidateGatewayCorurseCompleted[GatewayOneCourseComplete],",
-              "                TRUE ()",
-              "            )",
-              "        VAR gpa =",
-              "            FIRSTNONBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayGPA], TRUE () )",
-              "        VAR FieldWorkHours =",
-              "            FIRSTNONBLANK (",
-              "                TeacherCandidateGatewayCorurseCompleted[GatewayFieldWorkHours],",
-              "                TRUE ()",
-              "            )",
-              "        RETURN",
-              "             gpa >= 3.0 && gateway && FieldWorkHours >= 10",
-              "    ),",
-              "    \"Meets Criteria\",",
-              "    \"Does Not Meet Criteria\"",
-              ")"
-            ]
-          },
-          {
-            "name": "GatewayTwo",
-            "expression": [
-              "IF (",
-              "    CALCULATE (",
-              "        VAR gateway =",
-              "            FIRSTNONBLANK (",
-              "                TeacherCandidateGatewayCorurseCompleted[GatewayOneCourseComplete],",
-              "                TRUE ()",
-              "            )",
-              "        VAR gpa =",
-              "            FIRSTNONBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayGPA], TRUE () )",
-              "        RETURN",
-              "             gpa >= 2.8 && gateway",
-              "    ),",
-              "    \"Meets Criteria\",",
-              "    \"Does Not Meet Criteria\"",
-              ")"
-            ]
           }
         ]
       },
@@ -3169,7 +3155,7 @@
               "    ALLSELECTED ( TeacherCandidateDimension )",
               ")"
             ],
-            "formatString": "0.00 %;-0.00 %;0.00 %"
+            "formatString": "0.00%;-0.00%;0.00%"
           },
           {
             "name": "WorksInPlacementDistrictUSP",
@@ -5126,11 +5112,11 @@
         "toColumn": "TeacherCandidateSchoolYearInstanceKey"
       },
       {
-        "name": "3a0ee6ad-c0ae-40eb-8100-1659dd781cbc",
-        "fromTable": "TeacherCandidateGatewayCorurseCompleted",
-        "fromColumn": "TeacherCandidateSchoolYearInstnceKey",
-        "toTable": "TeacherCandidateDimension",
-        "toColumn": "TeacherCandidateSchoolYearInstanceKey",
+        "name": "54a97e03-d003-4ae6-b1a0-6943ae4b7e4b",
+        "fromTable": "TeacherCandidateProgramFact",
+        "fromColumn": "TeacherCandidateSchoolyearInstaceKey",
+        "toTable": "TeacherCandidateGatewayCorurseCompleted",
+        "toColumn": "TeacherCandidateSchoolYearInstnceKey",
         "crossFilteringBehavior": "bothDirections"
       }
     ],
