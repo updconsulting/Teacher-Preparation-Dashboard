@@ -1,4 +1,6 @@
-﻿IF NOT EXISTS(SELECT 1 FROM sys.database_principals WHERE [type] = 'R' AND [name] = 'analytics_middle_tier')
+﻿IF NOT EXISTS(SELECT 1
+FROM sys.database_principals
+WHERE [type] = 'R' AND [name] = 'analytics_middle_tier')
 BEGIN
 	CREATE ROLE [analytics_middle_tier]
 END
