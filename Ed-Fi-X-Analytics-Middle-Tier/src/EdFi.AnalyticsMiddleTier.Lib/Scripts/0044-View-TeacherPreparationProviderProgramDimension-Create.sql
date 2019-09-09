@@ -15,7 +15,7 @@ AS
                 WHERE CurrentSchoolYear = 1
            )
             FROM tpdm.TeacherPreparationProviderProgram tppp
-                INNER JOIN tpdm.TeacherPreparationProgramTypeDescriptor tpptd
+                LEFT JOIN tpdm.TeacherPreparationProgramTypeDescriptor tpptd
                 ON tppp.TeacherPreparationProgramTypeDescriptorId = tpptd.TeacherPreparationProgramTypeDescriptorId
                 INNER JOIN edfi.Descriptor d
                 ON d.DescriptorId = tpptd.TeacherPreparationProgramTypeDescriptorId

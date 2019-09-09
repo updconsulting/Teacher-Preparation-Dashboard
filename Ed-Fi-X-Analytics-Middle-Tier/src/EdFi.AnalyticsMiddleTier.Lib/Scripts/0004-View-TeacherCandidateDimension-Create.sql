@@ -21,7 +21,7 @@ AS
         ISNULL(tc.[MiddleName], '') AS [TeacherCandidateMiddleName],
         ISNULL(tc.[LastSurname], '') AS [TeacherCandidateLastName],
         [tctppa].[EntryDate] AS [EnrollmentDate],
-        d1.[CodeValue] AS [Sex],
+        COALESCE(d1.[CodeValue], d4.CodeValue) AS [Sex],
         CASE
            WHEN TeacherCandidateRaces.RaceCount > 1 THEN
                'Two or more'
@@ -73,8 +73,11 @@ AS
         ON tctd.TPPDegreeTypeDescriptorId = ttd.TPPDegreeTypeDescriptorId
         INNER JOIN edfi.Descriptor d
         ON ttd.TPPDegreeTypeDescriptorId = d.DescriptorId
+        LEFT JOIN edfi.SexDescriptor sd1 ON sd1.SexDescriptorId = tc.BirthSexDescriptorId
         LEFT JOIN edfi.Descriptor d1
-        ON tc.BirthSexDescriptorId = d1.DescriptorId
+        ON sd1.SexDescriptorId = d1.DescriptorId
+        LEFT JOIN edfi.SexDescriptor sd ON sd.SexDescriptorId = tc.SexDescriptorId
+        LEFT JOIN edfi.Descriptor d4 ON d4.DescriptorId = sd.SexDescriptorId
         INNER JOIN tpdm.TeacherCandidateTeacherPreparationProviderAssociation tctppa
         ON tc.TeacherCandidateIdentifier = tctppa.TeacherCandidateIdentifier
         INNER JOIN tpdm.TeacherPreparationProvider tpp
