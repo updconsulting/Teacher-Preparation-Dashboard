@@ -63,6 +63,10 @@
     <None Remove="Scripts\0048-Proc-MultipleYearSnapShots-Create.sql" />
     <None Remove="Scripts\0049-Proc-EmptyDatabase-Create.sql" />
     <None Remove="Scripts\0049-Proc-MultipleYearSnapShots-Create.sql" />
+    <None Remove="Scripts\0050-view-ApplicantScoresFact-Create.sql" />
+    <None Remove="Scripts\0051-view-TeacherCandidateProgressionScoreSummary-Create.sql" />
+    <None Remove="Scripts\0052-view-TeacherCandidateProgressionDemographicsSummary-Create.sql" />
+    <None Remove="Scripts\0053-view-TeacherCandidateProgressionSummary-Create.sql" />
   </ItemGroup>
 
   <ItemGroup>
@@ -117,6 +121,10 @@
     <EmbeddedResource Include="Scripts\0049-Proc-EmptyDatabase-Create.sql">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0053-view-TeacherCandidateProgressionSummary-Create.sql" />
+    <EmbeddedResource Include="Scripts\0051-view-TeacherCandidateProgressionScoreSummary-Create.sql" />
+    <EmbeddedResource Include="Scripts\0052-view-TeacherCandidateProgressionDemographicsSummary-Create.sql" />
+    <EmbeddedResource Include="Scripts\0050-view-ApplicantScoresFact-Create.sql" />
   </ItemGroup>
 
   <ItemGroup>

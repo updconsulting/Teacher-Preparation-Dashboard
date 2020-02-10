@@ -6,6 +6,7 @@
     <Authors>Ed-Fi Alliance</Authors>
     <Company>Ed-Fi Alliance</Company>
     <Copyright>Copyright (c) 2018, Ed-Fi Alliance</Copyright>
+    <StartupObject>EdFi.AnalyticsMiddleTier.Console.Program</StartupObject>
   </PropertyGroup>
 
   <ItemGroup>

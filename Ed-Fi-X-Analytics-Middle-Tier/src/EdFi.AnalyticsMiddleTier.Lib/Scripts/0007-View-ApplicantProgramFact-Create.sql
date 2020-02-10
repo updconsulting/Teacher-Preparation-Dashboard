@@ -15,9 +15,9 @@ AS
            WHEN MAX(a.AcceptedDate) IS NOT NULL THEN
                'Accepted'
            WHEN MAX(a.WithdrawDate) IS NOT NULL THEN
-               'Withddrawn'
+               'Withdrawn'
            ELSE
-               'Uknown'
+               'Unknown'
        END AS Status,
                 MAX(tctpppa.GPA) AS ApplicantGPA
             FROM tpdm.ApplicantTeacherPreparationProgram tctpppa

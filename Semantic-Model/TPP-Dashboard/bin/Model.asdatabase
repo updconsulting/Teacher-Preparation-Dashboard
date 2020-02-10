@@ -1,5 +1,5 @@
 {
-  "name": "TPP Dashboard",
+  "name": "TPP Dashboard-One",
   "compatibilityLevel": 1400,
   "model": {
     "culture": "en-US",
@@ -11,7 +11,7 @@
           "protocol": "tds",
           "address": {
             "server": "localhost",
-            "database": "EdFi_Ods_TPDM_2017_Rename"
+            "database": "EdFi_Ods_TPDM_2017_306"
           },
           "authentication": null,
           "query": null
@@ -298,7 +298,7 @@
         ],
         "measures": [
           {
-            "name": "OverallEmployeed",
+            "name": "OverallEmployed",
             "expression": "CALCULATE(COUNT(TeacherCandidateStaffDimension[StaffKey]), ALL(TeacherCandidateDimension)) /* Unfiltered Total*/"
           }
         ]
@@ -334,7 +334,7 @@
           {
             "name": "StaffClassificationDescriptor",
             "dataType": "string",
-            "sourceColumn": "StaffCassificationDescriptor"
+            "sourceColumn": "StaffClassificationDescriptor"
           },
           {
             "name": "Status",
@@ -614,7 +614,7 @@
               "        )",
               "    )"
             ],
-            "formatString": "0.00 %;-0.00 %;0.00 %"
+            "formatString": "0.00%;-0.00%;0.00%"
           },
           {
             "name": "HighNeedsSchoolsUSP",
@@ -643,7 +643,7 @@
               "        )",
               "    )"
             ],
-            "formatString": "0.00 %;-0.00 %;0.00 %"
+            "formatString": "0.00%;-0.00%;0.00%"
           },
           {
             "name": "StaffCountSchool",
@@ -660,7 +660,7 @@
               "    SUM ( TeacherCandidateStaffDimension[WorksAtPlacementDistrict] )/DISTINCTCOUNT(TeacherCandidateStaffDimension[TeacherCandidateKey])",
               "    )"
             ],
-            "formatString": "0.00 %;-0.00 %;0.00 %"
+            "formatString": "0.00%;-0.00%;0.00%"
           },
           {
             "name": "WorksAtPlacementSchoolSchool",
@@ -669,7 +669,7 @@
               "    SUM ( TeacherCandidateStaffDimension[WorksAtPlacementSchool] )/DISTINCTCOUNT(TeacherCandidateStaffDimension[TeacherCandidateKey])",
               "   )"
             ],
-            "formatString": "0.00 %;-0.00 %;0.00 %"
+            "formatString": "0.00%;-0.00%;0.00%"
           }
         ]
       },
@@ -713,12 +713,6 @@
             "name": "NumberTeachersEmployed",
             "dataType": "int64",
             "sourceColumn": "NumberTeachersEmployed",
-            "summarizeBy": "sum"
-          },
-          {
-            "name": "CandidatesEmployeed",
-            "dataType": "int64",
-            "sourceColumn": "CandidatesEmployeed",
             "summarizeBy": "sum"
           },
           {
@@ -833,6 +827,12 @@
             "name": "HighNeed",
             "dataType": "string",
             "sourceColumn": "HighNeed"
+          },
+          {
+            "name": "CandidatesEmployed",
+            "dataType": "int64",
+            "sourceColumn": "CandidatesEmployed",
+            "summarizeBy": "sum"
           }
         ],
         "partitions": [
@@ -871,7 +871,7 @@
               "    )",
               ")"
             ],
-            "formatString": "0.00 %;-0.00 %;0.00 %"
+            "formatString": "0.00%;-0.00%;0.00%"
           },
           {
             "name": "PlacedInHighNeedsSchool",
@@ -1889,7 +1889,7 @@
               "           )",
               ")"
             ],
-            "formatString": "0.00 %;-0.00 %;0.00 %"
+            "formatString": "0.00%;-0.00%;0.00%"
           }
         ]
       },
@@ -2172,30 +2172,6 @@
           },
           {
             "type": "calculated",
-            "name": "Employeed",
-            "dataType": "boolean",
-            "isDataTypeInferred": true,
-            "expression": [
-              "CALCULATE (",
-              "        IF (",
-              "            FIRSTNONBLANK ( TeacherCandidateStaffDimension[TeacherCandidateKey], TRUE () )",
-              "                = BLANK (),",
-              "            FALSE (),",
-              "            TRUE ()",
-              "        ),",
-              "        FILTER (",
-              "            ALL ( TeacherCandidateStaffDimension[TeacherCandidateSchoolYearInstanceKey] ),",
-              "            CONTAINS (",
-              "                VALUES ( TeacherCandidateDimension[TeacherCandidateSchoolYearInstanceKey] ),",
-              "                TeacherCandidateDimension[TeacherCandidateSchoolYearInstanceKey], TeacherCandidateStaffDimension[TeacherCandidateSchoolYearInstanceKey]",
-              "            )",
-              "        )",
-              "    )"
-            ],
-            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\""
-          },
-          {
-            "type": "calculated",
             "name": "Mentor Teacher",
             "dataType": "string",
             "isDataTypeInferred": true,
@@ -2235,6 +2211,30 @@
               "        )",
               "    )"
             ]
+          },
+          {
+            "type": "calculated",
+            "name": "Employed",
+            "dataType": "boolean",
+            "isDataTypeInferred": true,
+            "expression": [
+              "CALCULATE (",
+              "        IF (",
+              "            FIRSTNONBLANK ( TeacherCandidateStaffDimension[TeacherCandidateKey], TRUE () )",
+              "                = BLANK (),",
+              "            FALSE (),",
+              "            TRUE ()",
+              "        ),",
+              "        FILTER (",
+              "            ALL ( TeacherCandidateStaffDimension[TeacherCandidateSchoolYearInstanceKey] ),",
+              "            CONTAINS (",
+              "                VALUES ( TeacherCandidateDimension[TeacherCandidateSchoolYearInstanceKey] ),",
+              "                TeacherCandidateDimension[TeacherCandidateSchoolYearInstanceKey], TeacherCandidateStaffDimension[TeacherCandidateSchoolYearInstanceKey]",
+              "            )",
+              "        )",
+              "    )"
+            ],
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\""
           }
         ],
         "partitions": [
@@ -2409,207 +2409,6 @@
         ]
       },
       {
-        "name": "TeacherCandidateGatewayCorurseCompleted",
-        "columns": [
-          {
-            "name": "TeacherCandidateSchoolYearInstnceKey",
-            "dataType": "string",
-            "sourceColumn": "TeacherCandidateSchoolYearInstnceKey"
-          },
-          {
-            "name": "TeacherCandidateKey",
-            "dataType": "string",
-            "sourceColumn": "TeacherCandidateKey"
-          },
-          {
-            "name": "SchoolYear",
-            "dataType": "int64",
-            "sourceColumn": "SchoolYear"
-          },
-          {
-            "name": "GatewayOneCourseComplete",
-            "dataType": "boolean",
-            "sourceColumn": "GateWayOneCourseComplete",
-            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\""
-          },
-          {
-            "name": "GatewayTwoCourseComplete",
-            "dataType": "boolean",
-            "sourceColumn": "GateWayTwoCourseComplete",
-            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\""
-          },
-          {
-            "name": "GatewayThreeCourseComplete",
-            "dataType": "boolean",
-            "sourceColumn": "GateWayThreeCourseComplete",
-            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\""
-          },
-          {
-            "name": "GatewayFourCourseComplete",
-            "dataType": "boolean",
-            "sourceColumn": "GateWayFourCourseComplete",
-            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\""
-          },
-          {
-            "type": "calculated",
-            "name": "GatewayFieldWorkHours",
-            "dataType": "double",
-            "isDataTypeInferred": true,
-            "expression": [
-              "  VAR hours =",
-              "        CALCULATE (",
-              "            SUMX (",
-              "                TeacherCandidateFieldworkExperienceFact,",
-              "                TeacherCandidateFieldworkExperienceFact[HoursPerWeek]",
-              "            ),",
-              "            TeacherCandidateDimension",
-              "        )",
-              "    RETURN",
-              "       hours"
-            ]
-          },
-          {
-            "type": "calculated",
-            "name": "GatewayGPA",
-            "dataType": "double",
-            "isDataTypeInferred": true,
-            "expression": [
-              "VAR gpa =",
-              "    CALCULATE (",
-              "        MAXX (",
-              "            FILTER (",
-              "                TeacherCandidateAcademicRecordFact,",
-              "                TeacherCandidateAcademicRecordFact[SchoolYear]",
-              "                    = MAXX (",
-              "                        TeacherCandidateAcademicRecordFact,",
-              "                        TeacherCandidateAcademicRecordFact[SchoolYear]",
-              "                    )",
-              "                    && TeacherCandidateAcademicRecordFact[TermDescriptorId]",
-              "                        = MAXX (",
-              "                            TeacherCandidateAcademicRecordFact,",
-              "                            TeacherCandidateAcademicRecordFact[TermDescriptorId]",
-              "                        )",
-              "            ),",
-              "            TeacherCandidateAcademicRecordFact[CumulativeGradePointAverage]",
-              "        )",
-              "    )",
-              "RETURN",
-              "gpa"
-            ]
-          }
-        ],
-        "partitions": [
-          {
-            "name": "Partition",
-            "dataView": "full",
-            "source": {
-              "type": "m",
-              "expression": [
-                "let",
-                "    Source = #\"Ed-Fi-Ods\",",
-                "    analytics_TeacherCandidateGatewayCorurseCompleted = Value.NativeQuery(#\"Ed-Fi-Ods\", \"exec analytics_config.MultipleYearSnapShots @viewname =N'analytics.TeacherCandidateGatewayCorurseCompleted'\")",
-                "in",
-                "    analytics_TeacherCandidateGatewayCorurseCompleted"
-              ]
-            }
-          }
-        ],
-        "measures": [
-          {
-            "name": "GatewayFour",
-            "expression": [
-              "IF (",
-              "    CALCULATE (",
-              "        VAR gateway =",
-              "            FIRSTNONBLANK (",
-              "                TeacherCandidateGatewayCorurseCompleted[GatewayOneCourseComplete],",
-              "                TRUE ()",
-              "            )",
-              "        VAR gpa =",
-              "            FIRSTNONBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayGPA], TRUE () )",
-              "        VAR FieldWorkHours =",
-              "            FIRSTNONBLANK (",
-              "                TeacherCandidateGatewayCorurseCompleted[GatewayFieldWorkHours],",
-              "                TRUE ()",
-              "            )",
-              "        RETURN",
-              "             gpa >= 3.0 ",
-              "                 && FieldWorkHours >= 30 ",
-              "                && gateway",
-              "    ),",
-              "    \"Meets Criteria\",",
-              "    \"Does Not Meet Criteria\"",
-              ")"
-            ]
-          },
-          {
-            "name": "GatewayOne",
-            "expression": [
-              "IF (",
-              "    CALCULATE (",
-              "        VAR gateway =",
-              "            FIRSTNONBLANK (",
-              "                TeacherCandidateGatewayCorurseCompleted[GatewayOneCourseComplete],",
-              "                TRUE ()",
-              "            )",
-              "        VAR gpa =",
-              "            FIRSTNONBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayGPA], TRUE () )",
-              "        RETURN",
-              "             gpa >= 2.5 && gateway",
-              "    ),",
-              "    \"Meets Criteria\",",
-              "    \"Does Not Meet Criteria\"",
-              ")"
-            ]
-          },
-          {
-            "name": "GatewayThree",
-            "expression": [
-              "IF (",
-              "    CALCULATE (",
-              "        VAR gateway =",
-              "            FIRSTNONBLANK (",
-              "                TeacherCandidateGatewayCorurseCompleted[GatewayOneCourseComplete],",
-              "                TRUE ()",
-              "            )",
-              "        VAR gpa =",
-              "            FIRSTNONBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayGPA], TRUE () )",
-              "        VAR FieldWorkHours =",
-              "            FIRSTNONBLANK (",
-              "                TeacherCandidateGatewayCorurseCompleted[GatewayFieldWorkHours],",
-              "                TRUE ()",
-              "            )",
-              "        RETURN",
-              "             gpa >= 3.0 && gateway && FieldWorkHours >= 10",
-              "    ),",
-              "    \"Meets Criteria\",",
-              "    \"Does Not Meet Criteria\"",
-              ")"
-            ]
-          },
-          {
-            "name": "GatewayTwo",
-            "expression": [
-              "IF (",
-              "    CALCULATE (",
-              "        VAR gateway =",
-              "            FIRSTNONBLANK (",
-              "                TeacherCandidateGatewayCorurseCompleted[GatewayOneCourseComplete],",
-              "                TRUE ()",
-              "            )",
-              "        VAR gpa =",
-              "            FIRSTNONBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayGPA], TRUE () )",
-              "        RETURN",
-              "             gpa >= 2.8 && gateway",
-              "    ),",
-              "    \"Meets Criteria\",",
-              "    \"Does Not Meet Criteria\"",
-              ")"
-            ]
-          }
-        ]
-      },
-      {
         "name": "TeacherCandidatePerformanceMeasureFact",
         "columns": [
           {
@@ -2694,11 +2493,6 @@
             "sourceColumn": "Status"
           },
           {
-            "name": "SelfRefelction",
-            "dataType": "string",
-            "sourceColumn": "SelfRefelction"
-          },
-          {
             "name": "Assessment",
             "dataType": "string",
             "sourceColumn": "Assessment"
@@ -2709,6 +2503,11 @@
             "dataType": "string",
             "isDataTypeInferred": true,
             "expression": "var numericResponse =  [NumericResponse] return IF (numericResponse <= 2.0  && numericResponse > 0.0, \"< 2\", IF( numericResponse > 2 && numericResponse < 3.0, \"2.0 - 3.0\",IF( numericResponse >= 3.0 && numericResponse < 4.0 , \"3.0 - 4.0\", IF(numericResponse >= 4.0, \"4.0 - 5.0\"))))"
+          },
+          {
+            "name": "SelfReflection",
+            "dataType": "string",
+            "sourceColumn": "SelfReflection"
           }
         ],
         "partitions": [
@@ -3077,25 +2876,6 @@
         ],
         "measures": [
           {
-            "name": "AllCompletersCountlUSP",
-            "expression": [
-              "CALCULATE (",
-              "    AVERAGE ( StaffStudentGrowthMeasure[StudentGrowthActualScore] ),",
-              "    FILTER (",
-              "        ALL ( TeacherCandidateDimension[TeacherCandidateSchoolYearInstanceKey] ),",
-              "        CONTAINS (",
-              "            VALUES ( TeacherCandidateStaffDimension[TeacherCandidateSchoolYearInstanceKey] ),",
-              "            TeacherCandidateStaffDimension[TeacherCandidateSchoolYearInstanceKey], TeacherCandidateDimension[TeacherCandidateSchoolYearInstanceKey]",
-              "        )",
-              "    ),",
-              "    FILTER (",
-              "        TeacherCandidateDimension,",
-              "        TeacherCandidateDimension[ProgramComplete] = TRUE ()",
-              "    )",
-              ")"
-            ]
-          },
-          {
             "name": "AllFirstYearUSP",
             "expression": [
               "CALCULATE (",
@@ -3169,7 +2949,7 @@
               "    ALLSELECTED ( TeacherCandidateDimension )",
               ")"
             ],
-            "formatString": "0.00 %;-0.00 %;0.00 %"
+            "formatString": "0.00%;-0.00%;0.00%"
           },
           {
             "name": "WorksInPlacementDistrictUSP",
@@ -3197,6 +2977,25 @@
               "            TeacherCandidateStaffDimension[TeacherCandidateSchoolYearInstanceKey] ",
               "        )",
               "    ))"
+            ]
+          },
+          {
+            "name": "AllCompletersCountUSP",
+            "expression": [
+              "CALCULATE (",
+              "    AVERAGE ( StaffStudentGrowthMeasure[StudentGrowthActualScore] ),",
+              "    FILTER (",
+              "        ALL ( TeacherCandidateDimension[TeacherCandidateSchoolYearInstanceKey] ),",
+              "        CONTAINS (",
+              "            VALUES ( TeacherCandidateStaffDimension[TeacherCandidateSchoolYearInstanceKey] ),",
+              "            TeacherCandidateStaffDimension[TeacherCandidateSchoolYearInstanceKey], TeacherCandidateDimension[TeacherCandidateSchoolYearInstanceKey]",
+              "        )",
+              "    ),",
+              "    FILTER (",
+              "        TeacherCandidateDimension,",
+              "        TeacherCandidateDimension[ProgramComplete] = TRUE ()",
+              "    )",
+              ")"
             ]
           }
         ]
@@ -3504,68 +3303,6 @@
         ]
       },
       {
-        "name": "ReviewerStaffDimenson",
-        "columns": [
-          {
-            "type": "calculatedTableColumn",
-            "name": "StaffKey",
-            "dataType": "int64",
-            "isNameInferred": true,
-            "isDataTypeInferred": true,
-            "sourceColumn": "StaffDimension[StaffKey]"
-          },
-          {
-            "type": "calculatedTableColumn",
-            "name": "StaffFullName",
-            "dataType": "string",
-            "isNameInferred": true,
-            "isDataTypeInferred": true,
-            "sourceColumn": "StaffDimension[StaffFullName]"
-          },
-          {
-            "type": "calculatedTableColumn",
-            "name": "Sex",
-            "dataType": "string",
-            "isNameInferred": true,
-            "isDataTypeInferred": true,
-            "sourceColumn": "StaffDimension[Sex]"
-          },
-          {
-            "type": "calculatedTableColumn",
-            "name": "RaceDescriptor",
-            "dataType": "string",
-            "isNameInferred": true,
-            "isDataTypeInferred": true,
-            "sourceColumn": "StaffDimension[RaceDescriptor]"
-          },
-          {
-            "type": "calculatedTableColumn",
-            "name": "StaffSchoolYearInstanceKey",
-            "dataType": "string",
-            "isNameInferred": true,
-            "isDataTypeInferred": true,
-            "sourceColumn": "StaffDimension[StaffSchoolYearInstanceKey]"
-          },
-          {
-            "type": "calculatedTableColumn",
-            "name": "SchoolYear",
-            "dataType": "int64",
-            "isNameInferred": true,
-            "isDataTypeInferred": true,
-            "sourceColumn": "StaffDimension[SchoolYear]"
-          }
-        ],
-        "partitions": [
-          {
-            "name": "CalculatedTable 1",
-            "source": {
-              "type": "calculated",
-              "expression": "StaffDimension"
-            }
-          }
-        ]
-      },
-      {
         "name": "SectionStudentDimension",
         "columns": [
           {
@@ -3855,14 +3592,6 @@
         "columns": [
           {
             "type": "calculatedTableColumn",
-            "name": "TeacherCandidateKey",
-            "dataType": "string",
-            "isNameInferred": true,
-            "isDataTypeInferred": true,
-            "sourceColumn": "TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey]"
-          },
-          {
-            "type": "calculatedTableColumn",
             "name": "Gateway",
             "dataType": "string",
             "isNameInferred": false,
@@ -3887,11 +3616,19 @@
           },
           {
             "type": "calculatedTableColumn",
-            "name": "TeacherCandidateSchoolYearInstnceKey",
+            "name": "TeacherCandidateKey",
             "dataType": "string",
             "isNameInferred": true,
             "isDataTypeInferred": true,
-            "sourceColumn": "TeacherCandidateGatewayCorurseCompleted[TeacherCandidateSchoolYearInstnceKey]"
+            "sourceColumn": "TeacherCandidateGatewayCourseCompleted[TeacherCandidateKey]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "TeacherCandidateSchoolYearInstanceKey",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "TeacherCandidateGatewayCourseCompleted[TeacherCandidateSchoolYearInstanceKey]"
           }
         ],
         "partitions": [
@@ -3905,17 +3642,17 @@
                 "UNION (",
                 "    SUMMARIZE (",
                 "        FILTER (",
-                "            TeacherCandidateGatewayCorurseCompleted,",
+                "            TeacherCandidateGatewayCourseCompleted,",
                 "            NOT (",
-                "                ISBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayOneCourseComplete] )",
+                "                ISBLANK ( TeacherCandidateGatewayCourseCompleted[GatewayOneCourseComplete] )",
                 "            )",
                 "        ),",
-                "        TeacherCandidateGatewayCorurseCompleted[TeacherCandidateSchoolYearInstnceKey],TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey],",
+                "        TeacherCandidateGatewayCourseCompleted[TeacherCandidateSchoolYearInstanceKey],TeacherCandidateGatewayCourseCompleted[TeacherCandidateKey],",
                 "        \"GateWay\", \"Gateway #1\",",
                 "        \"Criteria\", \"Criteria #2 - Final Grade\",",
                 "        \"Status\", IF (",
                 "            FIRSTNONBLANK (",
-                "                TeacherCandidateGatewayCorurseCompleted[GatewayOneCourseComplete],",
+                "                TeacherCandidateGatewayCourseCompleted[GatewayOneCourseComplete],",
                 "                TRUE ()",
                 "            ),",
                 "            \"Meets Criteria\",",
@@ -3924,33 +3661,33 @@
                 "    ),",
                 "    SUMMARIZE (",
                 "        FILTER (",
-                "            TeacherCandidateGatewayCorurseCompleted,",
+                "            TeacherCandidateGatewayCourseCompleted,",
                 "            NOT (",
-                "                ISBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayOneCourseComplete] )",
+                "                ISBLANK ( TeacherCandidateGatewayCourseCompleted[GatewayOneCourseComplete] )",
                 "            )",
                 "        ),",
-                "         TeacherCandidateGatewayCorurseCompleted[TeacherCandidateSchoolYearInstnceKey],TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey], ",
+                "         TeacherCandidateGatewayCourseCompleted[TeacherCandidateSchoolYearInstanceKey],TeacherCandidateGatewayCourseCompleted[TeacherCandidateKey], ",
                 "        \"GateWay\", \"Gateway #1\",",
                 "        \"Criteria\", \"Criteria #1 - GPA\",",
                 "        \"Status\", IF (",
-                "            CALCULATE ( MAX ( TeacherCandidateGatewayCorurseCompleted[GatewayGPA] ) >= 2.5 ),",
+                "            CALCULATE ( MAX ( TeacherCandidateGatewayCourseCompleted[GatewayGPA] ) >= 2.5 ),",
                 "            \"Meets Criteria\",",
                 "            \"Does Not Meet Criteria\"",
                 "        )",
                 "    ),",
                 "    SUMMARIZE (",
                 "        FILTER (",
-                "            TeacherCandidateGatewayCorurseCompleted,",
+                "            TeacherCandidateGatewayCourseCompleted,",
                 "            NOT (",
-                "                ISBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayTwoCourseComplete] )",
+                "                ISBLANK ( TeacherCandidateGatewayCourseCompleted[GatewayTwoCourseComplete] )",
                 "            )",
                 "        ),",
-                "         TeacherCandidateGatewayCorurseCompleted[TeacherCandidateSchoolYearInstnceKey],TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey],",
+                "         TeacherCandidateGatewayCourseCompleted[TeacherCandidateSchoolYearInstanceKey],TeacherCandidateGatewayCourseCompleted[TeacherCandidateKey],",
                 "        \"GateWay\", \"Gateway #2\",",
                 "        \"Criteria\", \"Criteria #2 - Final Grade\",",
                 "        \"Status\", IF (",
                 "            FIRSTNONBLANK (",
-                "                TeacherCandidateGatewayCorurseCompleted[GatewayTwoCourseComplete],",
+                "                TeacherCandidateGatewayCourseCompleted[GatewayTwoCourseComplete],",
                 "                TRUE ()",
                 "            ),",
                 "            \"Meets Criteria\",",
@@ -3959,33 +3696,33 @@
                 "    ),",
                 "    SUMMARIZE (",
                 "        FILTER (",
-                "            TeacherCandidateGatewayCorurseCompleted,",
+                "            TeacherCandidateGatewayCourseCompleted,",
                 "            NOT (",
-                "                ISBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayTwoCourseComplete] )",
+                "                ISBLANK ( TeacherCandidateGatewayCourseCompleted[GatewayTwoCourseComplete] )",
                 "            )",
                 "        ),",
-                "         TeacherCandidateGatewayCorurseCompleted[TeacherCandidateSchoolYearInstnceKey],TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey],",
+                "         TeacherCandidateGatewayCourseCompleted[TeacherCandidateSchoolYearInstanceKey],TeacherCandidateGatewayCourseCompleted[TeacherCandidateKey],",
                 "        \"GateWay\", \"Gateway #2\",",
                 "        \"Criteria\", \"Criteria #1 - GPA\",",
                 "        \"Status\", IF (",
-                "            CALCULATE ( MAX ( TeacherCandidateGatewayCorurseCompleted[GatewayGPA] ) >= 2.5 ),",
+                "            CALCULATE ( MAX ( TeacherCandidateGatewayCourseCompleted[GatewayGPA] ) >= 2.5 ),",
                 "            \"Meets Criteria\",",
                 "            \"Does Not Meet Criteria\"",
                 "        )",
                 "    ),",
                 "    SUMMARIZE (",
                 "        FILTER (",
-                "            TeacherCandidateGatewayCorurseCompleted,",
+                "            TeacherCandidateGatewayCourseCompleted,",
                 "            NOT (",
-                "                ISBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayThreeCourseComplete] )",
+                "                ISBLANK ( TeacherCandidateGatewayCourseCompleted[GatewayThreeCourseComplete] )",
                 "            )",
                 "        ),",
-                "         TeacherCandidateGatewayCorurseCompleted[TeacherCandidateSchoolYearInstnceKey],TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey],",
+                "         TeacherCandidateGatewayCourseCompleted[TeacherCandidateSchoolYearInstanceKey],TeacherCandidateGatewayCourseCompleted[TeacherCandidateKey],",
                 "        \"GateWay\", \"Gateway #3\",",
                 "        \"Criteria\", \"Criteria #2 - Final Grade\",",
                 "        \"Status\", IF (",
                 "            FIRSTNONBLANK (",
-                "                TeacherCandidateGatewayCorurseCompleted[GatewayThreeCourseComplete],",
+                "                TeacherCandidateGatewayCourseCompleted[GatewayThreeCourseComplete],",
                 "                TRUE ()",
                 "            ),",
                 "            \"Meets Criteria\",",
@@ -3994,33 +3731,33 @@
                 "    ),",
                 "    SUMMARIZE (",
                 "        FILTER (",
-                "            TeacherCandidateGatewayCorurseCompleted,",
+                "            TeacherCandidateGatewayCourseCompleted,",
                 "            NOT (",
-                "                ISBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayThreeCourseComplete] )",
+                "                ISBLANK ( TeacherCandidateGatewayCourseCompleted[GatewayThreeCourseComplete] )",
                 "            )",
                 "        ),",
-                "         TeacherCandidateGatewayCorurseCompleted[TeacherCandidateSchoolYearInstnceKey],TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey],",
+                "         TeacherCandidateGatewayCourseCompleted[TeacherCandidateSchoolYearInstanceKey],TeacherCandidateGatewayCourseCompleted[TeacherCandidateKey],",
                 "        \"GateWay\", \"Gateway #3\",",
                 "        \"Criteria\", \"Criteria #1 - GPA\",",
                 "        \"Status\", IF (",
-                "            CALCULATE ( MAX ( TeacherCandidateGatewayCorurseCompleted[GatewayGPA] ) >= 2.8 ),",
+                "            CALCULATE ( MAX ( TeacherCandidateGatewayCourseCompleted[GatewayGPA] ) >= 2.8 ),",
                 "            \"Meets Criteria\",",
                 "            \"Does Not Meet Criteria\"",
                 "        )",
                 "    ),",
                 "    SUMMARIZE (",
                 "        FILTER (",
-                "            TeacherCandidateGatewayCorurseCompleted,",
+                "            TeacherCandidateGatewayCourseCompleted,",
                 "            NOT (",
-                "                ISBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayThreeCourseComplete] )",
+                "                ISBLANK ( TeacherCandidateGatewayCourseCompleted[GatewayThreeCourseComplete] )",
                 "            )",
                 "        ),",
-                "         TeacherCandidateGatewayCorurseCompleted[TeacherCandidateSchoolYearInstnceKey],TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey],",
+                "         TeacherCandidateGatewayCourseCompleted[TeacherCandidateSchoolYearInstanceKey],TeacherCandidateGatewayCourseCompleted[TeacherCandidateKey],",
                 "        \"GateWay\", \"Gateway #3\",",
                 "        \"Criteria\", \"Criteria #3 - Fieldwork\",",
                 "        \"Status\", IF (",
                 "            CALCULATE (",
-                "                MAX ( TeacherCandidateGatewayCorurseCompleted[GatewayFieldWorkHours] ) >= 10",
+                "                MAX ( TeacherCandidateGatewayCourseCompleted[GatewayFieldWorkHours] ) >= 10",
                 "            ),",
                 "            \"Meets Criteria\",",
                 "            \"Does Not Meet Criteria\"",
@@ -4028,17 +3765,17 @@
                 "    ),",
                 "    SUMMARIZE (",
                 "        FILTER (",
-                "            TeacherCandidateGatewayCorurseCompleted,",
+                "            TeacherCandidateGatewayCourseCompleted,",
                 "            NOT (",
-                "                ISBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayFourCourseComplete] )",
+                "                ISBLANK ( TeacherCandidateGatewayCourseCompleted[GatewayFourCourseComplete] )",
                 "            )",
                 "        ),",
-                "         TeacherCandidateGatewayCorurseCompleted[TeacherCandidateSchoolYearInstnceKey],TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey],",
+                "         TeacherCandidateGatewayCourseCompleted[TeacherCandidateSchoolYearInstanceKey],TeacherCandidateGatewayCourseCompleted[TeacherCandidateKey],",
                 "        \"GateWay\", \"Gateway #4\",",
                 "        \"Criteria\", \"Criteria #2 - Final Grade\",",
                 "        \"Status\", IF (",
                 "            FIRSTNONBLANK (",
-                "                TeacherCandidateGatewayCorurseCompleted[GatewayFourCourseComplete],",
+                "                TeacherCandidateGatewayCourseCompleted[GatewayFourCourseComplete],",
                 "                TRUE ()",
                 "            ),",
                 "            \"Meets Criteria\",",
@@ -4047,33 +3784,33 @@
                 "    ),",
                 "    SUMMARIZE (",
                 "        FILTER (",
-                "            TeacherCandidateGatewayCorurseCompleted,",
+                "            TeacherCandidateGatewayCourseCompleted,",
                 "            NOT (",
-                "                ISBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayFourCourseComplete] )",
+                "                ISBLANK ( TeacherCandidateGatewayCourseCompleted[GatewayFourCourseComplete] )",
                 "            )",
                 "        ),",
-                "         TeacherCandidateGatewayCorurseCompleted[TeacherCandidateSchoolYearInstnceKey],TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey],",
+                "         TeacherCandidateGatewayCourseCompleted[TeacherCandidateSchoolYearInstanceKey],TeacherCandidateGatewayCourseCompleted[TeacherCandidateKey],",
                 "        \"GateWay\", \"Gateway #4\",",
                 "        \"Criteria\", \"Criteria #1 - GPA\",",
                 "        \"Status\", IF (",
-                "            CALCULATE ( MAX ( TeacherCandidateGatewayCorurseCompleted[GatewayGPA] ) >= 2.8 ),",
+                "            CALCULATE ( MAX ( TeacherCandidateGatewayCourseCompleted[GatewayGPA] ) >= 2.8 ),",
                 "            \"Meets Criteria\",",
                 "            \"Does Not Meet Criteria\"",
                 "        )",
                 "    ),",
                 "    SUMMARIZE (",
                 "        FILTER (",
-                "            TeacherCandidateGatewayCorurseCompleted,",
+                "            TeacherCandidateGatewayCourseCompleted,",
                 "            NOT (",
-                "                ISBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayFourCourseComplete] )",
+                "                ISBLANK ( TeacherCandidateGatewayCourseCompleted[GatewayFourCourseComplete] )",
                 "            )",
                 "        ),",
-                "         TeacherCandidateGatewayCorurseCompleted[TeacherCandidateSchoolYearInstnceKey],TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey],",
+                "         TeacherCandidateGatewayCourseCompleted[TeacherCandidateSchoolYearInstanceKey],TeacherCandidateGatewayCourseCompleted[TeacherCandidateKey],",
                 "        \"GateWay\", \"Gateway #4\",",
                 "        \"Criteria\", \"Criteria #3 - Fieldwork\",",
                 "        \"Status\", IF (",
                 "            CALCULATE (",
-                "                MAX ( TeacherCandidateGatewayCorurseCompleted[GatewayFieldWorkHours] ) >= 10",
+                "                MAX ( TeacherCandidateGatewayCourseCompleted[GatewayFieldWorkHours] ) >= 10",
                 "            ),",
                 "            \"Meets Criteria\",",
                 "            \"Does Not Meet Criteria\"",
@@ -4081,21 +3818,21 @@
                 "    ),",
                 "    SUMMARIZE (",
                 "        FILTER (",
-                "            TeacherCandidateGatewayCorurseCompleted,",
+                "            TeacherCandidateGatewayCourseCompleted,",
                 "            NOT (",
-                "                ISBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayOneCourseComplete] )",
+                "                ISBLANK ( TeacherCandidateGatewayCourseCompleted[GatewayOneCourseComplete] )",
                 "            )",
                 "        ),",
-                "         TeacherCandidateGatewayCorurseCompleted[TeacherCandidateSchoolYearInstnceKey],TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey],",
+                "         TeacherCandidateGatewayCourseCompleted[TeacherCandidateSchoolYearInstanceKey],TeacherCandidateGatewayCourseCompleted[TeacherCandidateKey],",
                 "        \"GateWay\", \"Gateway #1\",",
                 "        \"Criteria\", \"Overall\",",
                 "        \"Status\", IF (",
                 "            FIRSTNONBLANK (",
-                "                TeacherCandidateGatewayCorurseCompleted[GatewayOneCourseComplete],",
+                "                TeacherCandidateGatewayCourseCompleted[GatewayOneCourseComplete],",
                 "                TRUE ()",
                 "            )",
                 "                && FIRSTNONBLANK (",
-                "                    TeacherCandidateGatewayCorurseCompleted[GatewayGPA] >= 2.5,",
+                "                    TeacherCandidateGatewayCourseCompleted[GatewayGPA] >= 2.5,",
                 "                    TRUE ()",
                 "                ),",
                 "            \"Meets Criteria\",",
@@ -4104,21 +3841,21 @@
                 "    ),",
                 "    SUMMARIZE (",
                 "        FILTER (",
-                "            TeacherCandidateGatewayCorurseCompleted,",
+                "            TeacherCandidateGatewayCourseCompleted,",
                 "            NOT (",
-                "                ISBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayTwoCourseComplete] )",
+                "                ISBLANK ( TeacherCandidateGatewayCourseCompleted[GatewayTwoCourseComplete] )",
                 "            )",
                 "        ),",
-                "         TeacherCandidateGatewayCorurseCompleted[TeacherCandidateSchoolYearInstnceKey],TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey],",
+                "         TeacherCandidateGatewayCourseCompleted[TeacherCandidateSchoolYearInstanceKey],TeacherCandidateGatewayCourseCompleted[TeacherCandidateKey],",
                 "        \"GateWay\", \"Gateway #2\",",
                 "        \"Criteria\", \"Overall\",",
                 "        \"Status\", IF (",
                 "            FIRSTNONBLANK (",
-                "                TeacherCandidateGatewayCorurseCompleted[GatewayTwoCourseComplete],",
+                "                TeacherCandidateGatewayCourseCompleted[GatewayTwoCourseComplete],",
                 "                TRUE ()",
                 "            )",
                 "                && FIRSTNONBLANK (",
-                "                    TeacherCandidateGatewayCorurseCompleted[GatewayGPA] >= 2.8,",
+                "                    TeacherCandidateGatewayCourseCompleted[GatewayGPA] >= 2.8,",
                 "                    TRUE ()",
                 "                ),",
                 "            \"Meets Criteria\",",
@@ -4127,25 +3864,25 @@
                 "    ),",
                 "    SUMMARIZE (",
                 "        FILTER (",
-                "            TeacherCandidateGatewayCorurseCompleted,",
+                "            TeacherCandidateGatewayCourseCompleted,",
                 "            NOT (",
-                "                ISBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayThreeCourseComplete] )",
+                "                ISBLANK ( TeacherCandidateGatewayCourseCompleted[GatewayThreeCourseComplete] )",
                 "            )",
                 "        ),",
-                "         TeacherCandidateGatewayCorurseCompleted[TeacherCandidateSchoolYearInstnceKey],TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey],",
+                "         TeacherCandidateGatewayCourseCompleted[TeacherCandidateSchoolYearInstanceKey],TeacherCandidateGatewayCourseCompleted[TeacherCandidateKey],",
                 "        \"GateWay\", \"Gateway #3\",",
                 "        \"Criteria\", \"Overall\",",
                 "        \"Status\", IF (",
                 "            FIRSTNONBLANK (",
-                "                TeacherCandidateGatewayCorurseCompleted[GatewayThreeCourseComplete],",
+                "                TeacherCandidateGatewayCourseCompleted[GatewayThreeCourseComplete],",
                 "                TRUE ()",
                 "            )",
                 "                && FIRSTNONBLANK (",
-                "                    TeacherCandidateGatewayCorurseCompleted[GatewayGPA] >= 3.0,",
+                "                    TeacherCandidateGatewayCourseCompleted[GatewayGPA] >= 3.0,",
                 "                    TRUE ()",
                 "                )",
                 "                && FIRSTNONBLANK (",
-                "                    TeacherCandidateGatewayCorurseCompleted[GatewayFieldWorkHours] >= 10.0,",
+                "                    TeacherCandidateGatewayCourseCompleted[GatewayFieldWorkHours] >= 10.0,",
                 "                    TRUE ()",
                 "                ),",
                 "            \"Meets Criteria\",",
@@ -4154,25 +3891,25 @@
                 "    ),",
                 "    SUMMARIZE (",
                 "        FILTER (",
-                "            TeacherCandidateGatewayCorurseCompleted,",
+                "            TeacherCandidateGatewayCourseCompleted,",
                 "            NOT (",
-                "                ISBLANK ( TeacherCandidateGatewayCorurseCompleted[GatewayFourCourseComplete] )",
+                "                ISBLANK ( TeacherCandidateGatewayCourseCompleted[GatewayFourCourseComplete] )",
                 "            )",
                 "        ),",
-                "         TeacherCandidateGatewayCorurseCompleted[TeacherCandidateSchoolYearInstnceKey],TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey],",
+                "         TeacherCandidateGatewayCourseCompleted[TeacherCandidateSchoolYearInstanceKey],TeacherCandidateGatewayCourseCompleted[TeacherCandidateKey],",
                 "        \"GateWay\", \"Gateway #4\",",
                 "        \"Criteria\", \"Overall\",",
                 "        \"Status\", IF (",
                 "            FIRSTNONBLANK (",
-                "                TeacherCandidateGatewayCorurseCompleted[GatewayFourCourseComplete],",
+                "                TeacherCandidateGatewayCourseCompleted[GatewayFourCourseComplete],",
                 "                TRUE ()",
                 "            )",
                 "                && FIRSTNONBLANK (",
-                "                    TeacherCandidateGatewayCorurseCompleted[GatewayGPA] >= 3.0,",
+                "                    TeacherCandidateGatewayCourseCompleted[GatewayGPA] >= 3.0,",
                 "                    TRUE ()",
                 "                )",
                 "                && FIRSTNONBLANK (",
-                "                    TeacherCandidateGatewayCorurseCompleted[GatewayFieldWorkHours] >= 30.0,",
+                "                    TeacherCandidateGatewayCourseCompleted[GatewayFieldWorkHours] >= 30.0,",
                 "                    TRUE ()",
                 "                ),",
                 "            \"Meets Criteria\",",
@@ -4262,109 +3999,237 @@
         ]
       },
       {
-        "name": "TeacherCandidateProgressionDemographicsSummary",
+        "name": "ApplicantScoresFact",
         "columns": [
           {
-            "type": "calculatedTableColumn",
-            "name": "RaceDescriptor",
+            "name": "ApplicantSchoolYearInstanceKey",
             "dataType": "string",
-            "isNameInferred": true,
-            "isDataTypeInferred": true,
-            "sourceColumn": "ApplicantDimension[RaceDescriptor]"
+            "sourceColumn": "ApplicantSchoolYearInstanceKey"
           },
           {
-            "type": "calculatedTableColumn",
-            "name": "Sex",
+            "name": "ApplicantKey",
             "dataType": "string",
-            "isNameInferred": true,
-            "isDataTypeInferred": true,
-            "sourceColumn": "ApplicantDimension[Sex]"
+            "sourceColumn": "ApplicantKey"
           },
           {
-            "type": "calculatedTableColumn",
-            "name": "Progression Count",
+            "name": "SchoolYear",
             "dataType": "int64",
-            "isNameInferred": true,
-            "isDataTypeInferred": true,
-            "sourceColumn": "[Progression Count]"
+            "sourceColumn": "SchoolYear"
           },
           {
-            "type": "calculatedTableColumn",
+            "name": "EducationOrganizationId",
+            "dataType": "int64",
+            "sourceColumn": "EducationOrganizationId"
+          },
+          {
+            "name": "Result",
+            "dataType": "double",
+            "sourceColumn": "Result"
+          },
+          {
+            "name": "AssessmentTitle",
+            "dataType": "string",
+            "sourceColumn": "AssessmentTitle"
+          },
+          {
+            "type": "calculated",
+            "name": "Applied",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": [
+              "CALCULATE (",
+              "        IF ( ISBLANK ( MAX ( ApplicantProgramFact[Status] ) ), \"No\", \"Yes\" ),",
+              "        FILTER (",
+              "            ApplicantProgramFact,",
+              "            ApplicantProgramFact[ApplicantKey]",
+              "                = EARLIER ( ApplicantScoresFact[ApplicantKey] )",
+              "        )",
+              "    )"
+            ]
+          },
+          {
+            "type": "calculated",
+            "name": "Accepted",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": [
+              "CALCULATE (",
+              "        IF ( ISBLANK ( MAX ( ApplicantProgramFact[Status] ) ), \"No\", \"Yes\" ),",
+              "        FILTER (",
+              "            ApplicantProgramFact,",
+              "            ApplicantProgramFact[ApplicantKey]",
+              "                = EARLIER ( ApplicantScoresFact[ApplicantKey] )",
+              "                && ApplicantProgramFact[Status] = \"Accepted\"",
+              "        )",
+              "    )"
+            ]
+          },
+          {
+            "type": "calculated",
+            "name": "Enrolled",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": [
+              "CALCULATE (",
+              "        IF ( ISBLANK ( MAX ( ApplicantProgramFact[Status] ) ), \"No\", \"Yes\" ),",
+              "        FILTER (",
+              "            ApplicantProgramFact,",
+              "            ApplicantProgramFact[ApplicantKey]",
+              "                = EARLIER ( ApplicantScoresFact[ApplicantKey] )",
+              "                && ApplicantProgramFact[Status] = \"Accepted\"",
+              "        ),",
+              "        FILTER (",
+              "            ApplicantProgramFact,",
+              "            NOT ( ISBLANK ( RELATED ( ApplicantDimension[TeacherCandidateKey] ) ) )",
+              "        )",
+              "    )"
+            ]
+          },
+          {
+            "type": "calculated",
             "name": "Status",
             "dataType": "string",
-            "isNameInferred": true,
             "isDataTypeInferred": true,
-            "sourceColumn": "[Status]",
-            "sortByColumn": "SortOrder"
-          },
-          {
-            "type": "calculatedTableColumn",
-            "name": "SortOrder",
-            "dataType": "int64",
-            "isNameInferred": true,
-            "isDataTypeInferred": true,
-            "sourceColumn": "[SortOrder]"
-          },
-          {
-            "type": "calculatedTableColumn",
-            "name": "ProgramSchoolYearInstanceKey",
-            "dataType": "string",
-            "isNameInferred": true,
-            "isDataTypeInferred": true,
-            "sourceColumn": "TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey]"
+            "expression": "IF(ApplicantScoresFact[Enrolled] = \"Yes\",\"Enrolled\",IF(ApplicantScoresFact[Accepted]=\"Yes\",\"Accepted\",IF(ApplicantScoresFact[Applied]=\"Yes\",\"Applied\",\"None\")))"
           }
         ],
         "partitions": [
           {
-            "name": "CalculatedTable 1",
+            "name": "Partition",
+            "dataView": "full",
             "source": {
-              "type": "calculated",
+              "type": "m",
               "expression": [
-                "",
-                "UNION (",
-                "    SUMMARIZE (",
-                "        NATURALLEFTOUTERJOIN (",
-                "            NATURALLEFTOUTERJOIN (",
-                "                TeacherPreparationProviderProgramDimension,",
-                "                ApplicantProgramFact",
-                "            ),",
-                "            ApplicantDimension",
-                "        ),",
-                "        TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey],",
-                "        ApplicantDimension[RaceDescriptor],",
-                "        ApplicantDimension[Sex],",
-                "        \"Progression Count\", DISTINCTCOUNT ( ApplicantDimension[ApplicantKey] ),",
-                "        \"Status\", \"Applied\", ",
-                "        \"SortOrder\", 1",
-                "    ),",
-                "    SUMMARIZE (",
-                "        CALCULATETABLE (",
-                "            NATURALLEFTOUTERJOIN (",
-                "                NATURALLEFTOUTERJOIN (",
-                "                    TeacherPreparationProviderProgramDimension,",
-                "                    ApplicantProgramFact",
-                "                ),",
-                "                ApplicantDimension",
-                "            ),",
-                "            FILTER ( ApplicantProgramFact, ApplicantProgramFact[Status] = \"Accepted\" )",
-                "        ),",
-                "        TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey],",
-                "        ApplicantDimension[RaceDescriptor],",
-                "        ApplicantDimension[Sex],",
-                "        \"Progression Count\", DISTINCTCOUNT ( ApplicantDimension[ApplicantKey] ),",
-                "        \"Status\", \"Accepted\", ",
-                "        \"Sort Order\",2",
-                "    ),",
-                "    SUMMARIZE (",
-                "        NATURALLEFTOUTERJOIN ( TeacherCandidateProgramFact, TeacherCandidateDimension ),",
-                "        TeacherCandidateProgramFact[ProgramSchoolyearInstaceKey],",
-                "        TeacherCandidateDimension[RaceDescriptor],",
-                "        TeacherCandidateDimension[Sex],",
-                "        \"Progression Count\", DISTINCTCOUNT ( TeacherCandidateDimension[TeacherCandidateKey] ),",
-                "        \"Status\", \"Enrolled\", ",
-                "        \"Sort Order\",3",
-                "    )",
-                ")"
+                "let",
+                "    Source = #\"Ed-Fi-Ods\",",
+                "    analytics_ApplicantScoresFact = Source{[Schema=\"analytics\",Item=\"ApplicantScoresFact\"]}[Data],",
+                "    #\"Removed Columns\" = Table.RemoveColumns(analytics_ApplicantScoresFact,{\"MostRecent\"})",
+                "in",
+                "    #\"Removed Columns\""
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "TeacherCandidateProgressionDemographicsSummary",
+        "columns": [
+          {
+            "name": "ProgramName",
+            "dataType": "string",
+            "sourceColumn": "ProgramName"
+          },
+          {
+            "name": "TeacherPreparationProviderKey",
+            "dataType": "int64",
+            "sourceColumn": "TeacherPreparationProviderKey"
+          },
+          {
+            "name": "ProgramSchoolYearInstanceKey",
+            "dataType": "string",
+            "sourceColumn": "ProgramSchoolYearInstanceKey"
+          },
+          {
+            "name": "TeacherPreparationProviderName",
+            "dataType": "string",
+            "sourceColumn": "TeacherPreparationProviderName"
+          },
+          {
+            "name": "RaceDescriptor",
+            "dataType": "string",
+            "sourceColumn": "RaceDescriptor"
+          },
+          {
+            "name": "Sex",
+            "dataType": "string",
+            "sourceColumn": "Sex"
+          },
+          {
+            "name": "Count of  Progression",
+            "dataType": "int64",
+            "sourceColumn": "Count of  Progression"
+          },
+          {
+            "name": "Status",
+            "dataType": "string",
+            "sourceColumn": "Status",
+            "sortByColumn": "SortOrder"
+          },
+          {
+            "name": "SortOrder",
+            "dataType": "int64",
+            "sourceColumn": "SortOrder"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"Ed-Fi-Ods\",",
+                "    analytics_TeacherCandidateProgressionDemographicsSummary = Source{[Schema=\"analytics\",Item=\"TeacherCandidateProgressionDemographicsSummary\"]}[Data]",
+                "in",
+                "    analytics_TeacherCandidateProgressionDemographicsSummary"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "TeacherCandidateProgressionSummary",
+        "columns": [
+          {
+            "name": "ProgramName",
+            "dataType": "string",
+            "sourceColumn": "ProgramName"
+          },
+          {
+            "name": "TeacherPreparationProviderKey",
+            "dataType": "int64",
+            "sourceColumn": "TeacherPreparationProviderKey"
+          },
+          {
+            "name": "ProgramSchoolYearInstanceKey",
+            "dataType": "string",
+            "sourceColumn": "ProgramSchoolYearInstanceKey"
+          },
+          {
+            "name": "TeacherPreparationProviderName",
+            "dataType": "string",
+            "sourceColumn": "TeacherPreparationProviderName"
+          },
+          {
+            "name": "Count of  Progression",
+            "dataType": "int64",
+            "sourceColumn": "Count of  Progression"
+          },
+          {
+            "name": "Status",
+            "dataType": "string",
+            "sourceColumn": "Status",
+            "sortByColumn": "SortOrder"
+          },
+          {
+            "name": "SortOrder",
+            "dataType": "int64",
+            "sourceColumn": "SortOrder"
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"Ed-Fi-Ods\",",
+                "    analytics_TeacherCandidateProgressionSummary = Source{[Schema=\"analytics\",Item=\"TeacherCandidateProgressionSummary\"]}[Data]",
+                "in",
+                "    analytics_TeacherCandidateProgressionSummary"
               ]
             }
           }
@@ -4374,194 +4239,48 @@
         "name": "TeacherCandidateProgressionScoreSummary",
         "columns": [
           {
-            "type": "calculatedTableColumn",
-            "name": "Score",
-            "dataType": "double",
-            "isNameInferred": true,
-            "isDataTypeInferred": true,
-            "sourceColumn": "[Score]",
-            "formatString": "0.00"
-          },
-          {
-            "type": "calculatedTableColumn",
-            "name": "AssessmentTitle",
-            "dataType": "string",
-            "isNameInferred": true,
-            "isDataTypeInferred": true,
-            "sourceColumn": "[AssessmentTitle]"
-          },
-          {
-            "type": "calculatedTableColumn",
-            "name": "Status",
-            "dataType": "string",
-            "isNameInferred": true,
-            "isDataTypeInferred": true,
-            "sourceColumn": "[Status]",
-            "sortByColumn": "Order"
-          },
-          {
-            "type": "calculatedTableColumn",
             "name": "Order",
             "dataType": "int64",
-            "isNameInferred": true,
-            "isDataTypeInferred": true,
-            "sourceColumn": "[Order]"
+            "sourceColumn": "Order"
           },
           {
-            "type": "calculatedTableColumn",
+            "name": "Status",
+            "dataType": "string",
+            "sourceColumn": "Status"
+          },
+          {
+            "name": "AssessmentTitle",
+            "dataType": "string",
+            "sourceColumn": "AssessmentTitle"
+          },
+          {
+            "name": "Score",
+            "dataType": "double",
+            "sourceColumn": "Score"
+          },
+          {
+            "name": "ApplicantSchoolYearInstanceKey",
+            "dataType": "string",
+            "sourceColumn": "ApplicantSchoolYearInstanceKey"
+          },
+          {
             "name": "ProgramSchoolYearInstanceKey",
             "dataType": "string",
-            "isNameInferred": true,
-            "isDataTypeInferred": true,
-            "sourceColumn": "TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey]"
+            "sourceColumn": "ProgramSchoolYearInstanceKey"
           }
         ],
         "partitions": [
           {
-            "name": "CalculatedTable 1",
+            "name": "Partition",
+            "dataView": "full",
             "source": {
-              "type": "calculated",
+              "type": "m",
               "expression": [
-                "",
-                "UNION (",
-                "    SUMMARIZE (",
-                "        TeacherPreparationProviderProgramDimension,",
-                "        TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey],",
-                "        \"Score\", CALCULATE (",
-                "            MEDIANX ( ApplicantFacts, ApplicantFacts[ACT score] * 1.0 ),",
-                "            FILTER (",
-                "                ApplicantProgramFact,",
-                "                ApplicantProgramFact[ProgramSchoolYearInstanceKey] = TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey]",
-                "            )",
-                "        ),",
-                "        \"AssessmentTitle\", \"ACT\",",
-                "        \"Status\", \"Applied\", ",
-                "        \"Order\" , 1 ",
-                "        ",
-                "    ),",
-                "    SUMMARIZE (",
-                "        TeacherPreparationProviderProgramDimension,",
-                "        TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey],",
-                "        \"Score\", CALCULATE (",
-                "            MEDIANX ( ApplicantFacts, ApplicantFacts[ACT score] * 1.0 ),",
-                "            FILTER (",
-                "                ApplicantProgramFact,",
-                "                ApplicantProgramFact[ProgramSchoolYearInstanceKey] = TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey] && ApplicantProgramFact[Status] = \"Accepted\"",
-                "            )",
-                "        ),",
-                "        \"AssessmentTitle\", \"ACT\",",
-                "        \"Status\", \"Accepted\",",
-                "        \"Order\" , 2",
-                "    ),",
-                "    SUMMARIZE (",
-                "        TeacherPreparationProviderProgramDimension,",
-                "        TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey],",
-                "        \"Score\", CALCULATE (",
-                "            MEDIANX ( TeacherCandidateAssessment, TeacherCandidateAssessment[Result] * 1.0 ),",
-                "            FILTER (",
-                "                TeacherCandidateAssessment,",
-                "                TeacherCandidateAssessment[AssessmentTitle] = \"ACT\"",
-                "            ),",
-                "            FILTER (",
-                "                TeacherCandidateProgramFact,",
-                "                TeacherCandidateProgramFact[ProgramSchoolyearInstaceKey] = TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey]",
-                "            )",
-                "        ),",
-                "        \"AssessmentTitle\", \"ACT\",",
-                "        \"Status\", \"Enrolled\",",
-                "        \"Order\" , 3",
-                "    ),",
-                "      SUMMARIZE (",
-                "        TeacherPreparationProviderProgramDimension,",
-                "        TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey],",
-                "        \"Score\", CALCULATE (",
-                "            MEDIANX ( ApplicantFacts, ApplicantFacts[College Board examination scores] * 1.0 ),",
-                "            FILTER (",
-                "                ApplicantProgramFact,",
-                "                ApplicantProgramFact[ProgramSchoolYearInstanceKey] = TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey]",
-                "            )",
-                "        ),",
-                "        \"AssessmentTitle\", \"SAT\",",
-                "        \"Status\", \"Applied\", ",
-                "        \"Order\" , 1",
-                "    ),",
-                "    SUMMARIZE (",
-                "        TeacherPreparationProviderProgramDimension,",
-                "        TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey],",
-                "        \"Score\", CALCULATE (",
-                "            MEDIANX ( ApplicantFacts, ApplicantFacts[College Board examination scores] * 1.0 ),",
-                "            FILTER (",
-                "                ApplicantProgramFact,",
-                "                ApplicantProgramFact[ProgramSchoolYearInstanceKey] = TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey] && ApplicantProgramFact[Status] = \"Accepted\"",
-                "            )        ),",
-                "        \"AssessmentTitle\", \"SAT\",",
-                "        \"Status\", \"Accepted\",",
-                "        \"Order\" , 2",
-                "    ),",
-                "    SUMMARIZE (",
-                "        TeacherPreparationProviderProgramDimension,",
-                "        TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey],",
-                "        \"Score\", CALCULATE (",
-                "            MEDIANX ( TeacherCandidateAssessment, TeacherCandidateAssessment[Result] * 1.0 ),",
-                "            FILTER (",
-                "                TeacherCandidateAssessment,",
-                "                TeacherCandidateAssessment[AssessmentTitle] = \"SAT\"",
-                "            ),",
-                "            FILTER (",
-                "                TeacherCandidateProgramFact,",
-                "                TeacherCandidateProgramFact[ProgramSchoolyearInstaceKey] = TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey]",
-                "            )",
-                "        ),",
-                "        \"AssessmentTitle\", \"SAT\",",
-                "        \"Status\", \"Enrolled\", ",
-                "        \"Order\" , 3",
-                "    ),",
-                "      SUMMARIZE (",
-                "        TeacherPreparationProviderProgramDimension,",
-                "        TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey],",
-                "        \"Score\", CALCULATE (",
-                "            MEDIANX ( ApplicantFacts, ApplicantFacts[Letter grade/mark] * 1.0 ),",
-                "            FILTER (",
-                "                ApplicantProgramFact,",
-                "                ApplicantProgramFact[ProgramSchoolYearInstanceKey] = TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey]",
-                "            )",
-                "        ),",
-                "        \"AssessmentTitle\", \"GPA\",",
-                "        \"Status\", \"Applied\", ",
-                "        \"Order\" , 1",
-                "    ),",
-                "    SUMMARIZE (",
-                "        TeacherPreparationProviderProgramDimension,",
-                "        TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey],",
-                "        \"Score\", CALCULATE (",
-                "            MEDIANX ( ApplicantFacts, ApplicantFacts[Letter grade/mark]  ),",
-                "            FILTER (",
-                "                ApplicantProgramFact,",
-                "                ApplicantProgramFact[ProgramSchoolYearInstanceKey] = TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey] && ApplicantProgramFact[Status] = \"Accepted\"",
-                "            )",
-                "        ),",
-                "        \"AssessmentTitle\", \"GPA\",",
-                "        \"Status\", \"Accepted\",",
-                "        \"Order\" , 2",
-                "    ),",
-                "    SUMMARIZE (",
-                "        TeacherPreparationProviderProgramDimension,",
-                "        TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey],",
-                "        \"Score\", CALCULATE (",
-                "            MEDIANX ( TeacherCandidatePreProgramGPA, TeacherCandidatePreProgramGPA[CumulativeGradePointAverage]  ),",
-                "           ",
-                "            FILTER (",
-                "                TeacherCandidateProgramFact,",
-                "                TeacherCandidateProgramFact[ProgramSchoolyearInstaceKey] = TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey]",
-                "            )",
-                "        ),",
-                "        \"AssessmentTitle\", \"GPA\",",
-                "        \"Status\", \"Enrolled\", ",
-                "        \"Order\" , 3",
-                "    )",
-                "    ",
-                "    ",
-                ")"
+                "let",
+                "    Source = #\"Ed-Fi-Ods\",",
+                "    analytics_TeacherCandidateProgressionScoreSummary = Source{[Schema=\"analytics\",Item=\"TeacherCandidateProgressionScoreSummary\"]}[Data]",
+                "in",
+                "    analytics_TeacherCandidateProgressionScoreSummary"
               ]
             }
           }
@@ -4569,110 +4288,288 @@
         "measures": [
           {
             "name": "MedianAcceptedACT",
-            "expression": " CALCULATE(MEDIAN(TeacherCandidateProgressionScoreSummary[Score]), FILTER(TeacherCandidateProgressionScoreSummary, TeacherCandidateProgressionScoreSummary[AssessmentTitle] = \"ACT\" && TeacherCandidateProgressionScoreSummary[Status]=\"Accepted\"))",
+            "expression": " CALCULATE(MEDIAN(TeacherCandidateProgressionScoreSummary[Score]), FILTER(TeacherCandidateProgressionScoreSummary, TeacherCandidateProgressionScoreSummary[AssessmentTitle] = \"ACT score\" && TeacherCandidateProgressionScoreSummary[Status]=\"Accepted\"))",
             "formatString": "0.0"
           },
           {
             "name": "MedianAcceptedGPA",
-            "expression": " CALCULATE(MEDIAN(TeacherCandidateProgressionScoreSummary[Score]), FILTER(TeacherCandidateProgressionScoreSummary, TeacherCandidateProgressionScoreSummary[AssessmentTitle] = \"GPA\" && TeacherCandidateProgressionScoreSummary[Status]=\"Accepted\"))",
+            "expression": " CALCULATE(MEDIAN(TeacherCandidateProgressionScoreSummary[Score]), FILTER(TeacherCandidateProgressionScoreSummary, TeacherCandidateProgressionScoreSummary[AssessmentTitle] = \"Overall GPA\" && TeacherCandidateProgressionScoreSummary[Status]=\"Accepted\"))",
             "formatString": "0.00"
           },
           {
             "name": "MedianAcceptedSAT",
-            "expression": " CALCULATE(MEDIAN(TeacherCandidateProgressionScoreSummary[Score]), FILTER(TeacherCandidateProgressionScoreSummary, TeacherCandidateProgressionScoreSummary[AssessmentTitle] = \"SAT\" && TeacherCandidateProgressionScoreSummary[Status]=\"Accepted\"))",
+            "expression": " CALCULATE(MEDIAN(TeacherCandidateProgressionScoreSummary[Score]), FILTER(TeacherCandidateProgressionScoreSummary, TeacherCandidateProgressionScoreSummary[AssessmentTitle] = \"SAT score\" && TeacherCandidateProgressionScoreSummary[Status]=\"Accepted\"))",
             "formatString": "0.0"
           },
           {
             "name": "MedianAppliedACT",
-            "expression": " CALCULATE(MEDIAN(TeacherCandidateProgressionScoreSummary[Score]), FILTER(TeacherCandidateProgressionScoreSummary, TeacherCandidateProgressionScoreSummary[AssessmentTitle] = \"ACT\" && TeacherCandidateProgressionScoreSummary[Status]=\"Applied\"))",
+            "expression": " CALCULATE(MEDIAN(TeacherCandidateProgressionScoreSummary[Score]), FILTER(TeacherCandidateProgressionScoreSummary, TeacherCandidateProgressionScoreSummary[AssessmentTitle] = \"ACT score\" && TeacherCandidateProgressionScoreSummary[Status]=\"Applied\"))",
             "formatString": "0.0"
           },
           {
             "name": "MedianAppliedGPA",
-            "expression": " CALCULATE(MEDIAN(TeacherCandidateProgressionScoreSummary[Score]), FILTER(TeacherCandidateProgressionScoreSummary, TeacherCandidateProgressionScoreSummary[AssessmentTitle] = \"GPA\" && TeacherCandidateProgressionScoreSummary[Status]=\"Applied\"))",
+            "expression": " CALCULATE(MEDIAN(TeacherCandidateProgressionScoreSummary[Score]), FILTER(TeacherCandidateProgressionScoreSummary, TeacherCandidateProgressionScoreSummary[AssessmentTitle] = \"Overall GPA\" && TeacherCandidateProgressionScoreSummary[Status]=\"Applied\"))",
             "formatString": "0.00"
           },
           {
             "name": "MedianAppliedSAT",
-            "expression": " CALCULATE(MEDIAN(TeacherCandidateProgressionScoreSummary[Score]), FILTER(TeacherCandidateProgressionScoreSummary, TeacherCandidateProgressionScoreSummary[AssessmentTitle] = \"SAT\" && TeacherCandidateProgressionScoreSummary[Status]=\"Applied\"))",
+            "expression": " CALCULATE(MEDIAN(TeacherCandidateProgressionScoreSummary[Score]), FILTER(TeacherCandidateProgressionScoreSummary, TeacherCandidateProgressionScoreSummary[AssessmentTitle] = \"SAT score\" && TeacherCandidateProgressionScoreSummary[Status]=\"Applied\"))",
             "formatString": "0.0"
           },
           {
             "name": "MedianEnrolledACT",
-            "expression": " CALCULATE(MEDIAN(TeacherCandidateProgressionScoreSummary[Score]), FILTER(TeacherCandidateProgressionScoreSummary, TeacherCandidateProgressionScoreSummary[AssessmentTitle] = \"ACT\" && TeacherCandidateProgressionScoreSummary[Status]=\"Enrolled\"))",
+            "expression": " CALCULATE(MEDIAN(TeacherCandidateProgressionScoreSummary[Score]), FILTER(TeacherCandidateProgressionScoreSummary, TeacherCandidateProgressionScoreSummary[AssessmentTitle] = \"ACT score\" && TeacherCandidateProgressionScoreSummary[Status]=\"Enrolled\"))",
             "formatString": "0.0"
           },
           {
             "name": "MedianEnrolledGPA",
-            "expression": " CALCULATE(MEDIAN(TeacherCandidateProgressionScoreSummary[Score]), FILTER(TeacherCandidateProgressionScoreSummary, TeacherCandidateProgressionScoreSummary[AssessmentTitle] = \"GPA\" && TeacherCandidateProgressionScoreSummary[Status]=\"Enrolled\"))",
+            "expression": " CALCULATE(MEDIAN(TeacherCandidateProgressionScoreSummary[Score]), FILTER(TeacherCandidateProgressionScoreSummary, TeacherCandidateProgressionScoreSummary[AssessmentTitle] = \"Overall GPA\" && TeacherCandidateProgressionScoreSummary[Status]=\"Enrolled\"))",
             "formatString": "0.00"
           },
           {
             "name": "MedianEnrolledSAT",
-            "expression": " CALCULATE(MEDIAN(TeacherCandidateProgressionScoreSummary[Score]), FILTER(TeacherCandidateProgressionScoreSummary, TeacherCandidateProgressionScoreSummary[AssessmentTitle] = \"SAT\" && TeacherCandidateProgressionScoreSummary[Status]=\"Enrolled\"))",
+            "expression": " CALCULATE(MEDIAN(TeacherCandidateProgressionScoreSummary[Score]), FILTER(TeacherCandidateProgressionScoreSummary, TeacherCandidateProgressionScoreSummary[AssessmentTitle] = \"SAT score\" && TeacherCandidateProgressionScoreSummary[Status]=\"Enrolled\"))",
             "formatString": "0.0"
           }
         ]
       },
       {
-        "name": "TeacherCandidateProgressionSummary",
+        "name": "TeacherCandidateGatewayCourseCompleted",
+        "columns": [
+          {
+            "name": "TeacherCandidateSchoolYearInstanceKey",
+            "dataType": "string",
+            "sourceColumn": "TeacherCandidateSchoolYearInstanceKey"
+          },
+          {
+            "name": "TeacherCandidateKey",
+            "dataType": "string",
+            "sourceColumn": "TeacherCandidateKey"
+          },
+          {
+            "name": "SchoolYear",
+            "dataType": "int64",
+            "sourceColumn": "SchoolYear"
+          },
+          {
+            "name": "GatewayOneCourseComplete",
+            "dataType": "boolean",
+            "sourceColumn": "GateWayOneCourseComplete",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\""
+          },
+          {
+            "name": "GatewayTwoCourseComplete",
+            "dataType": "boolean",
+            "sourceColumn": "GateWayTwoCourseComplete",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\""
+          },
+          {
+            "name": "GatewayThreeCourseComplete",
+            "dataType": "boolean",
+            "sourceColumn": "GateWayThreeCourseComplete",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\""
+          },
+          {
+            "name": "GatewayFourCourseComplete",
+            "dataType": "boolean",
+            "sourceColumn": "GateWayFourCourseComplete",
+            "formatString": "\"TRUE\";\"TRUE\";\"FALSE\""
+          },
+          {
+            "type": "calculated",
+            "name": "GatewayFieldWorkHours",
+            "dataType": "double",
+            "isDataTypeInferred": true,
+            "expression": [
+              "  VAR hours =",
+              "        CALCULATE (",
+              "            SUMX (",
+              "                TeacherCandidateFieldworkExperienceFact,",
+              "                TeacherCandidateFieldworkExperienceFact[HoursPerWeek]",
+              "            ),",
+              "            TeacherCandidateDimension",
+              "        )",
+              "    RETURN",
+              "       hours"
+            ]
+          },
+          {
+            "type": "calculated",
+            "name": "GatewayGPA",
+            "dataType": "double",
+            "isDataTypeInferred": true,
+            "expression": [
+              "VAR gpa =",
+              "    CALCULATE (",
+              "        MAXX (",
+              "            FILTER (",
+              "                TeacherCandidateAcademicRecordFact,",
+              "                TeacherCandidateAcademicRecordFact[SchoolYear]",
+              "                    = MAXX (",
+              "                        TeacherCandidateAcademicRecordFact,",
+              "                        TeacherCandidateAcademicRecordFact[SchoolYear]",
+              "                    )",
+              "                    && TeacherCandidateAcademicRecordFact[TermDescriptorId]",
+              "                        = MAXX (",
+              "                            TeacherCandidateAcademicRecordFact,",
+              "                            TeacherCandidateAcademicRecordFact[TermDescriptorId]",
+              "                        )",
+              "            ),",
+              "            TeacherCandidateAcademicRecordFact[CumulativeGradePointAverage]",
+              "        )",
+              "    )",
+              "RETURN",
+              "gpa"
+            ]
+          },
+          {
+            "type": "calculated",
+            "name": "GatewayOne",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": [
+              "IF (",
+              "    VAR gateway = TeacherCandidateGatewayCourseCompleted[GatewayOneCourseComplete]",
+              "    VAR gpa = TeacherCandidateGatewayCourseCompleted[GatewayGPA]",
+              "    RETURN",
+              "        gpa >= 2.5",
+              "            && gateway,",
+              "    \"Meets Criteria\",",
+              "    \"Does Not Meet Criteria\"",
+              ")"
+            ]
+          },
+          {
+            "type": "calculated",
+            "name": "GatewayTwo",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": [
+              "IF (",
+              "    ",
+              "        VAR gateway =",
+              "           ",
+              "                TeacherCandidateGatewayCourseCompleted[GatewayOneCourseComplete]",
+              "        VAR gpa =",
+              "           TeacherCandidateGatewayCourseCompleted[GatewayGPA]",
+              "        RETURN",
+              "             gpa >= 2.8 && gateway",
+              "    ,",
+              "    \"Meets Criteria\",",
+              "    \"Does Not Meet Criteria\"",
+              ")"
+            ]
+          },
+          {
+            "type": "calculated",
+            "name": "GatewayThree",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": [
+              "IF (",
+              "        VAR gateway =",
+              "            ",
+              "                TeacherCandidateGatewayCourseCompleted[GatewayOneCourseComplete]",
+              "        VAR gpa =",
+              "             TeacherCandidateGatewayCourseCompleted[GatewayGPA]",
+              "        VAR FieldWorkHours =",
+              "            ",
+              "                TeacherCandidateGatewayCourseCompleted[GatewayFieldWorkHours]",
+              "        RETURN",
+              "             gpa >= 3.0 && gateway && FieldWorkHours >= 10",
+              "   ,",
+              "    \"Meets Criteria\",",
+              "    \"Does Not Meet Criteria\"",
+              ")"
+            ]
+          },
+          {
+            "type": "calculated",
+            "name": "GatewayFour",
+            "dataType": "string",
+            "isDataTypeInferred": true,
+            "expression": [
+              "IF (",
+              "    VAR gateway = TeacherCandidateGatewayCourseCompleted[GatewayOneCourseComplete]",
+              "    VAR gpa = TeacherCandidateGatewayCourseCompleted[GatewayGPA]",
+              "    VAR FieldWorkHours = TeacherCandidateGatewayCourseCompleted[GatewayFieldWorkHours]",
+              "    RETURN",
+              "        gpa >= 3.0",
+              "            && FieldWorkHours >= 30",
+              "            && gateway,",
+              "    \"Meets Criteria\",",
+              "    \"Does Not Meet Criteria\"",
+              ")"
+            ]
+          }
+        ],
+        "partitions": [
+          {
+            "name": "Partition",
+            "dataView": "full",
+            "source": {
+              "type": "m",
+              "expression": [
+                "let",
+                "    Source = #\"Ed-Fi-Ods\",",
+                "    analytics_TeacherCandidateGatewayCourseCompleted = Value.NativeQuery(#\"Ed-Fi-Ods\", \"exec analytics_config.MultipleYearSnapShots @viewname =N'analytics.TeacherCandidateGatewayCourseCompleted'\")",
+                "in",
+                "    analytics_TeacherCandidateGatewayCourseCompleted"
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "name": "ReviewerStaffDimension",
         "columns": [
           {
             "type": "calculatedTableColumn",
-            "name": "Status",
-            "dataType": "string",
-            "isNameInferred": true,
-            "isDataTypeInferred": true,
-            "sourceColumn": "[Status]",
-            "sortByColumn": "SortOrder"
-          },
-          {
-            "type": "calculatedTableColumn",
-            "name": "Count of  Progression",
+            "name": "StaffKey",
             "dataType": "int64",
             "isNameInferred": true,
             "isDataTypeInferred": true,
-            "sourceColumn": "[Count of  Progression]"
+            "sourceColumn": "StaffDimension[StaffKey]"
           },
           {
             "type": "calculatedTableColumn",
-            "name": "TacherPrepProvider",
+            "name": "StaffFullName",
             "dataType": "string",
             "isNameInferred": true,
             "isDataTypeInferred": true,
-            "sourceColumn": "[TacherPrepProvider]"
+            "sourceColumn": "StaffDimension[StaffFullName]"
           },
           {
             "type": "calculatedTableColumn",
-            "name": "ProgramName",
+            "name": "Sex",
             "dataType": "string",
             "isNameInferred": true,
             "isDataTypeInferred": true,
-            "sourceColumn": "TeacherPreparationProviderProgramDimension[ProgramName]"
+            "sourceColumn": "StaffDimension[Sex]"
           },
           {
             "type": "calculatedTableColumn",
-            "name": "ProgramSchoolYearInstanceKey",
+            "name": "RaceDescriptor",
             "dataType": "string",
             "isNameInferred": true,
             "isDataTypeInferred": true,
-            "sourceColumn": "TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey]"
+            "sourceColumn": "StaffDimension[RaceDescriptor]"
           },
           {
             "type": "calculatedTableColumn",
-            "name": "SortOrder",
+            "name": "StaffSchoolYearInstanceKey",
+            "dataType": "string",
+            "isNameInferred": true,
+            "isDataTypeInferred": true,
+            "sourceColumn": "StaffDimension[StaffSchoolYearInstanceKey]"
+          },
+          {
+            "type": "calculatedTableColumn",
+            "name": "SchoolYear",
             "dataType": "int64",
             "isNameInferred": true,
             "isDataTypeInferred": true,
-            "sourceColumn": "[SortOrder]"
-          },
-          {
-            "type": "calculatedTableColumn",
-            "name": "TeacherPreparationProviderKey",
-            "dataType": "int64",
-            "isNameInferred": true,
-            "isDataTypeInferred": true,
-            "sourceColumn": "TeacherPreparationProviderProgramDimension[TeacherPreparationProviderKey]"
+            "sourceColumn": "StaffDimension[SchoolYear]"
           }
         ],
         "partitions": [
@@ -4680,119 +4577,7 @@
             "name": "CalculatedTable 1",
             "source": {
               "type": "calculated",
-              "expression": [
-                "",
-                "UNION (",
-                "    SUMMARIZE (",
-                "        TeacherPreparationProviderProgramDimension,",
-                "        TeacherPreparationProviderProgramDimension[ProgramName],",
-                "        TeacherPreparationProviderProgramDimension[TeacherPreparationProviderKey],",
-                "        TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey],",
-                "        \"TacherPrepProvider\", FIRSTNONBLANK (",
-                "            TeacherPreparationProviderDimension[TeacherPreparationProviderName],",
-                "            TRUE ()",
-                "        ),",
-                "        \"Count of  Progression\", CALCULATE (",
-                "            DISTINCTCOUNT ( ApplicantDimension[ApplicantKey] ),",
-                "            FILTER (",
-                "                ApplicantProgramFact,",
-                "                ApplicantProgramFact[ProgramName] = TeacherPreparationProviderProgramDimension[ProgramName]",
-                "                    && ApplicantProgramFact[TeacherPreparationProviderKey] = TeacherPreparationProviderProgramDimension[TeacherPreparationProviderKey] ",
-                "            )",
-                "        ),",
-                "        \"Status\", \"Applied\", ",
-                "        \"SortOrder\",1",
-                "        ",
-                "    ),",
-                "    SUMMARIZE (",
-                "        TeacherPreparationProviderProgramDimension,",
-                "        TeacherPreparationProviderProgramDimension[ProgramName],",
-                "        TeacherPreparationProviderProgramDimension[TeacherPreparationProviderKey],",
-                "        TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey],",
-                "        \"TacherPrepProvider\", FIRSTNONBLANK (",
-                "            TeacherPreparationProviderDimension[TeacherPreparationProviderName],",
-                "            TRUE ()",
-                "        ),",
-                "        \"Count of  Progression\", CALCULATE (",
-                "            DISTINCTCOUNT ( ApplicantDimension[ApplicantKey] ),",
-                "                       FILTER (",
-                "                ApplicantProgramFact,",
-                "                ApplicantProgramFact[ProgramName] = TeacherPreparationProviderProgramDimension[ProgramName]",
-                "                    && ApplicantProgramFact[TeacherPreparationProviderKey] = TeacherPreparationProviderProgramDimension[TeacherPreparationProviderKey] && ApplicantProgramFact[Status] = \"Accepted\"",
-                "            )",
-                "        ),",
-                "        \"Status\", \"Accepted\", ",
-                "        \"SortOrder\", 2",
-                "    ),",
-                "    SUMMARIZE (",
-                "        TeacherPreparationProviderProgramDimension,",
-                "        TeacherPreparationProviderProgramDimension[ProgramName],",
-                "        TeacherPreparationProviderProgramDimension[TeacherPreparationProviderKey],",
-                "        TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey],",
-                "        \"TacherPrepProvider\", FIRSTNONBLANK (",
-                "            TeacherPreparationProviderDimension[TeacherPreparationProviderName],",
-                "            TRUE ()",
-                "        ),",
-                "        \"Count of  Progression\", CALCULATE (",
-                "            DISTINCTCOUNT ( TeacherCandidateDimension[TeacherCandidateKey] ),",
-                "            FILTER (",
-                "                TeacherCandidateProgramFact,",
-                "                TeacherCandidateProgramFact[ProgramName] = TeacherPreparationProviderProgramDimension[ProgramName]",
-                "            )",
-                "        ),",
-                "        \"Status\", \"Enrolled\", ",
-                "        \"SortOrder\",3",
-                "    ),",
-                "    SUMMARIZE (",
-                "        TeacherPreparationProviderProgramDimension,",
-                "        TeacherPreparationProviderProgramDimension[ProgramName],",
-                "        TeacherPreparationProviderProgramDimension[TeacherPreparationProviderKey],",
-                "        TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey],",
-                "        \"TacherPrepProvider\", FIRSTNONBLANK (",
-                "            TeacherPreparationProviderDimension[TeacherPreparationProviderName],",
-                "            TRUE ()",
-                "        ),",
-                "        \"Count of  Progression\", CALCULATE (",
-                "            DISTINCTCOUNT ( TeacherCandidateDimension[TeacherCandidateKey] ),",
-                "            FILTER (",
-                "                TeacherCandidateDimension,",
-                "                TeacherCandidateDimension[ProgramComplete] = TRUE ()",
-                "            ),",
-                "            FILTER (",
-                "                TeacherCandidateProgramFact,",
-                "                TeacherCandidateProgramFact[ProgramName] = TeacherPreparationProviderProgramDimension[ProgramName]",
-                "                    && TeacherCandidateProgramFact[TeacherPreparationProviderKey] = TeacherPreparationProviderProgramDimension[TeacherPreparationProviderKey]",
-                "            )",
-                "        ),",
-                "        \"Status\", \"Completed\", ",
-                "        \"SortOrder\",4",
-                "    ),",
-                "    SUMMARIZE (",
-                "        TeacherPreparationProviderProgramDimension,",
-                "        TeacherPreparationProviderProgramDimension[ProgramName],",
-                "        TeacherPreparationProviderProgramDimension[TeacherPreparationProviderKey],",
-                "        TeacherPreparationProviderProgramDimension[ProgramSchoolYearInstanceKey],",
-                "        \"TacherPrepProvider\", FIRSTNONBLANK (",
-                "            TeacherPreparationProviderDimension[TeacherPreparationProviderName],",
-                "            TRUE ()",
-                "        ),",
-                "        \"Count of  Progression\", CALCULATE (",
-                "            DISTINCTCOUNT ( TeacherCandidateDimension[TeacherCandidateKey] ),",
-                "            FILTER (",
-                "                TeacherCandidateDimension,",
-                "                TeacherCandidateDimension[Employeed] = TRUE ()",
-                "            ),",
-                "            FILTER (",
-                "                TeacherCandidateProgramFact,",
-                "                TeacherCandidateProgramFact[ProgramName] = TeacherPreparationProviderProgramDimension[ProgramName]",
-                "                    && TeacherCandidateProgramFact[TeacherPreparationProviderKey] = TeacherPreparationProviderProgramDimension[TeacherPreparationProviderKey]",
-                "            )",
-                "        ),",
-                "        \"Status\", \"Employed\", ",
-                "        \"SortOrder\",5",
-                "    )",
-                ")"
-              ]
+              "expression": "StaffDimension"
             }
           }
         ]
@@ -4874,7 +4659,7 @@
         "name": "e3598b61-ad2c-4e01-91dd-0a59a06bbe1d",
         "fromTable": "StaffEducationOrganizationAssociationDimension",
         "fromColumn": "StaffSchoolYearInstanceKey",
-        "toTable": "ReviewerStaffDimenson",
+        "toTable": "ReviewerStaffDimension",
         "toColumn": "StaffSchoolYearInstanceKey",
         "crossFilteringBehavior": "bothDirections"
       },
@@ -4985,7 +4770,7 @@
       {
         "name": "3f1a2568-046e-410b-8597-0151f07d4cf7",
         "fromTable": "TeacherCandidateGatewayDetailSummary",
-        "fromColumn": "TeacherCandidateSchoolYearInstnceKey",
+        "fromColumn": "TeacherCandidateSchoolYearInstanceKey",
         "toTable": "TeacherCandidateDimension",
         "toColumn": "TeacherCandidateSchoolYearInstanceKey",
         "crossFilteringBehavior": "bothDirections"
@@ -4994,7 +4779,7 @@
         "name": "1a1e0d9b-f583-4246-877b-66c38ed8b496",
         "fromTable": "TeacherCandidatePerformanceMeasureFact",
         "fromColumn": "StaffSchoolYearInstanceKey",
-        "toTable": "ReviewerStaffDimenson",
+        "toTable": "ReviewerStaffDimension",
         "toColumn": "StaffSchoolYearInstanceKey",
         "crossFilteringBehavior": "bothDirections"
       },
@@ -5023,43 +4808,11 @@
         "crossFilteringBehavior": "bothDirections"
       },
       {
-        "name": "7f19d750-38e6-4868-aa66-630716e79b10",
-        "fromTable": "TeacherCandidateProgramFact",
-        "fromColumn": "TeacherPreparationProviderSchoolYearInstanceKey",
-        "toTable": "TeacherPreparationProviderDimension",
-        "toColumn": "TeacherPreparationProviderSchoolYearInstanceKey",
-        "crossFilteringBehavior": "bothDirections"
-      },
-      {
         "name": "aebc5927-ac55-489b-8d55-81d870ee9150",
         "fromTable": "TeacherCandidateProgramFact",
         "fromColumn": "TeacherCandidateSchoolyearInstaceKey",
         "toTable": "TeacherCandidateDimension",
         "toColumn": "TeacherCandidateSchoolYearInstanceKey",
-        "crossFilteringBehavior": "bothDirections"
-      },
-      {
-        "name": "be10bf8d-e037-4bd8-ac45-47a7cbb86c53",
-        "fromTable": "TeacherCandidateProgressionDemographicsSummary",
-        "fromColumn": "ProgramSchoolYearInstanceKey",
-        "toTable": "TeacherPreparationProviderProgramDimension",
-        "toColumn": "ProgramSchoolYearInstanceKey",
-        "crossFilteringBehavior": "bothDirections"
-      },
-      {
-        "name": "6e6e3e74-c86d-4413-a8a4-5fcb6fe96fb8",
-        "fromTable": "TeacherCandidateProgressionScoreSummary",
-        "fromColumn": "ProgramSchoolYearInstanceKey",
-        "toTable": "TeacherPreparationProviderProgramDimension",
-        "toColumn": "ProgramSchoolYearInstanceKey",
-        "crossFilteringBehavior": "bothDirections"
-      },
-      {
-        "name": "19881746-bf0f-48d6-af4a-6f6b20b4b7d7",
-        "fromTable": "TeacherCandidateProgressionSummary",
-        "fromColumn": "ProgramSchoolYearInstanceKey",
-        "toTable": "TeacherPreparationProviderProgramDimension",
-        "toColumn": "ProgramSchoolYearInstanceKey",
         "crossFilteringBehavior": "bothDirections"
       },
       {
@@ -5126,12 +4879,47 @@
         "toColumn": "TeacherCandidateSchoolYearInstanceKey"
       },
       {
-        "name": "3a0ee6ad-c0ae-40eb-8100-1659dd781cbc",
-        "fromTable": "TeacherCandidateGatewayCorurseCompleted",
-        "fromColumn": "TeacherCandidateSchoolYearInstnceKey",
-        "toTable": "TeacherCandidateDimension",
+        "name": "54a97e03-d003-4ae6-b1a0-6943ae4b7e4b",
+        "fromTable": "TeacherCandidateProgramFact",
+        "fromColumn": "TeacherCandidateSchoolyearInstaceKey",
+        "toTable": "TeacherCandidateGatewayCourseCompleted",
         "toColumn": "TeacherCandidateSchoolYearInstanceKey",
         "crossFilteringBehavior": "bothDirections"
+      },
+      {
+        "name": "e3583ec9-93b3-4ed5-97bf-b095bc041600",
+        "fromTable": "ApplicantScoresFact",
+        "fromColumn": "ApplicantSchoolYearInstanceKey",
+        "toTable": "ApplicantDimension",
+        "toColumn": "ApplicantSchoolYearInstanceKey"
+      },
+      {
+        "name": "df60abf3-f3bb-4c69-a806-b196f361a81c",
+        "fromTable": "TeacherCandidateProgressionDemographicsSummary",
+        "fromColumn": "ProgramSchoolYearInstanceKey",
+        "toTable": "TeacherPreparationProviderProgramDimension",
+        "toColumn": "ProgramSchoolYearInstanceKey"
+      },
+      {
+        "name": "76eff7db-588e-40be-bd22-7a2581b11a34",
+        "fromTable": "TeacherCandidateProgressionSummary",
+        "fromColumn": "ProgramSchoolYearInstanceKey",
+        "toTable": "TeacherPreparationProviderProgramDimension",
+        "toColumn": "ProgramSchoolYearInstanceKey"
+      },
+      {
+        "name": "5abb89b2-8648-41d6-aaf9-624e0b128548",
+        "fromTable": "TeacherCandidateProgramFact",
+        "fromColumn": "TeacherPreparationProviderSchoolYearInstanceKey",
+        "toTable": "TeacherPreparationProviderDimension",
+        "toColumn": "TeacherPreparationProviderSchoolYearInstanceKey"
+      },
+      {
+        "name": "19bd7892-73ff-49cc-96ab-7b648c8c03d2",
+        "fromTable": "TeacherCandidateProgressionScoreSummary",
+        "fromColumn": "ProgramSchoolYearInstanceKey",
+        "toTable": "TeacherPreparationProviderProgramDimension",
+        "toColumn": "ProgramSchoolYearInstanceKey"
       }
     ],
     "roles": [
@@ -5271,18 +5059,6 @@
             ]
           },
           {
-            "name": "TeacherCandidateGatewayCorurseCompleted",
-            "filterExpression": [
-              "TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey]",
-              "    = LOOKUPVALUE (",
-              "        Security[TeacherCandidateKey],",
-              "        Security[LoginId], USERNAME (),",
-              "        Security[TeacherCandidateKey], TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey]",
-              "    )",
-              ""
-            ]
-          },
-          {
             "name": "TeacherCandidateGatewayDetailSummary",
             "filterExpression": [
               "TeacherCandidateGatewayDetailSummary[TeacherCandidateKey]",
@@ -5314,6 +5090,18 @@
               "        Security[LoginId], USERNAME (),",
               "        Security[TeacherCandidateKey], TeacherCandidatePreProgramGPA[TeacherCandidateKey]",
               "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateGatewayCourseCompleted",
+            "filterExpression": [
+              "TeacherCandidateGatewayCourseCompleted[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateGatewayCourseCompleted[TeacherCandidateKey]",
+              "    )",
+              ""
             ]
           }
         ]
@@ -5432,18 +5220,6 @@
             ]
           },
           {
-            "name": "TeacherCandidateGatewayCorurseCompleted",
-            "filterExpression": [
-              "TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey]",
-              "    = LOOKUPVALUE (",
-              "        Security[TeacherCandidateKey],",
-              "        Security[LoginId], USERNAME (),",
-              "        Security[TeacherCandidateKey], TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey]",
-              "    )",
-              ""
-            ]
-          },
-          {
             "name": "TeacherCandidateGatewayDetailSummary",
             "filterExpression": [
               "TeacherCandidateGatewayDetailSummary[TeacherCandidateKey]",
@@ -5486,6 +5262,18 @@
               "        Security[LoginId], USERNAME (),",
               "        Security[TeacherCandidateKey], TeacherCandidatePreProgramGPA[TeacherCandidateKey]",
               "    )"
+            ]
+          },
+          {
+            "name": "TeacherCandidateGatewayCourseCompleted",
+            "filterExpression": [
+              "TeacherCandidateGatewayCourseCompleted[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateGatewayCourseCompleted[TeacherCandidateKey]",
+              "    )",
+              ""
             ]
           }
         ]
@@ -5600,18 +5388,6 @@
             ]
           },
           {
-            "name": "TeacherCandidateGatewayCorurseCompleted",
-            "filterExpression": [
-              "TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey]",
-              "    = LOOKUPVALUE (",
-              "        Security[TeacherCandidateKey],",
-              "        Security[LoginId], USERNAME (),",
-              "        Security[TeacherCandidateKey], TeacherCandidateGatewayCorurseCompleted[TeacherCandidateKey]",
-              "    )",
-              ""
-            ]
-          },
-          {
             "name": "TeacherCandidateGatewayDetailSummary",
             "filterExpression": [
               "TeacherCandidateGatewayDetailSummary[TeacherCandidateKey]",
@@ -5655,6 +5431,18 @@
               "        Security[TeacherCandidateKey], TeacherCandidatePreProgramGPA[TeacherCandidateKey]",
               "    )"
             ]
+          },
+          {
+            "name": "TeacherCandidateGatewayCourseCompleted",
+            "filterExpression": [
+              "TeacherCandidateGatewayCourseCompleted[TeacherCandidateKey]",
+              "    = LOOKUPVALUE (",
+              "        Security[TeacherCandidateKey],",
+              "        Security[LoginId], USERNAME (),",
+              "        Security[TeacherCandidateKey], TeacherCandidateGatewayCourseCompleted[TeacherCandidateKey]",
+              "    )",
+              ""
+            ]
           }
         ]
       }
@@ -5663,6 +5451,10 @@
       {
         "name": "ClientCompatibilityLevel",
         "value": "500"
+      },
+      {
+        "name": "__BNorm",
+        "value": "1"
       }
     ]
   }

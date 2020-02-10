@@ -41,7 +41,7 @@ AS
                    'Completed not on time'
                WHEN tctpppa.EndDate IS NULL
                 AND d.Description IS NOT NULL THEN
-                   'Discontiued'
+                   'Discontinued'
                ELSE
                    'Still Enrolled'
            END AS ProgramStatus,

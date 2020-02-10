@@ -1,7 +1,7 @@
 ﻿CREATE   VIEW [analytics].[SchoolDimension]
 AS
   WITH
-    AccountablityRating
+    AccountabilityRating
     AS
     (
       SELECT
@@ -26,7 +26,7 @@ AS
  , CurrentSchoolYear.SchoolYear
  , [EducationOrganization].[NameOfInstitution] AS [SchoolName]
  , ISNULL([std].[CodeValue], '') AS [SchoolType]
- , ISNULL(AccountablityRating.Rating, '') Rating
+ , ISNULL(AccountabilityRating.Rating, '') Rating
  , ISNULL(d.CodeValue, '') AS SchoolCategoryType
  , ISNULL([SchoolAddress].[SchoolAddress], '') AS [SchoolAddress]
  , ISNULL([SchoolAddress].[SchoolCity], '') AS [SchoolCity]
@@ -62,8 +62,8 @@ AS
     ON [LocalEducationAgency].[StateEducationAgencyId] = [EdOrgState].[EducationOrganizationId]
     LEFT OUTER JOIN [edfi].[EducationOrganization] AS [EdOrgServiceCenter]
     ON [LocalEducationAgency].[EducationServiceCenterId] = [EdOrgServiceCenter].EducationOrganizationId
-    LEFT OUTER JOIN AccountablityRating
-    ON School.SchoolId = AccountablityRating.SchoolId
+    LEFT OUTER JOIN AccountabilityRating
+    ON School.SchoolId = AccountabilityRating.SchoolId
     LEFT OUTER JOIN edfi.SchoolCategory sc
     ON School.SchoolId = sc.SchoolId
     LEFT OUTER JOIN edfi.SchoolCategoryDescriptor scd

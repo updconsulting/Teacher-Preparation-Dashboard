@@ -8,7 +8,7 @@ AS
         spdea.StaffUSI AS StaffKey,
         spdea.AttendanceDate,
         spdea.ProfessionalDevelopmentTitle,
-        d.CodeValue AS StaffCassificationDescriptor,
+        d.CodeValue AS StaffClassificationDescriptor,
         ROW_NUMBER() OVER (PARTITION BY s.StaffUSI, spdea.ProfessionalDevelopmentTitle ORDER BY spdea.AttendanceDate DESC) Recent
 
       FROM edfi.Staff s
@@ -26,7 +26,7 @@ AS
     StaffKey, CurrentSchoolYear.SchoolYear AS SchoolYear,
     AttendanceDate,
     ProfessionalDevelopmentTitle,
-    StaffCassificationDescriptor, CASE WHEN ProfessionalDevelopmentTitle LIKE 'Classroom Management' THEN 'Completed' ELSE 'Not Completed' END AS Status
+    StaffClassificationDescriptor, CASE WHEN ProfessionalDevelopmentTitle LIKE 'Classroom Management' THEN 'Completed' ELSE 'Not Completed' END AS Status
   FROM StaffProfessionalDevelopmentEvent
   CROSS APPLY
   (  

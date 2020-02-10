@@ -1,12 +1,12 @@
 ﻿
---Definition of denomiDefinition of denominator -
+--Definition of denominator -
 --Gateway 1: enrollees that have completed course code ‘EDCI3334’ with a grade equal to or greater than a 'B', but not course codes ‘EDTC3310’, ‘ECEC4311’, ‘EDUL6391’, ‘UTCH1101’, ‘EDUC4611’ or ‘UNIV1301’
 --Gateway 2: enrollees that have completed course codes ‘EDCI3334’, ‘EDTC3310’, and ‘ECEC4311’ with a grade equal to or greater than a 'B', but not course codes ‘EDUL6391’, ‘UTCH1101’, ‘EDUC4611’ or ‘UNIV1301’
 --Gateway 3: enrollees that have completed course codes ‘EDCI3334’, ‘EDTC3310’, ‘ECEC4311’, ‘EDUL6391’, and ‘UTCH1101’, with a grade equal to or greater than a 'B', but not course codes ‘EDUC4611’ or ‘UNIV1301’
 --Gateway 4: enrollees that have completed course codes ‘EDCI3334’, ‘EDTC3310’, ‘ECEC4311’, ‘EDUL6391’, ‘UTCH1101’, ‘EDUC4611’ and ‘UNIV1301’ with a grade equal to or greater than a 'B'
 --
 
-CREATE   VIEW [analytics].[TeacherCandidateGatewayCorurseCompleted]
+CREATE   VIEW [analytics].[TeacherCandidateGatewayCourseCompleted]
 AS
     /** Gate way one **/
     WITH
@@ -23,7 +23,7 @@ AS
                 [UNIV1301]
             FROM
                 (
-                                                                                                           SELECT DISTINCT
+                                                                                                                                                                                                                                                                                                                   SELECT DISTINCT
                         tcct.TeacherCandidateIdentifier,
                         tcct.CourseCode,
                         CASE
@@ -222,7 +222,7 @@ AS
         FROM edfi.SchoolYearType
         WHERE CurrentSchoolYear = 1
        )
-                                                   ) TeacherCandidateSchoolYearInstnceKey,
+                                                   ) TeacherCandidateSchoolYearInstanceKey,
         TeacherCandidateKey,
         SchoolYear =
        (
@@ -256,7 +256,7 @@ AS
        END AS GateWayFourCourseComplete
     FROM
         (
-                                SELECT TeacherCandidateIdentifier AS TeacherCandidateKey, --‘EDCI3334’ 
+                                                                                        SELECT TeacherCandidateIdentifier AS TeacherCandidateKey, --‘EDCI3334’ 
                 CASE
                WHEN EDCI3334 = 'Completed' THEN
                    1

@@ -5,7 +5,7 @@ AS
         AS
         (
             SELECT tcfe.TeacherCandidateIdentifier TeacherCandidateKey,
-                tcfe.SchoolId AS SchoolKey,
+                tcfs.SchoolId AS SchoolKey,
                 MAX(tcfesa.SchoolYear) AS SchoolYear,
                 lea.LocalEducationAgencyId AS LocalEducationAgencyKey,
                 eo.NameOfInstitution PlacementSchool,
@@ -13,8 +13,11 @@ AS
                 tcfesa.SessionName AS Semester,
                 SUM(tcfe.HoursPerWeek) AS HoursPerWeek
             FROM tpdm.TeacherCandidateFieldworkExperience tcfe
+                INNER JOIN tpdm.TeacherCandidateFieldworkExperienceSchool tcfs
+                on tcfe.TeacherCandidateIdentifier = tcfs.TeacherCandidateIdentifier
+                    AND tcfs.FieldworkIdentifier = tcfe.FieldworkIdentifier
                 INNER JOIN edfi.School s
-                ON tcfe.SchoolId = s.SchoolId
+                ON tcfs.SchoolId = s.SchoolId
                 INNER JOIN edfi.EducationOrganization eo
                 ON s.SchoolId = eo.EducationOrganizationId
                 INNER JOIN edfi.LocalEducationAgency lea
@@ -26,10 +29,10 @@ AS
                 INNER JOIN tpdm.TeacherCandidateFieldworkExperienceSectionAssociation tcfesa
                 ON tcfe.BeginDate = tcfesa.BeginDate
                     AND tcfe.FieldworkIdentifier = tcfesa.FieldworkIdentifier
-                    AND tcfe.SchoolId = tcfesa.SchoolId
+                    AND tcfs.SchoolId = tcfesa.SchoolId
                     AND tcfe.TeacherCandidateIdentifier = tcfesa.TeacherCandidateIdentifier
             GROUP BY tcfe.TeacherCandidateIdentifier,
-            tcfe.SchoolId,
+            tcfs.SchoolId,
             lea.LocalEducationAgencyId,
             eo.NameOfInstitution,
             eo1.NameOfInstitution,
@@ -52,7 +55,5 @@ AS
         TeacherCandidateFieldWorkExperienceFact.Semester,
         TeacherCandidateFieldWorkExperienceFact.HoursPerWeek
     FROM TeacherCandidateFieldWorkExperienceFact;
-
-
 GO
 

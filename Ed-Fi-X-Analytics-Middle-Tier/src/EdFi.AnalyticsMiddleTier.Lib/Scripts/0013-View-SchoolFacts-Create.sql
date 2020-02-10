@@ -57,19 +57,22 @@ AS
     AS
     (
       SELECT
-        tcfe.SchoolId
+        tcfs.SchoolId
    , COUNT(DISTINCT tc.TeacherCandidateIdentifier) AS CandidatesPlaced
       FROM tpdm.TeacherCandidate tc
         INNER JOIN tpdm.TeacherCandidateFieldworkExperience tcfe
         ON tc.TeacherCandidateIdentifier = tcfe.TeacherCandidateIdentifier
-      GROUP BY tcfe.SchoolId
+        INNER JOIN tpdm.TeacherCandidateFieldworkExperienceSchool tcfs
+        ON tc.TeacherCandidateIdentifier = tcfs.TeacherCandidateIdentifier
+          AND tcfs.FieldworkIdentifier = tcfe.FieldworkIdentifier
+      GROUP BY tcfs.SchoolId
     ),
-    EmployeedTeacherCandidates
+    EmployedTeacherCandidates
     AS
     (
       SELECT
         seoaa.EducationOrganizationId
-   , COUNT(DISTINCT s.StaffUSI) AS CandidatesEmployeed
+   , COUNT(DISTINCT s.StaffUSI) AS CandidatesEmployed
       FROM edfi.StaffEducationOrganizationAssignmentAssociation seoaa
         INNER JOIN edfi.Staff s
         ON seoaa.StaffUSI = s.StaffUSI
@@ -77,7 +80,7 @@ AS
         ON tc.TeacherCandidateIdentifier = s.StaffUniqueId
       GROUP BY seoaa.EducationOrganizationId
     ),
-    HomlessStudents
+    HomelessStudents
     AS
     (
       SELECT
@@ -97,7 +100,7 @@ AS
  , eosf.NumberAdministratorsEmployed
  , eosf.NumberStudentsEnrolled
  , eosf.NumberTeachersEmployed
- , CandidatesEmployeed
+ , CandidatesEmployed
  , CandidatesPlaced
  , eosf.PercentStudentsFreeReducedLunch
  , eosf.PercentStudentsLimitedEnglishProficiency
@@ -133,13 +136,11 @@ AS
     LEFT JOIN RaceTypeAggregate
     ON eosf.EducationOrganizationId = RaceTypeAggregate.EducationOrganizationId
       AND eosf.FactsAsOfDate = RaceTypeAggregate.FactAsOfDate
-    LEFT JOIN EmployeedTeacherCandidates
-    ON eosf.EducationOrganizationId = EmployeedTeacherCandidates.EducationOrganizationId
+    LEFT JOIN EmployedTeacherCandidates
+    ON eosf.EducationOrganizationId = EmployedTeacherCandidates.EducationOrganizationId
       AND eosf.FactsAsOfDate = RaceTypeAggregate.FactAsOfDate
     LEFT JOIN EnrolledTeacherCandidates
     ON s.SchoolId = EnrolledTeacherCandidates.SchoolId
-    LEFT JOIN HomlessStudents
-    ON eosf.EducationOrganizationId = HomlessStudents.EducationOrganizationId
+    LEFT JOIN HomelessStudents
+    ON eosf.EducationOrganizationId = HomelessStudents.EducationOrganizationId
 GO
-
-
