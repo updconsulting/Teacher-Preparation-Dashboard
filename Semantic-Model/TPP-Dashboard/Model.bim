@@ -4100,9 +4100,9 @@
             "source": {
               "type": "m",
               "expression": [
-                "let",
+                "    let",
                 "    Source = #\"Ed-Fi-Ods\",",
-                "    analytics_ApplicantScoresFact = Source{[Schema=\"analytics\",Item=\"ApplicantScoresFact\"]}[Data],",
+                "    analytics_ApplicantScoresFact = Value.NativeQuery(#\"Ed-Fi-Ods\", \"exec analytics_config.MultipleYearSnapShots @viewname =N'analytics.ApplicantScoresFact'\"),",
                 "    #\"Removed Columns\" = Table.RemoveColumns(analytics_ApplicantScoresFact,{\"MostRecent\"})",
                 "in",
                 "    #\"Removed Columns\""
@@ -4170,7 +4170,7 @@
               "expression": [
                 "let",
                 "    Source = #\"Ed-Fi-Ods\",",
-                "    analytics_TeacherCandidateProgressionDemographicsSummary = Source{[Schema=\"analytics\",Item=\"TeacherCandidateProgressionDemographicsSummary\"]}[Data]",
+                "    analytics_TeacherCandidateProgressionDemographicsSummary = Value.NativeQuery(#\"Ed-Fi-Ods\", \"exec analytics_config.MultipleYearSnapShots @viewname =N'analytics.TeacherCandidateProgressionDemographicsSummary'\")",
                 "in",
                 "    analytics_TeacherCandidateProgressionDemographicsSummary"
               ]
@@ -4225,9 +4225,10 @@
             "source": {
               "type": "m",
               "expression": [
-                "let",
+                "",
+                "    let",
                 "    Source = #\"Ed-Fi-Ods\",",
-                "    analytics_TeacherCandidateProgressionSummary = Source{[Schema=\"analytics\",Item=\"TeacherCandidateProgressionSummary\"]}[Data]",
+                "    analytics_TeacherCandidateProgressionSummary = Value.NativeQuery(#\"Ed-Fi-Ods\", \"exec analytics_config.MultipleYearSnapShots @viewname =N'analytics.TeacherCandidateProgressionSummary'\")",
                 "in",
                 "    analytics_TeacherCandidateProgressionSummary"
               ]
@@ -4276,9 +4277,9 @@
             "source": {
               "type": "m",
               "expression": [
-                "let",
+                "  let",
                 "    Source = #\"Ed-Fi-Ods\",",
-                "    analytics_TeacherCandidateProgressionScoreSummary = Source{[Schema=\"analytics\",Item=\"TeacherCandidateProgressionScoreSummary\"]}[Data]",
+                "    analytics_TeacherCandidateProgressionScoreSummary = Value.NativeQuery(#\"Ed-Fi-Ods\", \"exec analytics_config.MultipleYearSnapShots @viewname =N'analytics.TeacherCandidateProgressionScoreSummary'\")",
                 "in",
                 "    analytics_TeacherCandidateProgressionScoreSummary"
               ]
