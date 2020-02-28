@@ -1,0 +1,135 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Ed-Fi Alliance</Authors>
+    <Copyright>Copyright (c) 2018, Ed-Fi Alliance</Copyright>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Scripts\0000-Table-IndexJournal-Create.sql" />
+    <None Remove="Scripts\0000-Table-SchoolYearHistoricalSnapShotDates-Create.sql" />
+    <None Remove="Scripts\0001-Func-EntitySchoolYearInstanceKey-Create.sql" />
+    <None Remove="Scripts\0001-View-ContactPersonDimension-Create.sql" />
+    <None Remove="Scripts\0002-View-StudentDimension-Create.sql" />
+    <None Remove="Scripts\0003-View-TeacherCandidateContactDimension-Create.sql" />
+    <None Remove="Scripts\0004-View-TeacherCandidateDimension-Create.sql" />
+    <None Remove="Scripts\0005-View-ApplicantDimension-Create.sql" />
+    <None Remove="Scripts\0006-View-ApplicantFacts-Create.sql" />
+    <None Remove="Scripts\0007-View-ApplicantProgramFact-Create.sql" />
+    <None Remove="Scripts\0008-View-LocalEducationAgencyDimension-Create.sql" />
+    <None Remove="Scripts\0009-View-MentorTeacherGradeLevelAcademicSubject-Create.sql" />
+    <None Remove="Scripts\0010-View-MentorTeacherProfessionalDevelopment-Create.sql" />
+    <None Remove="Scripts\0011-View-ProgramTypeDimension-Create.sql" />
+    <None Remove="Scripts\0012-View-SchoolDimension-Create.sql" />
+    <None Remove="Scripts\0013-View-SchoolFacts-Create.sql" />
+    <None Remove="Scripts\0015-View-SchoolStudentAssessmentFact-Create.sql" />
+    <None Remove="Scripts\0016-View-Section-Create.sql" />
+    <None Remove="Scripts\0017-View-StaffCredential-Create.sql" />
+    <None Remove="Scripts\0018-View-StaffDimension-Create.sql" />
+    <None Remove="Scripts\0019-View-StaffEducationOrganizationAssociationDimension-Create.sql" />
+    <None Remove="Scripts\0020-View-StaffSectionAssociation-Create.sql" />
+    <None Remove="Scripts\0021-View-StaffStudentGrowthMeasure-Create.sql" />
+    <None Remove="Scripts\0022-View-MostRecentGradingPeriod-Create.sql" />
+    <None Remove="Scripts\0022-View-StaffSurveyResponseFact-Create.sql" />
+    <None Remove="Scripts\0023-Index-AcademicSubjectType-Create.sql" />
+    <None Remove="Scripts\0023-View-StudentAssessment-Create.sql" />
+    <None Remove="Scripts\0024-Index-StudentSectionAssociation-Create.sql" />
+    <None Remove="Scripts\0025-Role-analytics_middle_tier-Create.sql" />
+    <None Remove="Scripts\0026-Proc-ViewStaffClassificationDescriptorScope-Create.sql" />
+    <None Remove="Scripts\0027-Proc-InsertStaffClassificationDescriptorScope-Create.sql" />
+    <None Remove="Scripts\0027-View-StudentSectionDimension-Create.sql" />
+    <None Remove="Scripts\0028-Proc-RemoveStaffClassificationDescriptorScope-Create.sql" />
+    <None Remove="Scripts\0029-View-LocalEducationAgencyDimension-Create.sql" />
+    <None Remove="Scripts\0029-View-StudentSurveryResponseFact-Create.sql" />
+    <None Remove="Scripts\0030-View-TeacherCandidateAcademicRecordFact-Create.sql" />
+    <None Remove="Scripts\0031-View-TeacherCandidateAssessment-Create.sql" />
+    <None Remove="Scripts\0032-View-TeacherCandidateCourseTranscriptFact-Create.sql" />
+    <None Remove="Scripts\0033-View-TeacherCandidateEnrolledSectionAssociation-Create.sql" />
+    <None Remove="Scripts\0034-View-TeacherCandidateFieldworkExperienceFact-Create.sql" />
+    <None Remove="Scripts\0035-View-TeacherCandidateGatewayCorurseCompleted-Create.sql" />
+    <None Remove="Scripts\0036-View-TeacherCandidatePerformanceMeasureFact-Create.sql" />
+    <None Remove="Scripts\0037-View-TeacherCandidateProgramFact-Create.sql" />
+    <None Remove="Scripts\0038-View-TeacherCandidateStaffAssociation-Create.sql" />
+    <None Remove="Scripts\0039-View-TeacherCandidateStaffCredential-Create.sql" />
+    <None Remove="Scripts\0040-View-TeacherCandidateStaffDimension-Create.sql" />
+    <None Remove="Scripts\0041-View-TeacherCandidateStaffFact-Create.sql" />
+    <None Remove="Scripts\0042-View-TeacherCandidateSurveyResponseFact-Create.sql" />
+    <None Remove="Scripts\0043-View-TeacherPreparationProviderDimension-Create.sql" />
+    <None Remove="Scripts\0044-View-TeacherPreparationProviderProgramDimension-Create.sql" />
+    <None Remove="Scripts\0045-View-Security-Create.sql" />
+    <None Remove="Scripts\0046-Index-Grade-Create.sql" />
+    <None Remove="Scripts\0047-Index-AcademicSubjectType-Create.sql" />
+    <None Remove="Scripts\0048-Proc-MultipleYearSnapShots-Create.sql" />
+    <None Remove="Scripts\0049-Proc-EmptyDatabase-Create.sql" />
+    <None Remove="Scripts\0049-Proc-MultipleYearSnapShots-Create.sql" />
+    <None Remove="Scripts\0050-view-ApplicantScoresFact-Create.sql" />
+    <None Remove="Scripts\0051-view-TeacherCandidateProgressionScoreSummary-Create.sql" />
+    <None Remove="Scripts\0052-view-TeacherCandidateProgressionDemographicsSummary-Create.sql" />
+    <None Remove="Scripts\0053-view-TeacherCandidateProgressionSummary-Create.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Scripts\0000-Schema-Analytics-Create.sql" />
+    <EmbeddedResource Include="Scripts\0000-Table-IndexJournal-Create.sql" />
+    <EmbeddedResource Include="Scripts\0000-Table-SchoolYearHistoricalSnapShotDates-Create.sql" />
+    <EmbeddedResource Include="Scripts\0001-View-ContactPersonDimension-Create.sql" />
+    <EmbeddedResource Include="Scripts\0002-View-StudentDimension-Create.sql" />
+    <EmbeddedResource Include="Scripts\0003-View-TeacherCandidateContactDimension-Create.sql" />
+    <EmbeddedResource Include="Scripts\0004-View-TeacherCandidateDimension-Create.sql" />
+    <EmbeddedResource Include="Scripts\0005-View-ApplicantDimension-Create.sql" />
+    <EmbeddedResource Include="Scripts\0006-View-ApplicantFacts-Create.sql" />
+    <EmbeddedResource Include="Scripts\0007-View-ApplicantProgramFact-Create.sql" />
+    <EmbeddedResource Include="Scripts\0008-View-LocalEducationAgencyDimension-Create.sql" />
+    <EmbeddedResource Include="Scripts\0009-View-MentorTeacherGradeLevelAcademicSubject-Create.sql" />
+    <EmbeddedResource Include="Scripts\0010-View-MentorTeacherProfessionalDevelopment-Create.sql" />
+    <EmbeddedResource Include="Scripts\0011-View-ProgramTypeDimension-Create.sql" />
+    <EmbeddedResource Include="Scripts\0012-View-SchoolDimension-Create.sql" />
+    <EmbeddedResource Include="Scripts\0013-View-SchoolFacts-Create.sql" />
+    <EmbeddedResource Include="Scripts\0015-View-SchoolStudentAssessmentFact-Create.sql" />
+    <EmbeddedResource Include="Scripts\0016-View-Section-Create.sql" />
+    <EmbeddedResource Include="Scripts\0017-View-StaffCredential-Create.sql" />
+    <EmbeddedResource Include="Scripts\0018-View-StaffDimension-Create.sql" />
+    <EmbeddedResource Include="Scripts\0019-View-StaffEducationOrganizationAssociationDimension-Create.sql" />
+    <EmbeddedResource Include="Scripts\0020-View-StaffSectionAssociation-Create.sql" />
+    <EmbeddedResource Include="Scripts\0021-View-StaffStudentGrowthMeasure-Create.sql" />
+    <EmbeddedResource Include="Scripts\0022-View-StaffSurveyResponseFact-Create.sql" />
+    <EmbeddedResource Include="Scripts\0023-View-StudentAssessment-Create.sql" />
+    <EmbeddedResource Include="Scripts\0025-Role-analytics_middle_tier-Create.sql" />
+    <EmbeddedResource Include="Scripts\0027-View-StudentSectionDimension-Create.sql" />
+    <EmbeddedResource Include="Scripts\0029-View-StudentSurveryResponseFact-Create.sql" />
+    <EmbeddedResource Include="Scripts\0030-View-TeacherCandidateAcademicRecordFact-Create.sql" />
+    <EmbeddedResource Include="Scripts\0031-View-TeacherCandidateAssessment-Create.sql" />
+    <EmbeddedResource Include="Scripts\0032-View-TeacherCandidateCourseTranscriptFact-Create.sql" />
+    <EmbeddedResource Include="Scripts\0033-View-TeacherCandidateEnrolledSectionAssociation-Create.sql" />
+    <EmbeddedResource Include="Scripts\0034-View-TeacherCandidateFieldworkExperienceFact-Create.sql" />
+    <EmbeddedResource Include="Scripts\0035-View-TeacherCandidateGatewayCorurseCompleted-Create.sql" />
+    <EmbeddedResource Include="Scripts\0036-View-TeacherCandidatePerformanceMeasureFact-Create.sql" />
+    <EmbeddedResource Include="Scripts\0037-View-TeacherCandidateProgramFact-Create.sql" />
+    <EmbeddedResource Include="Scripts\0038-View-TeacherCandidateStaffAssociation-Create.sql" />
+    <EmbeddedResource Include="Scripts\0039-View-TeacherCandidateStaffCredential-Create.sql" />
+    <EmbeddedResource Include="Scripts\0040-View-TeacherCandidateStaffDimension-Create.sql" />
+    <EmbeddedResource Include="Scripts\0041-View-TeacherCandidateStaffFact-Create.sql" />
+    <EmbeddedResource Include="Scripts\0042-View-TeacherCandidateSurveyResponseFact-Create.sql" />
+    <EmbeddedResource Include="Scripts\0043-View-TeacherPreparationProviderDimension-Create.sql" />
+    <EmbeddedResource Include="Scripts\0044-View-TeacherPreparationProviderProgramDimension-Create.sql" />
+    <EmbeddedResource Include="Scripts\0045-View-Security-Create.sql" />
+    <EmbeddedResource Include="Scripts\0046-Index-Grade-Create.sql" />
+    <EmbeddedResource Include="Scripts\0047-Index-AcademicSubjectType-Create.sql" />
+    <EmbeddedResource Include="Scripts\0048-Proc-MultipleYearSnapShots-Create.sql" />
+    <EmbeddedResource Include="Scripts\0001-Func-EntitySchoolYearInstanceKey-Create.sql" />
+    <EmbeddedResource Include="Scripts\0049-Proc-EmptyDatabase-Create.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Scripts\0053-view-TeacherCandidateProgressionSummary-Create.sql" />
+    <EmbeddedResource Include="Scripts\0051-view-TeacherCandidateProgressionScoreSummary-Create.sql" />
+    <EmbeddedResource Include="Scripts\0052-view-TeacherCandidateProgressionDemographicsSummary-Create.sql" />
+    <EmbeddedResource Include="Scripts\0050-view-ApplicantScoresFact-Create.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DbUp" Version="4.1.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.5.1" />
+  </ItemGroup>
+
+</Project>

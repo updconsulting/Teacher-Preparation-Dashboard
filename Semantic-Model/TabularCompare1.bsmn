@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ComparisonInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ConnectionInfoSource>
+    <UseProject>false</UseProject>
+    <ServerName>localhost</ServerName>
+    <DatabaseName>TPP Dashboard</DatabaseName>
+  </ConnectionInfoSource>
+  <ConnectionInfoTarget>
+    <UseProject>true</UseProject>
+    <ServerName>localhost</ServerName>
+    <DatabaseName>TPP-Dashboard_Administrator_a35d385c-bd50-435a-ae29-d897cf0c76c2</DatabaseName>
+    <ProjectName>TPP-Dashboard</ProjectName>
+    <ProjectFile>C:\Users\Administrator\Downloads\TPP-Dashboard\Semantic-Model\TPP-Dashboard\TPP-Dashboard.smproj</ProjectFile>
+  </ConnectionInfoTarget>
+  <OptionsInfo>
+    <OptionPerspectives>false</OptionPerspectives>
+    <OptionMergePerspectives>true</OptionMergePerspectives>
+    <OptionCultures>false</OptionCultures>
+    <OptionMergeCultures>true</OptionMergeCultures>
+    <OptionRoles>true</OptionRoles>
+    <OptionPartitions>false</OptionPartitions>
+    <OptionRetainPartitions>false</OptionRetainPartitions>
+    <OptionMeasureDependencies>false</OptionMeasureDependencies>
+    <OptionProcessingOption>Default</OptionProcessingOption>
+    <OptionAffectedTables>false</OptionAffectedTables>
+  </OptionsInfo>
+  <SkipSelections />
+</ComparisonInfo>

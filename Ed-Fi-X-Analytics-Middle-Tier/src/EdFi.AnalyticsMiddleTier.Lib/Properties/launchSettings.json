@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "EdFi.AnalyticsMiddleTier.Lib": {
+      "commandName": "Project",
+      "commandLineArgs": "--connectionString \"server=BRUK-PC\\MSSQLSERVER01;initial catalog=EdFi_Ods_TPDM_Base;integrated security=sspi\"  --u"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.572
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{6870E480-7721-4708-BFB8-9AE898AA21B3}") = "TPP-Dashboard", "TPP-Dashboard\TPP-Dashboard.smproj", "{8CE414BB-95B2-4C99-9E03-51BA72086E22}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|x86 = Development|x86
+		Other|x86 = Other|x86
+		Test|x86 = Test|x86
+		UpdDevServer|x86 = UpdDevServer|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.Development|x86.ActiveCfg = Development|x86
+		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.Development|x86.Build.0 = Development|x86
+		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.Development|x86.Deploy.0 = Development|x86
+		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.Other|x86.ActiveCfg = Other|x86
+		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.Other|x86.Build.0 = Other|x86
+		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.Other|x86.Deploy.0 = Other|x86
+		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.Test|x86.ActiveCfg = Test|x86
+		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.Test|x86.Build.0 = Test|x86
+		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.Test|x86.Deploy.0 = Test|x86
+		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.UpdDevServer|x86.ActiveCfg = UpdDevServer|x86
+		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.UpdDevServer|x86.Build.0 = UpdDevServer|x86
+		{8CE414BB-95B2-4C99-9E03-51BA72086E22}.UpdDevServer|x86.Deploy.0 = UpdDevServer|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {797ADEAE-8003-4071-91D1-4AE7F61A53A7}
+	EndGlobalSection
+EndGlobal
